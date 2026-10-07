@@ -1,0 +1,15 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "zIndex": {
+    "$type": "number",
+    "$description": "Capas de apilamiento, de menor a mayor.",
+    "base": { "$value": 0 },
+    "raised": { "$value": 1 },
+    "dropdown": { "$value": 1000 },
+    "sticky": { "$value": 1100 },
+    "overlay": { "$value": 1200 },
+    "modal": { "$value": 1300 },
+    "popover": { "$value": 1400 },
+    "toast": { "$value": 1500 }
+  }
+}

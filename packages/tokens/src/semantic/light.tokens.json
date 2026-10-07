@@ -1,0 +1,140 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "color": {
+    "$type": "color",
+    "$description": "Capa semántica del tema claro. Cada token describe un uso, nunca un valor (ADR-005).",
+    "bg": {
+      "canvas": { "$value": "{palette.gray.50}", "$description": "Fondo de página." },
+      "surface": {
+        "$value": "{palette.white}",
+        "$description": "Tarjetas, paneles y campos de formulario."
+      },
+      "elevated": { "$value": "{palette.white}", "$description": "Modales, menús y popovers." },
+      "subtle": {
+        "$value": "{palette.gray.100}",
+        "$description": "Fondos de hover y filas alternas."
+      },
+      "muted": {
+        "$value": "{palette.gray.200}",
+        "$description": "Fondos pulsados, seleccionados o de controles deshabilitados."
+      },
+      "overlay": {
+        "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.5, "hex": "#000000" },
+        "$description": "Velo bajo modales y hojas."
+      },
+      "inverse": {
+        "$value": "{palette.gray.900}",
+        "$description": "Fondos invertidos: tooltips y toasts."
+      }
+    },
+    "text": {
+      "primary": { "$value": "{palette.gray.900}", "$description": "Texto principal." },
+      "secondary": { "$value": "{palette.gray.700}", "$description": "Texto de apoyo." },
+      "muted": {
+        "$value": "{palette.gray.600}",
+        "$description": "Placeholders y notas; cumple AA sobre cualquier fondo."
+      },
+      "disabled": {
+        "$value": "{palette.gray.400}",
+        "$description": "Texto de controles deshabilitados (sin exigencia de contraste)."
+      },
+      "inverse": { "$value": "{palette.white}", "$description": "Texto sobre `bg.inverse`." },
+      "onAction": {
+        "$value": "{palette.white}",
+        "$description": "Texto sobre `action.primary` y `action.danger`, en todos sus estados."
+      },
+      "link": { "$value": "{palette.blue.600}", "$description": "Enlaces." }
+    },
+    "border": {
+      "default": {
+        "$value": "{palette.gray.200}",
+        "$description": "Separadores y bordes decorativos."
+      },
+      "strong": {
+        "$value": "{palette.gray.500}",
+        "$description": "Bordes de controles; contraste 3:1 con el fondo."
+      },
+      "focus": { "$value": "{palette.blue.500}", "$description": "Anillo de foco visible." }
+    },
+    "action": {
+      "primary": { "$value": "{palette.blue.600}", "$description": "Acción principal." },
+      "primaryHover": {
+        "$value": "{palette.blue.700}",
+        "$description": "Acción principal, hover."
+      },
+      "primaryActive": {
+        "$value": "{palette.blue.800}",
+        "$description": "Acción principal, pulsada."
+      },
+      "secondary": {
+        "$value": "{palette.gray.100}",
+        "$description": "Acción secundaria; el texto es `text.primary`."
+      },
+      "secondaryHover": {
+        "$value": "{palette.gray.200}",
+        "$description": "Acción secundaria, hover."
+      },
+      "secondaryActive": {
+        "$value": "{palette.gray.300}",
+        "$description": "Acción secundaria, pulsada."
+      },
+      "danger": { "$value": "{palette.red.600}", "$description": "Acción destructiva." },
+      "dangerHover": {
+        "$value": "{palette.red.700}",
+        "$description": "Acción destructiva, hover."
+      },
+      "dangerActive": {
+        "$value": "{palette.red.800}",
+        "$description": "Acción destructiva, pulsada."
+      },
+      "disabled": {
+        "$value": "{palette.gray.200}",
+        "$description": "Fondo de acciones deshabilitadas; el texto es `text.disabled`."
+      }
+    },
+    "feedback": {
+      "success": {
+        "bg": { "$value": "{palette.green.50}", "$description": "Fondo de mensajes de éxito." },
+        "border": {
+          "$value": "{palette.green.300}",
+          "$description": "Borde de mensajes de éxito."
+        },
+        "text": {
+          "$value": "{palette.green.800}",
+          "$description": "Texto sobre `feedback.success.bg`."
+        },
+        "icon": {
+          "$value": "{palette.green.700}",
+          "$description": "Icono de éxito; 3:1 sobre `bg.surface` y `feedback.success.bg`."
+        }
+      },
+      "warning": {
+        "bg": { "$value": "{palette.amber.50}", "$description": "Fondo de avisos." },
+        "border": { "$value": "{palette.amber.300}", "$description": "Borde de avisos." },
+        "text": {
+          "$value": "{palette.amber.800}",
+          "$description": "Texto sobre `feedback.warning.bg`."
+        },
+        "icon": { "$value": "{palette.amber.700}", "$description": "Icono de aviso." }
+      },
+      "danger": {
+        "bg": { "$value": "{palette.red.50}", "$description": "Fondo de errores." },
+        "border": { "$value": "{palette.red.300}", "$description": "Borde de errores." },
+        "text": {
+          "$value": "{palette.red.800}",
+          "$description": "Texto sobre `feedback.danger.bg`."
+        },
+        "icon": { "$value": "{palette.red.700}", "$description": "Icono de error." }
+      },
+      "info": {
+        "bg": { "$value": "{palette.sky.50}", "$description": "Fondo informativo." },
+        "border": { "$value": "{palette.sky.300}", "$description": "Borde informativo." },
+        "text": {
+          "$value": "{palette.sky.800}",
+          "$description": "Texto sobre `feedback.info.bg`."
+        },
+        "icon": { "$value": "{palette.sky.700}", "$description": "Icono informativo." }
+      }
+    }
+  }
+}

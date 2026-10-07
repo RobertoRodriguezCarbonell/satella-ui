@@ -1,0 +1,70 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "color": {
+    "$type": "color",
+    "$description": "Capa semántica del tema oscuro. Define exactamente los mismos tokens que el tema claro (lo comprueba el test de completitud).",
+    "bg": {
+      "canvas": { "$value": "{palette.gray.950}" },
+      "surface": { "$value": "{palette.gray.900}" },
+      "elevated": { "$value": "{palette.gray.800}" },
+      "subtle": { "$value": "{palette.gray.800}" },
+      "muted": { "$value": "{palette.gray.700}" },
+      "overlay": {
+        "$value": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.6, "hex": "#000000" }
+      },
+      "inverse": { "$value": "{palette.gray.50}" }
+    },
+    "text": {
+      "primary": { "$value": "{palette.gray.50}" },
+      "secondary": { "$value": "{palette.gray.300}" },
+      "muted": { "$value": "{palette.gray.400}" },
+      "disabled": { "$value": "{palette.gray.600}" },
+      "inverse": { "$value": "{palette.gray.900}" },
+      "onAction": { "$value": "{palette.gray.950}" },
+      "link": { "$value": "{palette.blue.400}" }
+    },
+    "border": {
+      "default": { "$value": "{palette.gray.700}" },
+      "strong": { "$value": "{palette.gray.500}" },
+      "focus": { "$value": "{palette.blue.400}" }
+    },
+    "action": {
+      "primary": { "$value": "{palette.blue.400}" },
+      "primaryHover": { "$value": "{palette.blue.300}" },
+      "primaryActive": { "$value": "{palette.blue.200}" },
+      "secondary": { "$value": "{palette.gray.800}" },
+      "secondaryHover": { "$value": "{palette.gray.700}" },
+      "secondaryActive": { "$value": "{palette.gray.600}" },
+      "danger": { "$value": "{palette.red.400}" },
+      "dangerHover": { "$value": "{palette.red.300}" },
+      "dangerActive": { "$value": "{palette.red.200}" },
+      "disabled": { "$value": "{palette.gray.800}" }
+    },
+    "feedback": {
+      "success": {
+        "bg": { "$value": "{palette.green.950}" },
+        "border": { "$value": "{palette.green.800}" },
+        "text": { "$value": "{palette.green.200}" },
+        "icon": { "$value": "{palette.green.400}" }
+      },
+      "warning": {
+        "bg": { "$value": "{palette.amber.950}" },
+        "border": { "$value": "{palette.amber.800}" },
+        "text": { "$value": "{palette.amber.200}" },
+        "icon": { "$value": "{palette.amber.400}" }
+      },
+      "danger": {
+        "bg": { "$value": "{palette.red.950}" },
+        "border": { "$value": "{palette.red.800}" },
+        "text": { "$value": "{palette.red.200}" },
+        "icon": { "$value": "{palette.red.400}" }
+      },
+      "info": {
+        "bg": { "$value": "{palette.sky.950}" },
+        "border": { "$value": "{palette.sky.800}" },
+        "text": { "$value": "{palette.sky.200}" },
+        "icon": { "$value": "{palette.sky.400}" }
+      }
+    }
+  }
+}

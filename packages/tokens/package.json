@@ -1,7 +1,7 @@
 {
   "name": "@satellatickets/tokens",
   "version": "0.0.0",
-  "description": "Design tokens de satella-ui: primitivos y semánticos en formato DTCG con salidas para web (variables CSS) y React Native",
+  "description": "Design tokens de satella-ui: primitivos y semánticos en formato DTCG 2025.10 con salidas para web (variables CSS) y React Native",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,7 +16,8 @@
     "dist"
   ],
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./tokens.css": "./dist/web/tokens.css"
   },
   "publishConfig": {
     "access": "public",
@@ -24,12 +25,14 @@
       ".": {
         "types": "./dist/index.d.ts",
         "default": "./dist/index.js"
-      }
+      },
+      "./tokens.css": "./dist/web/tokens.css"
     }
   },
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
+    "build": "pnpm run build:tokens && tsdown",
+    "build:tokens": "node --disable-warning=ExperimentalWarning build.ts",
+    "dev": "node --disable-warning=ExperimentalWarning --watch-path=src build.ts",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run"
@@ -38,7 +41,10 @@
     "@satellatickets/eslint-config": "workspace:*",
     "@satellatickets/tsconfig": "workspace:*",
     "@types/node": "catalog:",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "eslint": "catalog:",
+    "style-dictionary": "^5.6.0",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "palette": {
+    "$type": "color",
+    "teal": {
+      "100": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.8, 0.9843, 0.9451],
+          "hex": "#ccfbf1"
+        }
+      },
+      "200": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.6, 0.9647, 0.8941],
+          "hex": "#99f6e4"
+        }
+      },
+      "300": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.3686, 0.9176, 0.8314],
+          "hex": "#5eead4"
+        }
+      },
+      "700": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.0588, 0.4627, 0.4314],
+          "hex": "#0f766e"
+        }
+      },
+      "800": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.0667, 0.3686, 0.349],
+          "hex": "#115e59"
+        }
+      },
+      "900": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [0.0745, 0.3059, 0.2902],
+          "hex": "#134e4a"
+        }
+      }
+    }
+  },
+  "color": {
+    "$type": "color",
+    "text": {
+      "onAction": {
+        "$value": "{palette.white}"
+      }
+    },
+    "border": {
+      "focus": {
+        "$value": "{palette.teal.700}"
+      }
+    },
+    "action": {
+      "primary": {
+        "$value": "{palette.teal.700}"
+      },
+      "primaryHover": {
+        "$value": "{palette.teal.800}"
+      },
+      "primaryActive": {
+        "$value": "{palette.teal.900}"
+      }
+    }
+  },
+  "radius": {
+    "$type": "dimension",
+    "md": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    }
+  }
+}

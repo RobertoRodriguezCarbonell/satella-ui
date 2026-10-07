@@ -1,4 +1,7 @@
 {
   "extends": "@satellatickets/tsconfig/base.json",
-  "include": ["src", "*.config.ts"]
+  "compilerOptions": {
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src", "build.ts", "*.config.ts"]
 }

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "color": {
+    "$type": "color",
+    "text": {
+      "onAction": {
+        "$value": "{palette.gray.950}"
+      }
+    },
+    "border": {
+      "focus": {
+        "$value": "{palette.teal.300}"
+      }
+    },
+    "action": {
+      "primary": {
+        "$value": "{palette.teal.300}"
+      },
+      "primaryHover": {
+        "$value": "{palette.teal.200}"
+      },
+      "primaryActive": {
+        "$value": "{palette.teal.100}"
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "sans": {
+        "$value": [
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif"
+        ],
+        "$description": "Pila de sistema. En nativo se emite `undefined` para usar la fuente de la plataforma."
+      },
+      "mono": {
+        "$value": [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "Liberation Mono",
+          "monospace"
+        ],
+        "$description": "Monoespaciada. En nativo se emite `monospace` (Android la resuelve; iOS cae a la fuente del sistema).",
+        "$extensions": { "com.satellatickets.tokens": { "native": { "fontFamily": "monospace" } } }
+      }
+    },
+    "size": {
+      "$type": "dimension",
+      "$description": "Tamaños de fuente. En web se emiten en rem.",
+      "xs": { "$value": { "value": 12, "unit": "px" } },
+      "sm": { "$value": { "value": 14, "unit": "px" } },
+      "md": { "$value": { "value": 16, "unit": "px" } },
+      "lg": { "$value": { "value": 18, "unit": "px" } },
+      "xl": { "$value": { "value": 20, "unit": "px" } },
+      "xxl": { "$value": { "value": 24, "unit": "px" } },
+      "xxxl": { "$value": { "value": 32, "unit": "px" } }
+    },
+    "lineHeight": {
+      "$type": "dimension",
+      "$description": "Alturas de línea absolutas, emparejadas con `font.size`.",
+      "xs": { "$value": { "value": 16, "unit": "px" } },
+      "sm": { "$value": { "value": 20, "unit": "px" } },
+      "md": { "$value": { "value": 24, "unit": "px" } },
+      "lg": { "$value": { "value": 28, "unit": "px" } },
+      "xl": { "$value": { "value": 28, "unit": "px" } },
+      "xxl": { "$value": { "value": 32, "unit": "px" } },
+      "xxxl": { "$value": { "value": 40, "unit": "px" } }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 },
+      "bold": { "$value": 700 }
+    }
+  }
+}
