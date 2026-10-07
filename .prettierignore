@@ -1,0 +1,16 @@
+node_modules
+dist
+.turbo
+coverage
+storybook-static
+.expo
+pnpm-lock.yaml
+CHANGELOG.md
+
+# Configuración local del editor/agente
+.claude
+
+# Documentación de arquitectura: los ADR aceptados no se editan (docs/adr/README.md)
+docs
+CLAUDE.md
+ROADMAP.md

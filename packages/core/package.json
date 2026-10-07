@@ -1,0 +1,51 @@
+{
+  "name": "@satellatickets/core",
+  "version": "0.0.0",
+  "description": "Lógica headless de satella-ui: contratos de props, constantes de variantes y hooks compartidos por React y React Native",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertoRodriguezCarbonell/satella-ui.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "react": ">=19.0"
+  },
+  "dependencies": {
+    "@satellatickets/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@satellatickets/eslint-config": "workspace:*",
+    "@satellatickets/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "react": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

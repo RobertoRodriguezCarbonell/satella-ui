@@ -1,0 +1,43 @@
+{
+  "name": "satella-ui",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Design system de Satella Tickets: tokens, lógica headless y componentes con una sola API para React y React Native",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertoRodriguezCarbonell/satella-ui.git"
+  },
+  "type": "module",
+  "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=22.18.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:native": "turbo run dev:native",
+    "build": "turbo run build",
+    "test": "turbo run test test:web test:native",
+    "test:web": "turbo run test:web",
+    "test:native": "turbo run test:native",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "changeset": "changeset",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@satellatickets/eslint-config": "workspace:*",
+    "@satellatickets/prettier-config": "workspace:*",
+    "eslint": "catalog:",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.9",
+    "turbo": "^2.11.7"
+  },
+  "prettier": "@satellatickets/prettier-config"
+}

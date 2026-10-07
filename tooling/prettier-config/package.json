@@ -1,0 +1,12 @@
+{
+  "name": "@satellatickets/prettier-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Configuración compartida de Prettier",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./index.js",
+  "peerDependencies": {
+    "prettier": ">=3.0.0"
+  }
+}

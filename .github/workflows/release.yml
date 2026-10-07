@@ -1,0 +1,51 @@
+# Release (ADR-021, ADR-022): en cada push a main, la action de Changesets crea
+# o actualiza la PR "Version Packages" con los changesets pendientes.
+#
+# Todavía no publica nada. En la Fase 4 del ROADMAP, cuando exista la
+# organización en npm y el trusted publisher esté configurado, se añade:
+#   - `publish-script: pnpm release` (script raíz: `pnpm build && changeset publish`)
+#   - `permissions.id-token: write` para el handshake OIDC
+#   - un paso `npm install -g npm@latest` (Node 22 trae un npm anterior al 11.5)
+#   - `NPM_CONFIG_PROVENANCE: true` en el entorno del paso de publicación
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  HUSKY: 0
+
+jobs:
+  release:
+    name: Version Packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Crear o actualizar la PR "Version Packages"
+        uses: changesets/action@v2
+        with:
+          version-script: pnpm changeset version
+          commit-message: 'chore(release): version packages'
+          pr-title: 'chore(release): version packages'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

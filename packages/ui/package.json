@@ -1,0 +1,76 @@
+{
+  "name": "@satellatickets/ui",
+  "version": "0.0.0",
+  "description": "Componentes de satella-ui con una sola API para React (web) y React Native",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertoRodriguezCarbonell/satella-ui.git",
+    "directory": "packages/ui"
+  },
+  "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "react-native": {
+          "types": "./dist/native/index.d.ts",
+          "default": "./dist/native/index.js"
+        },
+        "import": {
+          "types": "./dist/web/index.d.ts",
+          "default": "./dist/web/index.js"
+        },
+        "default": {
+          "types": "./dist/web/index.d.ts",
+          "default": "./dist/web/index.js"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc -p tsconfig.web.json && tsc -p tsconfig.native.json",
+    "lint": "eslint . --max-warnings 0"
+  },
+  "peerDependencies": {
+    "react": ">=19.0",
+    "react-dom": ">=19.0",
+    "react-native": ">=0.81"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@satellatickets/core": "workspace:*",
+    "@satellatickets/tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@satellatickets/eslint-config": "workspace:*",
+    "@satellatickets/icons": "workspace:*",
+    "@satellatickets/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-native": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  }
+}

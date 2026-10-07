@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+
+# Salidas generadas (packages/*/dist nunca se edita a mano, CLAUDE.md §11)
+dist/
+storybook-static/
+*.tgz
+
+# Cachés
+.turbo/
+.eslintcache
+*.tsbuildinfo
+coverage/
+
+# Expo / React Native (apps/*)
+.expo/
+
+# Entorno y sistema
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log

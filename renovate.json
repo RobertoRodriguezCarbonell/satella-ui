@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Europe/Madrid",
+  "schedule": ["before 7am on monday"],
+  "rangeStrategy": "bump",
+  "postUpdateOptions": ["pnpmDedupe"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 7am on monday"]
+  },
+  "packageRules": [
+    {
+      "description": "Agrupación semanal (ADR-026): todas las actualizaciones no major en una sola PR",
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "groupName": "dependencias (semanal)"
+    },
+    {
+      "description": "ADR-024: react y react-native se actualizan a mano, con changeset si cambia el mínimo soportado",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "react-native",
+        "@types/react",
+        "@types/react-dom",
+        "expo",
+        "jest-expo",
+        "/^@react-native\\//",
+        "/^@expo\\//"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "ADR-024: la versión de Node es una decisión de arquitectura (.nvmrc, engines)",
+      "matchDepNames": ["node"],
+      "enabled": false
+    }
+  ]
+}

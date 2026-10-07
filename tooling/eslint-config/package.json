@@ -1,0 +1,26 @@
+{
+  "name": "@satellatickets/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Configuración compartida de ESLint con las reglas de fronteras entre capas (ADR-002)",
+  "license": "MIT",
+  "type": "module",
+  "exports": "./index.js",
+  "dependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.13.0",
+    "typescript-eslint": "^8.71.1"
+  },
+  "devDependencies": {
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "peerDependencies": {
+    "eslint": ">=10.0.0",
+    "typescript": ">=5.0.0"
+  }
+}
