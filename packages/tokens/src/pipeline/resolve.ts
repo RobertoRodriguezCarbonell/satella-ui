@@ -49,6 +49,7 @@ function readExtensions(
 export async function resolveTokenSet(files: TokenSetFiles): Promise<TokenMap> {
   // init: false + init(): así un error de Style Dictionary (colisiones, referencias rotas) se
   // propaga como rechazo en vez de quedar como rechazo no gestionado que cuelga el build.
+  // verbosity "verbose" no añade ruido cuando todo va bien y detalla qué referencia falla.
   const sd = new StyleDictionary(
     {
       include: [...(files.include ?? [])],
@@ -69,7 +70,7 @@ export async function resolveTokenSet(files: TokenSetFiles): Promise<TokenMap> {
       },
       parsers: ['dtcg-json'],
       platforms: { raw: { transforms: [] } },
-      log: { verbosity: 'silent', warnings: 'error' },
+      log: { verbosity: 'verbose', warnings: 'error' },
     },
     { init: false },
   );

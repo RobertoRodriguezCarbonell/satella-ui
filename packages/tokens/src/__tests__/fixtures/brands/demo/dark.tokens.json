@@ -3,8 +3,8 @@
   "color": {
     "$type": "color",
     "text": {
-      "onAction": {
-        "$value": "{palette.gray.950}"
+      "onPrimary": {
+        "$value": "{palette.ink.975}"
       }
     },
     "border": {

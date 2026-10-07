@@ -2,71 +2,51 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "shadow": {
     "$type": "shadow",
-    "$description": "Sombras de elevación. En web se emiten como `box-shadow`; en nativo, como `boxShadow` (Nueva Arquitectura).",
+    "$description": "Sombras de elevación de Satella (tarjeta, popover, modal) y el resplandor de acento. En web se emiten como `box-shadow`; en nativo, como `boxShadow` (Nueva Arquitectura).",
     "sm": {
+      "$description": "Tarjetas (--shadow-card).",
       "$value": {
-        "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.05, "hex": "#000000" },
+        "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.45, "hex": "#000000" },
         "offsetX": { "value": 0, "unit": "px" },
         "offsetY": { "value": 1, "unit": "px" },
-        "blur": { "value": 2, "unit": "px" },
+        "blur": { "value": 3, "unit": "px" },
         "spread": { "value": 0, "unit": "px" }
       }
     },
     "md": {
-      "$value": [
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [0, 0, 0],
-            "alpha": 0.1,
-            "hex": "#000000"
-          },
-          "offsetX": { "value": 0, "unit": "px" },
-          "offsetY": { "value": 4, "unit": "px" },
-          "blur": { "value": 6, "unit": "px" },
-          "spread": { "value": -1, "unit": "px" }
-        },
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [0, 0, 0],
-            "alpha": 0.1,
-            "hex": "#000000"
-          },
-          "offsetX": { "value": 0, "unit": "px" },
-          "offsetY": { "value": 2, "unit": "px" },
-          "blur": { "value": 4, "unit": "px" },
-          "spread": { "value": -2, "unit": "px" }
-        }
-      ]
+      "$description": "Popovers y menús (--shadow-popover).",
+      "$value": {
+        "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.5, "hex": "#000000" },
+        "offsetX": { "value": 0, "unit": "px" },
+        "offsetY": { "value": 8, "unit": "px" },
+        "blur": { "value": 24, "unit": "px" },
+        "spread": { "value": 0, "unit": "px" }
+      }
     },
     "lg": {
-      "$value": [
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [0, 0, 0],
-            "alpha": 0.1,
-            "hex": "#000000"
-          },
-          "offsetX": { "value": 0, "unit": "px" },
-          "offsetY": { "value": 10, "unit": "px" },
-          "blur": { "value": 15, "unit": "px" },
-          "spread": { "value": -3, "unit": "px" }
+      "$description": "Modales y hojas (--shadow-modal).",
+      "$value": {
+        "color": { "colorSpace": "srgb", "components": [0, 0, 0], "alpha": 0.6, "hex": "#000000" },
+        "offsetX": { "value": 0, "unit": "px" },
+        "offsetY": { "value": 24, "unit": "px" },
+        "blur": { "value": 60, "unit": "px" },
+        "spread": { "value": 0, "unit": "px" }
+      }
+    },
+    "glow": {
+      "$description": "Resplandor con el color de marca para elementos destacados (--shadow-glow). Cada marca lo sobrescribe con su acento.",
+      "$value": {
+        "color": {
+          "colorSpace": "srgb",
+          "components": [0.4235, 0.298, 0.9608],
+          "alpha": 0.35,
+          "hex": "#6c4cf5"
         },
-        {
-          "color": {
-            "colorSpace": "srgb",
-            "components": [0, 0, 0],
-            "alpha": 0.1,
-            "hex": "#000000"
-          },
-          "offsetX": { "value": 0, "unit": "px" },
-          "offsetY": { "value": 4, "unit": "px" },
-          "blur": { "value": 6, "unit": "px" },
-          "spread": { "value": -4, "unit": "px" }
-        }
-      ]
+        "offsetX": { "value": 0, "unit": "px" },
+        "offsetY": { "value": 0, "unit": "px" },
+        "blur": { "value": 28, "unit": "px" },
+        "spread": { "value": 0, "unit": "px" }
+      }
     }
   }
 }

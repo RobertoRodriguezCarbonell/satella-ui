@@ -81,7 +81,9 @@ export async function resolveSources(sources: TokenSources): Promise<ResolvedSou
   }
 
   const brands: Record<string, Record<string, TokenMap>> = {};
-  for (const [brand, files] of Object.entries(sources.brands)) {
+  // Orden alfabético: las salidas no dependen del orden en que se descubrieron las marcas.
+  const brandEntries = Object.entries(sources.brands).sort(([a], [b]) => a.localeCompare(b));
+  for (const [brand, files] of brandEntries) {
     brands[brand] = {};
     for (const theme of themeNames) {
       const themeFile = sources.themes[theme];

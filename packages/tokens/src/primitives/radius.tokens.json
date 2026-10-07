@@ -2,15 +2,15 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "radius": {
     "$type": "dimension",
-    "$description": "Radios de borde. `full` produce píldoras y círculos.",
+    "$description": "Radios de borde de Satella: `md` para controles (--radius), `lg` para tarjetas, `xl` para modales y `full` para píldoras. La marca admin los reduce.",
     "none": { "$value": { "value": 0, "unit": "px" } },
-    "xs": { "$value": { "value": 2, "unit": "px" } },
-    "sm": { "$value": { "value": 4, "unit": "px" } },
-    "md": { "$value": { "value": 8, "unit": "px" } },
-    "lg": { "$value": { "value": 12, "unit": "px" } },
-    "xl": { "$value": { "value": 16, "unit": "px" } },
+    "xs": { "$value": { "value": 4, "unit": "px" } },
+    "sm": { "$value": { "value": 6, "unit": "px" } },
+    "md": { "$value": { "value": 10, "unit": "px" } },
+    "lg": { "$value": { "value": 16, "unit": "px" } },
+    "xl": { "$value": { "value": 24, "unit": "px" } },
     "full": {
-      "$value": { "value": 9999, "unit": "px" },
+      "$value": { "value": 999, "unit": "px" },
       "$extensions": { "com.satellatickets.tokens": { "css": { "unit": "px" } } }
     }
   }

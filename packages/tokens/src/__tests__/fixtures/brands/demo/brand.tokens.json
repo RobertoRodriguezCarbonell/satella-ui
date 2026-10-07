@@ -50,7 +50,7 @@
   "color": {
     "$type": "color",
     "text": {
-      "onAction": {
+      "onPrimary": {
         "$value": "{palette.white}"
       }
     },

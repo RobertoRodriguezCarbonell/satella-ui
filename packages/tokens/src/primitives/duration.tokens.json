@@ -2,10 +2,10 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "duration": {
     "$type": "duration",
-    "$description": "Duraciones de transición. En nativo se emiten en milisegundos.",
+    "$description": "Duraciones de transición. `fast` es la transición por defecto de Satella (150 ms). En nativo se emiten en milisegundos.",
     "instant": { "$value": { "value": 0, "unit": "ms" } },
-    "fast": { "$value": { "value": 100, "unit": "ms" } },
-    "normal": { "$value": { "value": 200, "unit": "ms" } },
+    "fast": { "$value": { "value": 150, "unit": "ms" } },
+    "normal": { "$value": { "value": 250, "unit": "ms" } },
     "slow": { "$value": { "value": 400, "unit": "ms" } }
   }
 }
