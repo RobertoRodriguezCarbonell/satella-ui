@@ -1,4 +1,6 @@
 # CI (ADR-022): lint → typecheck → test → build en cada PR y en cada push a main.
+# `pnpm test` ejecuta los tests unitarios (core, tokens), las historias en Chromium
+# (interacción, accesibilidad y regresión visual, ADR-016) y los tests nativos (ADR-017).
 # Turborepo ejecuta solo lo afectado por el cambio; la caché remota se activa
 # al definir TURBO_TOKEN (secret) y TURBO_TEAM (variable) en el repositorio.
 name: CI
@@ -7,6 +9,8 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Permite relanzarla a mano; la usa el workflow "Referencias visuales" tras subir capturas.
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -43,6 +47,22 @@ jobs:
 
       - run: pnpm typecheck
 
+      - name: Instalar Chromium para los tests de historias
+        run: pnpm --filter storybook-web exec playwright install --with-deps --only-shell chromium
+
       - run: pnpm test
+        env:
+          # Las referencias visuales todavía no existen: se generan con el workflow
+          # "Referencias visuales" y esta línea se quita en el commit que las añade.
+          VISUAL: 'off'
+
+      - name: Guardar capturas y diffs de los tests visuales fallidos
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: diferencias-visuales
+          path: apps/storybook-web/.vitest/attachments/visual
+          if-no-files-found: ignore
+          retention-days: 14
 
       - run: pnpm build

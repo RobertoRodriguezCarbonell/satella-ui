@@ -16,7 +16,7 @@
       "groupName": "dependencias (semanal)"
     },
     {
-      "description": "ADR-024: react y react-native se actualizan a mano, con changeset si cambia el mínimo soportado",
+      "description": "ADR-024: react y react-native se actualizan a mano, con changeset si cambia el mínimo soportado. Jest y test-renderer van ligados a ellos (jest-expo 56 usa Jest 29; test-renderer 1.2 usa el reconciler de React 19.2)",
       "matchPackageNames": [
         "react",
         "react-dom",
@@ -26,7 +26,10 @@
         "expo",
         "jest-expo",
         "/^@react-native\\//",
-        "/^@expo\\//"
+        "/^@expo\\//",
+        "jest",
+        "@types/jest",
+        "test-renderer"
       ],
       "enabled": false
     },

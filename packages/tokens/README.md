@@ -35,6 +35,8 @@ Tres niveles (ADR-005): los componentes consumen **solo** tokens emitidos (`colo
 
 La paleta y la capa semántica oscura reproducen el producto real (`staging.satellatickets.com`): acento violeta `#6c4cf5`, grises "ink", feedback mint/ámbar/coral/cian, fuentes Unbounded (titulares), Hanken Grotesk (texto) e IBM Plex Mono (etiquetas). El producto no tiene tema claro: el tema `light` es una propuesta con los mismos matices, verificada con las mismas parejas de contraste. Cada token de `palette.*` indica en su `$description` de qué variable de Satella procede o cómo se ha derivado. Las marcas `admin` y `organizer` viven en `src/brands/` (ver su README).
 
+Además de color, tipografía, espaciado, radios y sombras, hay dos escalas pensadas para los controles: `size.control.{sm,md,lg}` (altura de botones y campos: 36, 44 y 52 px) y `borderWidth.{thin,thick}` (1 y 2 px; `thick` es el anillo de foco). Los componentes las usan en lugar de valores literales (ADR-005).
+
 ## Salidas (`pnpm build`)
 
 | Fichero                 | Contenido                                                                                                                                |

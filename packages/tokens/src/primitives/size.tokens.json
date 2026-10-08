@@ -1,0 +1,21 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "size": {
+    "$type": "dimension",
+    "control": {
+      "$description": "Altura de los controles interactivos (botones y, más adelante, campos de formulario). `md` es la de Satella (44px), que coincide con el área táctil mínima recomendada en móvil.",
+      "sm": {
+        "$value": { "value": 36, "unit": "px" },
+        "$description": "Control compacto: barras de herramientas y tablas."
+      },
+      "md": {
+        "$value": { "value": 44, "unit": "px" },
+        "$description": "Control por defecto y área táctil mínima en móvil."
+      },
+      "lg": {
+        "$value": { "value": 52, "unit": "px" },
+        "$description": "Control destacado: llamadas a la acción principales."
+      }
+    }
+  }
+}

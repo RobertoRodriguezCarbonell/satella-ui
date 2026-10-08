@@ -22,7 +22,7 @@ export interface BoxProps {
   paddingY?: SpaceToken | undefined;
   background?: BackgroundToken | undefined;
   radius?: RadiusToken | undefined;
-  /** Borde de 1px con el color indicado. */
+  /** Borde fino (`borderWidth.thin`) con el color indicado. */
   borderColor?: BorderColorToken | undefined;
   shadow?: ShadowToken | undefined;
   flex?: number | undefined;

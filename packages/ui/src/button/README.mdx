@@ -1,0 +1,204 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+
+import * as ButtonStories from './Button.stories';
+import * as ButtonWebStories from './Button.web.stories';
+
+<Meta of={ButtonStories} name="Patrón" />
+
+# Button
+
+`Button` lanza una acción. Es el **componente de referencia** de la librería: todo
+componente nuevo copia su estructura, sus tests y su forma de documentarse. Esta página
+explica cómo se usa y, al final, cómo está construido.
+
+```tsx
+import { Button } from '@satellatickets/ui';
+
+<Button iconStart="ticket" onPress={comprar}>
+  Comprar entradas
+</Button>;
+```
+
+El mismo código funciona en React y en React Native: el bundler de cada plataforma
+resuelve la vista correcta.
+
+<Canvas of={ButtonStories.Default} />
+<Controls of={ButtonStories.Default} />
+
+## Variantes y tamaños
+
+| Variante    | Cuándo usarla                                                      |
+| ----------- | ------------------------------------------------------------------ |
+| `primary`   | La acción principal de la vista. Una sola por pantalla o sección.  |
+| `secondary` | Acciones alternativas que conviven con la principal.               |
+| `ghost`     | Acciones de poco peso: cancelar, cerrar, opciones de una barra.    |
+| `danger`    | Acciones destructivas o irreversibles: eliminar, anular un pedido. |
+
+<Canvas of={ButtonStories.Variantes} />
+
+Los tamaños usan las alturas de control de los tokens (`size.control`): 36, 44 y 52 px.
+El tamaño por defecto, `md`, coincide con el área táctil mínima recomendada en móvil; en
+nativo, un botón `sm` amplía su zona de toque hasta esos 44 puntos.
+
+<Canvas of={ButtonStories.Tamanos} />
+
+## Iconos
+
+`iconStart` e `iconEnd` reciben el nombre de un icono de la librería. El botón decide su
+tamaño y su color para que siempre acompañen al texto, también deshabilitado.
+
+<Canvas of={ButtonStories.ConIcono} />
+
+## Estados
+
+| Estado         | Qué hace                                                                                                                                        |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `disabled`     | No dispara `onPress`, no recibe el foco y se anuncia como deshabilitado.                                                                        |
+| `loading`      | Muestra un spinner y no dispara `onPress`, pero **conserva el foco, el nombre accesible y la anchura**: la interfaz no salta ni pierde el foco. |
+| hover, pulsado | Solo cambia el fondo, con los tokens `*Hover` y `*Active` de cada variante. En nativo no hay hover.                                             |
+| foco           | Anillo `border.focus` de 2 px, solo al navegar con teclado (`:focus-visible`; en nativo, teclado físico o mando).                               |
+
+<Canvas of={ButtonStories.Deshabilitado} />
+<Canvas of={ButtonStories.Cargando} />
+
+Los estados que dependen de CSS no se pueden provocar desde una historia compartida, así
+que tienen historias solo web que los fijan para el catálogo y para las referencias visuales:
+
+<Canvas of={ButtonWebStories.Hover} />
+<Canvas of={ButtonWebStories.Pulsado} />
+<Canvas of={ButtonWebStories.Foco} />
+
+## Accesibilidad
+
+- En web es un `<button>` real: se activa con Intro y con Espacio, y por defecto es
+  `type="button"` para no enviar formularios por accidente.
+- En nativo es un `Pressable` con `accessibilityRole="button"` y su `accessibilityState`.
+- El texto es el nombre accesible. Si no basta para entender la acción fuera de contexto,
+  `accessibilityLabel` lo sustituye para los lectores de pantalla.
+- Mientras carga usa `aria-busy` y `aria-disabled` en lugar de `disabled`. Un botón que se
+  deshabilita al pulsarlo expulsa el foco del teclado; así se queda donde estaba.
+- Todas las parejas de texto y fondo cumplen AA y están declaradas en
+  `packages/tokens/src/contrast-pairs.json`.
+
+## Props
+
+Las comunes a ambas plataformas están en el contrato de `core`
+(`packages/core/src/types/button.ts`). Cada vista añade solo lo propio:
+
+| Solo web                       | Solo nativo    |
+| ------------------------------ | -------------- |
+| `type`, `className`, `style`   | `style`        |
+| `ref` a un `HTMLButtonElement` | `ref` a `View` |
+
+## El patrón: cómo está construido
+
+Un componente nuevo sigue estos pasos, en este orden (CLAUDE.md §7). `Button` es el
+ejemplo de cada uno.
+
+### 1. Contrato en `core`
+
+`packages/core/src/types/button.ts` define **una sola vez** las variantes y las props.
+Las variantes son arrays `as const`, porque las historias las recorren.
+
+```ts
+export const buttonVariants = {
+  variant: ['primary', 'secondary', 'ghost', 'danger'],
+  size: ['sm', 'md', 'lg'],
+} as const;
+
+export type ButtonVariant = (typeof buttonVariants.variant)[number];
+```
+
+El comportamiento común a las dos plataformas va en un hook headless con sus tests
+unitarios: `useButton` decide que un botón deshabilitado o cargando no dispara `onPress`.
+Los eventos tienen nombres neutrales (`onPress`, no `onClick`).
+
+### 2. Historias antes que código
+
+`Button.stories.tsx` es la especificación: un estado por historia, una matriz
+`AllVariants` y una función `play` por interacción. Solo usa componentes de la librería
+(`Stack`, `Text`…), así que la leen los dos Storybooks.
+
+```tsx
+export const Deshabilitado: Story = {
+  args: { disabled: true },
+  play: async ({ args, canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Comprar entradas' }));
+    await expect(args.onPress).not.toHaveBeenCalled();
+  },
+};
+```
+
+### 3. Vista web
+
+`Button.web.tsx` es HTML semántico con CSS Modules. Cada variante es una clase que solo
+fija variables con tokens semánticos; los estados (`:hover`, `:active`, `:focus-visible`,
+`:disabled`) viven en el CSS, no en JS. El mapa de clases es exhaustivo:
+
+```ts
+const variantClass = {
+  primary: styles.primary,
+  secondary: styles.secondary,
+  ghost: styles.ghost,
+  danger: styles.danger,
+} satisfies Record<ButtonVariant, string | undefined>;
+```
+
+Las variables propias de un componente se declaran en su clase raíz. Una variable CSS se
+hereda: si un componente la fija en `style` y otro igual anidado no la reinicia, la recibe
+de su ancestro (por eso `Box` y `Stack` las ponen a `initial`).
+
+### 4. Vista nativa
+
+`Button.native.tsx` usa `Pressable` y lee los tokens con `useTheme()`. Los estilos que no
+dependen del tema van en `StyleSheet.create`; los que sí, en mapas exhaustivos de
+funciones del tema. En nativo no hay herencia de color, así que la vista pasa el color a
+cada `Icon` y envuelve el texto en `<Text>`.
+
+```ts
+const variantStyles = {
+  primary: (t) => ({ background: t.color.action.primary /* … */ }),
+  // …
+} satisfies Record<ButtonVariant, (t: Theme) => VariantStyle>;
+```
+
+Añadir una variante en `core` rompe la compilación de las dos vistas hasta que ambas la
+implementan. La paridad no depende de acordarse.
+
+### 5. Tests
+
+| Qué                       | Dónde                              | Cómo                                                                                                      |
+| ------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Lógica común              | `core/src/hooks/*.test.ts`         | Vitest con `renderHook`. Cobertura mínima del 90 %.                                                       |
+| Web: render e interacción | las propias historias              | `pnpm test:web`: cada historia se ejecuta en Chromium, en tema claro y oscuro, con su función `play`.     |
+| Web: accesibilidad        | las propias historias              | axe en cada historia; una violación hace fallar el test.                                                  |
+| Web: regresión visual     | `__screenshots__/` junto al código | Una captura por historia y tema. Se comparan en CI y se regeneran con el workflow "Referencias visuales". |
+| Nativo                    | `Button.native.test.tsx`           | `pnpm test:native`: Jest y React Native Testing Library sobre las mismas historias.                       |
+
+Un test de humo renderiza además **todas** las historias compartidas con las vistas
+nativas, así que un componente nuevo queda cubierto en nativo solo con tener historias.
+
+### 6. Revisión y changeset
+
+Antes de dar un componente por terminado se repasa la checklist de CLAUDE.md §8: ambos
+Storybooks, ambos temas, panel de accesibilidad sin violaciones, exportado desde
+`packages/ui/src/index.ts` y changeset creado. Todo componente nuevo entra con madurez
+`experimental`.
+
+### Ficheros
+
+```
+packages/core/src/types/button.ts        contrato: variantes y props
+packages/core/src/hooks/use-button.ts    lógica común, con su test
+packages/ui/src/button/
+├── Button.types.ts          el contrato más lo propio de cada plataforma
+├── Button.web.tsx           vista web
+├── Button.module.css        estilos web, solo tokens
+├── Button.native.tsx        vista React Native
+├── Button.stories.tsx       historias compartidas
+├── Button.web.stories.tsx   historias solo web: hover, pulsado, foco, teclado
+├── Button.native.test.tsx   tests nativos
+├── README.mdx               esta página
+├── __screenshots__/         referencias visuales, generadas en CI
+└── index.ts                 export público
+```

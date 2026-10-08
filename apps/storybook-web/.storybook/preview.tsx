@@ -3,7 +3,13 @@ import { themeModes, type ThemeMode } from '@satellatickets/core';
 import { brandNames, type BrandName } from '@satellatickets/tokens';
 import { Box, UIProvider } from '@satellatickets/ui';
 
+import './fonts';
+import './preview.css';
+
 const DEFAULT_BRAND = 'satella';
+
+/** Elemento que capturan las referencias visuales; vitest.setup.ts lo busca por este id. */
+const STORY_ROOT_TEST_ID = 'sb-story';
 
 function isThemeMode(value: unknown): value is ThemeMode {
   return typeof value === 'string' && (themeModes as readonly string[]).includes(value);
@@ -19,9 +25,18 @@ const preview: Preview = {
   parameters: {
     backgrounds: { disable: true },
     controls: { expanded: true },
+    // Accesibilidad bloqueante (ADR-016): una violación hace fallar el test de la historia.
     a11y: { test: 'error' },
     options: {
-      storySort: { order: ['Fundamentos', ['UIProvider', 'Box', 'Stack', 'Text', 'Icon']] },
+      storySort: {
+        order: [
+          'Fundamentos',
+          ['UIProvider', 'Box', 'Stack', 'Text', 'Icon'],
+          'Acciones',
+          ['Button', ['Patrón', '*', 'Estados web']],
+          'Feedback',
+        ],
+      },
     },
   },
   globalTypes: {
@@ -53,13 +68,15 @@ const preview: Preview = {
   },
   initialGlobals: { theme: 'dark', brand: DEFAULT_BRAND },
   decorators: [
-    (Story, { globals }) => {
+    (Story, { globals, viewMode }) => {
       const theme = isThemeMode(globals.theme) ? globals.theme : 'dark';
       const brand = isBrandName(globals.brand) ? globals.brand : undefined;
       return (
         <UIProvider theme={theme} brand={brand}>
-          <Box background="canvas" padding={6} className="sb-canvas">
-            <Story />
+          <Box background="canvas" className={viewMode === 'story' ? 'sb-canvas-fill' : undefined}>
+            <Box padding={6} testID={STORY_ROOT_TEST_ID}>
+              <Story />
+            </Box>
           </Box>
         </UIProvider>
       );

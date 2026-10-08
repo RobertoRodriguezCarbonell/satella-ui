@@ -35,6 +35,7 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [027](027-fuentes-nombradas-cargadas-por-la-app.md) | Las fuentes se nombran en los tokens y las carga la app | Aceptado |
 | [028](028-icons-como-datos-y-react-native-svg.md) | `icons` como paquete de datos y `react-native-svg` como peer opcional | Aceptado |
 | [029](029-marcas-con-overrides-por-tema.md) | Marcas con overrides comunes y por tema | Aceptado |
+| [030](030-tests-de-historias-y-referencias-visuales.md) | Tests de historias en `storybook-web`, dos temas y referencias visuales junto al componente | Aceptado |
 
 ## Plantilla
 

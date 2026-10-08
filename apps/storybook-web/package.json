@@ -7,10 +7,14 @@
   "scripts": {
     "dev": "storybook dev -p 6006 --no-open",
     "build": "storybook build",
+    "test:web": "vitest run",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {
+    "@fontsource/hanken-grotesk": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/unbounded": "^5.3.0",
     "@satellatickets/core": "workspace:*",
     "@satellatickets/tokens": "workspace:*",
     "@satellatickets/ui": "workspace:*",
@@ -22,14 +26,20 @@
     "@satellatickets/tsconfig": "workspace:*",
     "@storybook/addon-a11y": "catalog:",
     "@storybook/addon-docs": "catalog:",
+    "@storybook/addon-vitest": "catalog:",
     "@storybook/react": "catalog:",
     "@storybook/react-vite": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
     "eslint": "catalog:",
+    "playwright": "catalog:",
+    "remark-gfm": "^4.0.1",
     "storybook": "catalog:",
+    "storybook-addon-pseudo-states": "catalog:",
     "typescript": "catalog:",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vitest": "catalog:"
   }
 }

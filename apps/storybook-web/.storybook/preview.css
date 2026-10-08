@@ -1,0 +1,14 @@
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+.sb-show-main.sb-main-padded {
+  padding: 0;
+}
+
+/* En la vista de una historia, el fondo del tema ocupa todo el lienzo. */
+.sb-canvas-fill {
+  min-height: 100vh;
+}

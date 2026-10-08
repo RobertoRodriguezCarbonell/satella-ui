@@ -39,7 +39,8 @@
       "dependsOn": ["^build"]
     },
     "test:web": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "env": ["CI", "VISUAL"]
     },
     "test:native": {
       "dependsOn": ["^build"]

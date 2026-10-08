@@ -22,7 +22,17 @@ export function isIdentifier(name: string): boolean {
 }
 
 /** Orden de las categorías raíz en las salidas; el resto va después, en orden de aparición. */
-const CATEGORY_ORDER = ['color', 'space', 'radius', 'font', 'shadow', 'duration', 'zIndex'];
+const CATEGORY_ORDER = [
+  'color',
+  'space',
+  'size',
+  'radius',
+  'borderWidth',
+  'font',
+  'shadow',
+  'duration',
+  'zIndex',
+];
 
 export function categoryRank(path: readonly string[]): number {
   const index = CATEGORY_ORDER.indexOf(path[0] ?? '');

@@ -1,5 +1,8 @@
 /* La variante fija las variables (familia, tamaño, altura, peso) desde el mapa de core. */
 .root {
+  /* La única variable opcional: se reinicia para no heredarla de un Text ancestro. */
+  --text-letter-spacing: initial;
+
   margin: 0;
   font-family: var(--text-family);
   font-size: var(--text-size);

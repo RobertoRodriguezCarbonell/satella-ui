@@ -32,6 +32,10 @@ describe('web/tokens.css', () => {
     expect(outputs.css).toContain('--space-4: 1rem;');
     expect(outputs.css).toContain('--radius-full: 999px;');
     expect(outputs.css).toContain('--radius-md: 0.625rem;');
+    // Las alturas de control escalan con el texto (rem); los grosores de borde, no (px).
+    expect(outputs.css).toContain('--size-control-md: 2.75rem;');
+    expect(outputs.css).toContain('--border-width-thin: 1px;');
+    expect(outputs.css).toContain('--border-width-thick: 2px;');
     expect(outputs.css).toContain('--font-weight-semibold: 600;');
     expect(outputs.css).toContain('--shadow-sm: 0 1px 3px 0 #00000073;');
     expect(outputs.css).toContain('--shadow-glow: 0 0 28px 0 #6c4cf559;');
@@ -73,6 +77,10 @@ describe('native/themes.ts', () => {
     expect(outputs.native).toContain('export const light: Theme = {');
     expect(outputs.native).toContain('export const dark: Theme = {');
     expect(outputs.native).toContain('4: 16,');
+    expect(outputs.native).toContain(
+      'control: {\n      sm: 36,\n      md: 44,\n      lg: 52,\n    },',
+    );
+    expect(outputs.native).toContain('borderWidth: {\n    thin: 1,\n    thick: 2,\n  },');
     expect(outputs.native).toContain('sans: "Hanken Grotesk",');
     expect(outputs.native).toContain('display: "Unbounded",');
     expect(outputs.native).toContain('mono: "IBM Plex Mono",');
@@ -99,6 +107,8 @@ describe('types.ts', () => {
     );
     expect(outputs.types).toContain('| "color.action.primaryHover"');
     expect(outputs.types).toContain('| "--color-action-primary-hover"');
+    expect(outputs.types).toContain('| "size.control.md"');
+    expect(outputs.types).toContain('| "--border-width-thin"');
     expect(outputs.types).toContain('export interface Theme {');
     expect(outputs.types).toContain('/** Fondo de página. */\n      canvas: string;');
     expect(outputs.types).toContain('sans: string | undefined;');

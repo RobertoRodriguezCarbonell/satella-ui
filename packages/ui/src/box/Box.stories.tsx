@@ -5,6 +5,7 @@ import {
   shadowTokens,
   spaceTokens,
 } from '@satellatickets/core';
+import { expect } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Stack } from '../stack';
@@ -45,15 +46,20 @@ export const ConSombra: Story = {
   args: { shadow: 'md', background: 'elevated' },
 };
 
+/**
+ * Cada fondo como muestra, con su nombre fuera: `bg.overlay` es un velo translúcido
+ * y no está pensado para llevar texto encima.
+ */
 export const Fondos: Story = {
   render: () => (
     <Stack gap={3}>
       {backgroundTokens.map((background) => (
-        <Box key={background} background={background} padding={4} radius="md" borderColor="default">
-          <Text variant="label" color={background === 'inverse' ? 'inverse' : 'muted'}>
+        <Stack key={background} gap={1}>
+          <Text variant="label" color="muted">
             bg.{background}
           </Text>
-        </Box>
+          <Box background={background} padding={5} radius="md" borderColor="default" />
+        </Stack>
       ))}
     </Stack>
   ),
@@ -85,4 +91,24 @@ export const Radios: Story = {
       ))}
     </Stack>
   ),
+};
+
+/** Un Box anidado no hereda el relleno, el fondo ni el borde del que lo contiene. */
+export const Anidado: Story = {
+  render: () => (
+    <Box background="surface" padding={5} radius="lg" borderColor="strong" shadow="md">
+      <Box testID="interior">
+        <Text>El Box interior no tiene props: ni relleno, ni borde, ni sombra.</Text>
+      </Box>
+    </Box>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getByTestId('interior')).toHaveStyle({
+      paddingTop: '0px',
+      borderTopWidth: '0px',
+      borderRadius: '0px',
+      boxShadow: 'none',
+      backgroundColor: 'rgba(0, 0, 0, 0)',
+    });
+  },
 };

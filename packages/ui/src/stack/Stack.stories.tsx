@@ -1,4 +1,5 @@
 import { spaceTokens, stackAligns, stackDirections, stackJustifies } from '@satellatickets/core';
+import { expect } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Box } from '../box';
@@ -111,5 +112,21 @@ export const Crecimiento: Story = {
         <Item label="Crece (flex 1)" grow />
       </>
     ),
+  },
+};
+
+/** Un Stack anidado sin `gap` no hereda la separación del que lo contiene. */
+export const Anidado: Story = {
+  render: () => (
+    <Stack gap={6}>
+      <Item label="Primero, separado con gap=6" />
+      <Stack testID="interior">
+        <Item label="Segundo, pegado al tercero" />
+        <Item label="Tercero" />
+      </Stack>
+    </Stack>
+  ),
+  play: async ({ canvas }) => {
+    await expect(canvas.getByTestId('interior')).toHaveStyle({ rowGap: '0px', paddingTop: '0px' });
   },
 };

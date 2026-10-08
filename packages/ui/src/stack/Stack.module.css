@@ -1,4 +1,7 @@
 .stack {
+  /* Se reinicia en cada Stack para no heredar la separación de un Stack ancestro. */
+  --stack-gap: initial;
+
   display: flex;
   gap: var(--stack-gap, 0);
 }

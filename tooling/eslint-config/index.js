@@ -29,8 +29,9 @@ const JSX = ['**/*.{jsx,tsx}'];
 // Las reglas de capa se aplican al código fuente, no a los ficheros de
 // configuración del paquete (eslint.config.js, tsdown.config.ts…).
 const SRC = ['src/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}'];
-const WEB = ['src/**/*.web.{ts,tsx}'];
-const NATIVE = ['src/**/*.native.{ts,tsx}'];
+// Una vista y sus tests e historias de plataforma (Button.native.test.tsx, Button.web.stories.tsx).
+const WEB = ['src/**/*.web.{ts,tsx}', 'src/**/*.web.{test,stories}.{ts,tsx}'];
+const NATIVE = ['src/**/*.native.{ts,tsx}', 'src/**/*.native.{test,stories}.{ts,tsx}'];
 const PLATFORM = [...WEB, ...NATIVE];
 
 const IGNORES = [

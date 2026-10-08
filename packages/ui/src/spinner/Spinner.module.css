@@ -1,0 +1,16 @@
+.root {
+  display: inline-flex;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+/* Una vuelta dura el doble de la transición lenta: gira sin distraer. */
+.icon {
+  animation: spin calc(var(--duration-slow) * 2) linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

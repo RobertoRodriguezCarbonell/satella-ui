@@ -1,0 +1,17 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "borderWidth": {
+    "$type": "dimension",
+    "$description": "Grosores de borde. Se emiten en px también en web: un borde no debe escalar con el tamaño de texto.",
+    "thin": {
+      "$value": { "value": 1, "unit": "px" },
+      "$description": "Bordes de controles, tarjetas y separadores.",
+      "$extensions": { "com.satellatickets.tokens": { "css": { "unit": "px" } } }
+    },
+    "thick": {
+      "$value": { "value": 2, "unit": "px" },
+      "$description": "Anillo de foco y bordes enfatizados.",
+      "$extensions": { "com.satellatickets.tokens": { "css": { "unit": "px" } } }
+    }
+  }
+}

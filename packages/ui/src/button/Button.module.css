@@ -1,0 +1,156 @@
+/*
+ * Cada variante y cada tamaño solo fijan variables; las reglas de `.root` y de sus
+ * estados las aplican. Todo son tokens semánticos (ADR-005) y los estados
+ * interactivos viven aquí, no en JS (ADR-007).
+ */
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--button-height);
+  margin: 0;
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border: var(--border-width-thin) solid var(--button-border);
+  border-radius: var(--radius-md);
+  background-color: var(--button-bg);
+  color: var(--button-fg);
+  font-family: var(--font-family-sans);
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--duration-fast),
+    border-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+/* Variantes */
+.primary {
+  --button-bg: var(--color-action-primary);
+  --button-bg-hover: var(--color-action-primary-hover);
+  --button-bg-active: var(--color-action-primary-active);
+  --button-bg-disabled: var(--color-action-disabled);
+  --button-fg: var(--color-text-on-primary);
+  --button-border: transparent;
+}
+
+.secondary {
+  --button-bg: var(--color-action-secondary);
+  --button-bg-hover: var(--color-action-secondary-hover);
+  --button-bg-active: var(--color-action-secondary-active);
+  --button-bg-disabled: var(--color-action-disabled);
+  --button-fg: var(--color-text-primary);
+  --button-border: var(--color-border-default);
+}
+
+.ghost {
+  --button-bg: transparent;
+  --button-bg-hover: var(--color-bg-subtle);
+  --button-bg-active: var(--color-bg-muted);
+  --button-bg-disabled: transparent;
+  --button-fg: var(--color-text-primary);
+  --button-border: transparent;
+}
+
+.danger {
+  --button-bg: var(--color-action-danger);
+  --button-bg-hover: var(--color-action-danger-hover);
+  --button-bg-active: var(--color-action-danger-active);
+  --button-bg-disabled: var(--color-action-disabled);
+  --button-fg: var(--color-text-on-danger);
+  --button-border: transparent;
+}
+
+/* Tamaños. El relleno vertical solo se nota si el texto ocupa más de una línea. */
+.sm {
+  --button-height: var(--size-control-sm);
+  --button-padding-x: var(--space-3);
+  --button-padding-y: var(--space-1);
+  --button-font-size: var(--font-size-sm);
+  --button-line-height: var(--font-line-height-sm);
+}
+
+.md {
+  --button-height: var(--size-control-md);
+  --button-padding-x: var(--space-4);
+  --button-padding-y: var(--space-2);
+  --button-font-size: var(--font-size-sm);
+  --button-line-height: var(--font-line-height-sm);
+}
+
+.lg {
+  --button-height: var(--size-control-lg);
+  --button-padding-x: var(--space-5);
+  --button-padding-y: var(--space-3);
+  --button-font-size: var(--font-size-md);
+  --button-line-height: var(--font-line-height-md);
+}
+
+.fullWidth {
+  display: flex;
+  width: 100%;
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .root:hover:not(:disabled, [aria-disabled='true']) {
+    background-color: var(--button-bg-hover);
+  }
+}
+
+.root:active:not(:disabled, [aria-disabled='true']) {
+  background-color: var(--button-bg-active);
+}
+
+.root:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--border-width-thick);
+}
+
+.root:disabled {
+  --button-border: transparent;
+  background-color: var(--button-bg-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Cargando: el contenido se oculta sin perder su sitio y el spinner se centra encima. */
+.loading {
+  cursor: progress;
+}
+
+.loading .content {
+  opacity: 0;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.label {
+  min-width: 0;
+}
+
+.spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Los iconos y el spinner heredan el color del texto del botón en todos sus estados. */
+.root svg {
+  stroke: currentColor;
+}

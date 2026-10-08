@@ -1,5 +1,19 @@
 /* Cada prop fija una variable; sin prop, el valor por defecto. Solo tokens (ADR-007). */
 .root {
+  /*
+   * Las variables CSS se heredan: sin reiniciarlas aquí, un Box anidado recibiría el
+   * relleno, el fondo o el borde de su ancestro. El `style` del propio elemento gana a esta regla.
+   */
+  --box-padding: initial;
+  --box-padding-x: initial;
+  --box-padding-y: initial;
+  --box-background: initial;
+  --box-radius: initial;
+  --box-border-color: initial;
+  --box-border-width: initial;
+  --box-shadow: initial;
+  --box-flex: initial;
+
   box-sizing: border-box;
   min-width: 0;
   padding: var(--box-padding, 0);

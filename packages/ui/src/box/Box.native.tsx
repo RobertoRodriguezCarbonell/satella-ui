@@ -24,7 +24,7 @@ export function Box({
   if (background !== undefined) computed.backgroundColor = t.color.bg[background];
   if (radius !== undefined) computed.borderRadius = t.radius[radius];
   if (borderColor !== undefined) {
-    computed.borderWidth = 1;
+    computed.borderWidth = t.borderWidth.thin;
     computed.borderColor = t.color.border[borderColor];
   }
   if (shadow !== undefined) computed.boxShadow = t.shadow[shadow];

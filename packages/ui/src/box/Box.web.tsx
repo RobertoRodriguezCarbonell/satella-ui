@@ -31,7 +31,7 @@ export function Box({
   if (radius !== undefined) vars['--box-radius'] = `var(${cssVariables[`radius.${radius}`]})`;
   if (borderColor !== undefined) {
     vars['--box-border-color'] = `var(${cssVariables[`color.border.${borderColor}`]})`;
-    vars['--box-border-width'] = '1px';
+    vars['--box-border-width'] = `var(${cssVariables['borderWidth.thin']})`;
   }
   if (shadow !== undefined) vars['--box-shadow'] = `var(${cssVariables[`shadow.${shadow}`]})`;
   if (flex !== undefined) vars['--box-flex'] = String(flex);

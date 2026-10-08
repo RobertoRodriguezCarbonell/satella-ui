@@ -3,7 +3,9 @@
 export { useBrand, useColorScheme, useTheme } from '@satellatickets/core';
 export type { ColorScheme, ThemeMode } from '@satellatickets/core';
 export * from './box';
+export * from './button';
 export * from './icon';
+export * from './spinner';
 export * from './stack';
 export * from './text';
 export * from './ui-provider';

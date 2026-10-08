@@ -29,7 +29,7 @@
     "build": "tsdown",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint . --max-warnings 0",
-    "test": "vitest run"
+    "test": "vitest run --coverage"
   },
   "peerDependencies": {
     "react": ">=19.0"
@@ -43,6 +43,7 @@
     "@testing-library/react": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "eslint": "catalog:",
     "jsdom": "catalog:",
     "react": "catalog:",

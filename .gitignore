@@ -12,6 +12,11 @@ storybook-static/
 *.tsbuildinfo
 coverage/
 
+# Vitest modo navegador: capturas reales y diffs de un test visual fallido
+# (las referencias sí se versionan: packages/ui/src/**/__screenshots__, ADR-016)
+.vitest-attachments/
+.vitest/
+
 # Expo / React Native (apps/*)
 .expo/
 
