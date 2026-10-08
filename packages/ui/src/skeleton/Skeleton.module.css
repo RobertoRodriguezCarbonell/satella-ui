@@ -1,0 +1,59 @@
+/*
+ * El hueco de un contenido que se está cargando. Late entre dos fondos del tema; con
+ * movimiento reducido se queda quieto. Todo son tokens semánticos (ADR-005).
+ */
+.root {
+  /* Opcionales: se reinician para no heredarlas de un ancestro. */
+  --skeleton-width: initial;
+  --skeleton-height: initial;
+
+  display: block;
+}
+
+/* Lo que se pinta: la propia caja, o cada línea en la forma `text`. */
+.bar {
+  display: block;
+  background-color: var(--color-bg-muted);
+  animation: pulse calc(var(--duration-slow) * 4) ease-in-out infinite alternate;
+}
+
+/* `text`: cada línea mide de alto lo que la letra y ocupa lo que su interlineado. */
+.line {
+  width: var(--skeleton-width, 100%);
+  height: var(--skeleton-font-size);
+  margin: calc((var(--skeleton-line-height) - var(--skeleton-font-size)) / 2) var(--space-0);
+  border-radius: var(--radius-xs);
+}
+
+/* Con varias líneas, la última es más corta, como el final de un párrafo. */
+.line:last-child:not(:first-child) {
+  width: 60%;
+}
+
+.rectangle {
+  width: var(--skeleton-width, 100%);
+  height: var(--skeleton-height, var(--size-control-md));
+  border-radius: var(--radius-md);
+}
+
+.circle {
+  width: var(--skeleton-width, var(--skeleton-height, var(--size-control-md)));
+  height: var(--skeleton-height, var(--skeleton-width, var(--size-control-md)));
+  border-radius: var(--radius-full);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+  }
+}
+
+@keyframes pulse {
+  from {
+    background-color: var(--color-bg-muted);
+  }
+
+  to {
+    background-color: var(--color-bg-subtle);
+  }
+}

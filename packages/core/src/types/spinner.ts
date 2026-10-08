@@ -4,6 +4,7 @@ import type { TextColorToken } from './text';
 /**
  * `Spinner` comparte la escala de `Icon`: así puede ocupar el sitio de un icono
  * (por ejemplo, dentro de un botón que carga) sin mover el resto del contenido.
+ * `xl` es para la carga de una página o de una sección entera.
  */
 export const spinnerSizes = iconSizes;
 export type SpinnerSize = IconSize;

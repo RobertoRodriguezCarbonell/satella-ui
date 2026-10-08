@@ -19,12 +19,12 @@ theme.color.action.primary;
 
 ## Qué contiene
 
-| Qué                     | Ejemplos                                                                        |
-| ----------------------- | ------------------------------------------------------------------------------- |
-| Contratos de props      | `ButtonProps`, `BadgeProps`, `BoxProps`, `StackProps`, `TextProps`, `IconProps` |
-| Constantes de variantes | `buttonVariants`, `badgeVariants`, `textVariants`, `iconSizes`                  |
-| Tema                    | `UIContext`, `useTheme`, `useColorScheme`, `useBrand`, `resolveTheme`           |
-| Hooks headless          | `useButton`, `useLink`, `useControllableState`, `useFormFieldControl`           |
+| Qué                     | Ejemplos                                                                          |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| Contratos de props      | `ButtonProps`, `BadgeProps`, `BoxProps`, `StackProps`, `TextProps`, `IconProps`   |
+| Constantes de variantes | `buttonVariants`, `badgeVariants`, `textVariants`, `iconSizes`                    |
+| Tema                    | `UIContext`, `useTheme`, `useColorScheme`, `useBrand`, `resolveTheme`             |
+| Hooks headless          | `useButton`, `useLink`, `useControllableState`, `useFormFieldControl`, `useToast` |
 
 Las variantes se exportan como arrays `as const`, además de como tipos, para poder recorrerlas: en historias, en selectores o en tests.
 

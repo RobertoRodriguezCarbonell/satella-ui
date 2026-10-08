@@ -1,4 +1,4 @@
-import { iconSizes, textColors } from '@satellatickets/core';
+import { feedbackTones, iconSizes, textColors } from '@satellatickets/core';
 import { iconNames } from '@satellatickets/icons';
 
 import type { Meta, StoryObj } from '../_storybook/types';
@@ -14,7 +14,7 @@ const meta = {
   argTypes: {
     name: { control: 'select', options: iconNames },
     size: { control: 'radio', options: iconSizes },
-    color: { control: 'select', options: textColors },
+    color: { control: 'select', options: [...textColors, ...feedbackTones] },
     label: { control: 'text' },
   },
   args: { name: 'ticket', size: 'md', color: 'primary' },
@@ -75,6 +75,31 @@ export const Colores: Story = {
             <Icon name="map-pin" color={color} />
             <Text variant="caption" color={color === 'inverse' ? 'inverse' : 'muted'}>
               {color}
+            </Text>
+          </Stack>
+        </Box>
+      ))}
+    </Stack>
+  ),
+};
+
+/** Los cuatro estados de feedback tienen su propio color de icono, distinto del de su texto. */
+export const ColoresDeFeedback: Story = {
+  render: () => (
+    <Stack direction="row" gap={4} wrap>
+      {(
+        [
+          ['success', 'circle-check'],
+          ['warning', 'triangle-alert'],
+          ['danger', 'circle-x'],
+          ['info', 'info'],
+        ] as const
+      ).map(([tone, name]) => (
+        <Box key={tone} background="surface" radius="md" padding={3}>
+          <Stack gap={1} align="center">
+            <Icon name={name} color={tone} />
+            <Text variant="caption" color="muted">
+              {tone}
             </Text>
           </Stack>
         </Box>

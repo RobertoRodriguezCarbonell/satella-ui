@@ -219,6 +219,26 @@
       "foreground": "color.text.onPrimary",
       "background": "color.border.strong",
       "level": "ui"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.feedback.success.bg",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.feedback.warning.bg",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.feedback.danger.bg",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.feedback.info.bg",
+      "level": "ui"
     }
   ]
 }

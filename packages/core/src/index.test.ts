@@ -7,6 +7,9 @@ describe('API pública de core', () => {
     // Quitar o renombrar uno es un breaking change (ADR-025): este test obliga a hacerlo a propósito.
     expect(Object.keys(core).sort()).toEqual([
       'FormFieldContext',
+      'TOAST_DEFAULT_DURATION',
+      'TOAST_MAX_VISIBLE',
+      'ToastContext',
       'UIContext',
       'backgroundTokens',
       'badgeVariants',
@@ -15,6 +18,7 @@ describe('API pública de core', () => {
       'buttonVariants',
       'controlSizes',
       'createFormFieldValue',
+      'createToastStore',
       'createUIContextValue',
       'feedbackTones',
       'iconButtonIconSize',
@@ -30,6 +34,7 @@ describe('API pública de core', () => {
       'resolveFormFieldControl',
       'resolveTheme',
       'shadowTokens',
+      'skeletonShapes',
       'spaceTokens',
       'spinnerSizePx',
       'spinnerSizes',
@@ -48,6 +53,7 @@ describe('API pública de core', () => {
       'useFormFieldControl',
       'useLink',
       'useTheme',
+      'useToast',
       'useUIContext',
     ]);
   });

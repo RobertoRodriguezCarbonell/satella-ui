@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { renderLabel } from '../_internal/label';
+import { useReducedMotion } from '../_internal/useReducedMotion';
 import type { SwitchNativeProps } from './Switch.types';
 
 export type { SwitchNativeProps } from './Switch.types';
@@ -45,7 +46,9 @@ export function Switch({
   const height = t.space[6];
   const gap = t.borderWidth.thick;
   const thumb = height - gap * 2;
-  const duration = t.duration.fast;
+  const reducedMotion = useReducedMotion();
+  // Con movimiento reducido el pulgar cambia de sitio sin deslizarse, como en web.
+  const duration = reducedMotion ? 0 : t.duration.fast;
 
   useEffect(() => {
     const animation = Animated.timing(progress, {
