@@ -32,6 +32,9 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [024](024-versiones-minimas.md) | Versiones mínimas soportadas y ventana de soporte | Aceptado |
 | [025](025-deprecacion-y-breaking-changes.md) | Política de deprecación y definición de breaking change | Aceptado |
 | [026](026-crecimiento-del-catalogo.md) | Regla de entrada y niveles de madurez del catálogo | Aceptado |
+| [027](027-fuentes-nombradas-cargadas-por-la-app.md) | Las fuentes se nombran en los tokens y las carga la app | Aceptado |
+| [028](028-icons-como-datos-y-react-native-svg.md) | `icons` como paquete de datos y `react-native-svg` como peer opcional | Aceptado |
+| [029](029-marcas-con-overrides-por-tema.md) | Marcas con overrides comunes y por tema | Aceptado |
 
 ## Plantilla
 

@@ -1,4 +1,7 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.web.json" }, { "path": "./tsconfig.native.json" }]
+  "extends": "@satellatickets/tsconfig/base.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src", "scripts", "*.config.ts"]
 }

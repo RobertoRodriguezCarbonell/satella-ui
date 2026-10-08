@@ -2,36 +2,30 @@
   "name": "@satellatickets/icons",
   "version": "0.0.0",
   "private": true,
-  "description": "Iconos de satella-ui (SVG fuente y componentes para web y React Native). Paquete interno: se empaqueta dentro de @satellatickets/ui (ADR-020)",
+  "description": "Iconos de satella-ui: SVG fuente (lucide) y datos de trazos para las vistas web y nativa de Icon. Paquete interno: se empaqueta dentro de @satellatickets/ui (ADR-020, ADR-028)",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./src/index.ts"
+    }
   },
   "scripts": {
+    "generate": "node --disable-warning=ExperimentalWarning scripts/generate.ts",
     "build": "tsdown",
-    "typecheck": "tsc -p tsconfig.web.json && tsc -p tsconfig.native.json",
-    "lint": "eslint . --max-warnings 0"
-  },
-  "peerDependencies": {
-    "react": ">=19.0",
-    "react-native": ">=0.81"
-  },
-  "peerDependenciesMeta": {
-    "react-native": {
-      "optional": true
-    }
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@satellatickets/eslint-config": "workspace:*",
     "@satellatickets/tsconfig": "workspace:*",
     "@types/node": "catalog:",
-    "@types/react": "catalog:",
     "eslint": "catalog:",
-    "react": "catalog:",
-    "react-native": "catalog:",
     "tsdown": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }

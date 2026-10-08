@@ -1,5 +1,0 @@
-{
-  "extends": "@satellatickets/tsconfig/react.json",
-  "include": ["src", "*.config.ts"],
-  "exclude": ["src/**/*.native.*"]
-}

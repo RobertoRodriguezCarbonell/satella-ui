@@ -7,9 +7,10 @@ packages:
 # "catalog:"; cambiar una versión aquí la cambia en todos a la vez.
 catalog:
   # Objetivo de desarrollo fijado en ADR-024. Se actualizan a mano: están
-  # excluidos de Renovate (renovate.json).
-  react: 19.2.8
-  react-dom: 19.2.8
+  # excluidos de Renovate (renovate.json). React va exactamente en la versión que
+  # empaqueta React Native 0.85 (react-native-renderer 19.2.3): si no, el runtime nativo falla.
+  react: 19.2.3
+  react-dom: 19.2.3
   react-native: 0.85.3
   '@types/react': 19.2.18
   '@types/react-dom': 19.2.7
@@ -19,6 +20,21 @@ catalog:
   tsdown: ^0.23.0
   typescript: ^5.9.3
   vitest: ^5.0.3
+  vite: ^8.3.3
+  jsdom: ^30.1.2
+  '@testing-library/react': ^16.3.3
+  '@tsdown/css': 0.23.0
+  # Storybook (ADR-011): misma versión mayor en web y nativo
+  storybook: ^10.6.1
+  '@storybook/react': ^10.6.1
+  '@storybook/react-vite': ^10.6.1
+  '@storybook/addon-docs': ^10.6.1
+  '@storybook/addon-a11y': ^10.6.1
+  '@storybook/react-native': ^10.6.0
+  '@storybook/addon-ondevice-controls': ^10.6.0
+  '@storybook/addon-ondevice-actions': ^10.6.0
+  # SVG en nativo (ADR-028); versión que empaqueta Expo SDK 56
+  react-native-svg: 15.15.4
 
 # eslint-plugin-react y eslint-plugin-jsx-a11y funcionan con ESLint 10 pero aún
 # declaran el peer hasta la 9. Se verifica en lint; quitar cuando lo actualicen.
@@ -26,3 +42,9 @@ peerDependencyRules:
   allowedVersions:
     'eslint-plugin-react>eslint': '>=10'
     'eslint-plugin-jsx-a11y>eslint': '>=10'
+    # @storybook/react-native 10.6 declara peers exactos de reanimated y safe-area-context;
+    # usamos las versiones que empaqueta Expo SDK 56 (ADR-024), compatibles con Expo Go.
+    '@storybook/react-native>react-native-reanimated': '>=4.3.0'
+    '@storybook/react-native>react-native-safe-area-context': '>=5.7.0'
+    '@storybook/react-native-ui>react-native-reanimated': '>=4.3.0'
+    '@storybook/react-native-ui>react-native-safe-area-context': '>=5.7.0'

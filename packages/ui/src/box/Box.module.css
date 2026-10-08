@@ -1,0 +1,13 @@
+/* Cada prop fija una variable; sin prop, el valor por defecto. Solo tokens (ADR-007). */
+.root {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--box-padding, 0);
+  padding-inline: var(--box-padding-x, var(--box-padding, 0));
+  padding-block: var(--box-padding-y, var(--box-padding, 0));
+  background-color: var(--box-background, transparent);
+  border-radius: var(--box-radius, 0);
+  border: var(--box-border-width, 0) solid var(--box-border-color, transparent);
+  box-shadow: var(--box-shadow, none);
+  flex: var(--box-flex, initial);
+}

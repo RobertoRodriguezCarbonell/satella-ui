@@ -1,0 +1,12 @@
+/*
+ * El proveedor no genera caja propia (display: contents): solo aporta los atributos
+ * data-theme/data-brand que activan los bloques de tokens.css y los valores heredables
+ * de texto por defecto.
+ */
+.root {
+  display: contents;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+}

@@ -1,0 +1,5 @@
+/*
+ * Estilos globales de @satellatickets/ui: variables de tokens (temas y marcas) y nada más.
+ * La build de ui los compila, junto con los CSS Modules, en dist/web/styles.css (ADR-007).
+ */
+@import '@satellatickets/tokens/tokens.css';

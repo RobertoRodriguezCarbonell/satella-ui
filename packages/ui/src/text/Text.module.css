@@ -1,0 +1,31 @@
+/* La variante fija las variables (familia, tamaño, altura, peso) desde el mapa de core. */
+.root {
+  margin: 0;
+  font-family: var(--text-family);
+  font-size: var(--text-size);
+  line-height: var(--text-line-height);
+  font-weight: var(--text-weight);
+  color: var(--text-color);
+  letter-spacing: var(--text-letter-spacing, normal);
+  overflow-wrap: break-word;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.left {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

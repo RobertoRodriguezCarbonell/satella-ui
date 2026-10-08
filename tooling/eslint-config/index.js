@@ -39,6 +39,8 @@ const IGNORES = [
   '**/coverage/**',
   '**/.turbo/**',
   '**/storybook-static/**',
+  // Generado por @storybook/react-native al arrancar
+  '**/storybook.requires.ts',
 ];
 
 // ---------------------------------------------------------------------------
@@ -188,6 +190,12 @@ function foundation({ tsconfigRootDir }) {
       files: JS,
       extends: [tseslint.configs.disableTypeChecked],
       languageOptions: { globals: globals.node },
+    },
+    {
+      // Configuración CommonJS (metro.config.js, babel.config.js): require() es la API.
+      files: ['**/*.config.{js,cjs}', '**/*.cjs'],
+      languageOptions: { sourceType: 'commonjs' },
+      rules: { '@typescript-eslint/no-require-imports': 'off' },
     },
   ];
 }

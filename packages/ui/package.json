@@ -16,7 +16,8 @@
     "dist"
   ],
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./styles.css": "./dist/web/styles.css"
   },
   "publishConfig": {
     "access": "public",
@@ -34,7 +35,8 @@
           "types": "./dist/web/index.d.ts",
           "default": "./dist/web/index.js"
         }
-      }
+      },
+      "./styles.css": "./dist/web/styles.css"
     }
   },
   "scripts": {
@@ -45,13 +47,17 @@
   "peerDependencies": {
     "react": ">=19.0",
     "react-dom": ">=19.0",
-    "react-native": ">=0.81"
+    "react-native": ">=0.81",
+    "react-native-svg": ">=15.0.0"
   },
   "peerDependenciesMeta": {
     "react-dom": {
       "optional": true
     },
     "react-native": {
+      "optional": true
+    },
+    "react-native-svg": {
       "optional": true
     }
   },
@@ -63,6 +69,8 @@
     "@satellatickets/eslint-config": "workspace:*",
     "@satellatickets/icons": "workspace:*",
     "@satellatickets/tsconfig": "workspace:*",
+    "@storybook/react": "catalog:",
+    "@tsdown/css": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -70,6 +78,7 @@
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-native": "catalog:",
+    "react-native-svg": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:"
   }

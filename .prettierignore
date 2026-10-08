@@ -14,3 +14,9 @@ CHANGELOG.md
 docs
 CLAUDE.md
 ROADMAP.md
+
+# Generado por packages/icons/scripts/generate.ts
+packages/icons/src/icons.ts
+
+# Generado por @storybook/react-native al arrancar
+apps/storybook-native/.rnstorybook/storybook.requires.ts

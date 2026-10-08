@@ -1,0 +1,5 @@
+# Generado por withStorybook / sb-rn-get-stories al arrancar
+.rnstorybook/storybook.requires.ts
+# Proyectos nativos generados por prebuild
+ios/
+android/
