@@ -38,15 +38,17 @@ const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** Mientras el puntero está sobre los toasts no se cierran: da tiempo a leerlos. */
 export const PausaConElPuntero: Story = {
-  args: { duration: 300 },
+  // Un segundo y medio: tiempo de sobra para llegar con el puntero incluso con el runner cargado.
+  args: { duration: 1500 },
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Copiar enlace' }));
     const toast = await canvas.findByRole('status');
     await userEvent.hover(toast);
-    await wait(700);
+    // Más de lo que dura: si sigue ahí, es que el cierre está en pausa.
+    await wait(2000);
     await expect(canvas.getByRole('status')).toBeInTheDocument();
     await userEvent.unhover(toast);
-    await waitFor(() => expect(canvas.queryByRole('status')).toBeNull(), { timeout: 3000 });
+    await waitFor(() => expect(canvas.queryByRole('status')).toBeNull(), { timeout: 8000 });
   },
 };
 

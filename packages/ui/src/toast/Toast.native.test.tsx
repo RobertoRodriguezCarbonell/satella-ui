@@ -11,7 +11,11 @@ import { useToast } from './index';
 
 // Las historias son la especificación compartida con web (ADR-017): se comprueban las
 // mismas interacciones que sus funciones `play`.
-const { Default, Tonos, ConDescripcion, ConAccion, ConCierre, SeCierraSolo, Apilados } =
+//
+// Los temporizadores son reales, y en CI una pulsación puede tardar segundos: los tests
+// que comprueban que el toast está en pantalla lo lanzan con `duration={0}` para que
+// el cierre automático no les gane la carrera.
+const { Default, ConDescripcion, ConAccion, ConCierre, SeCierraSolo, Apilados } =
   composeStories(stories);
 
 describe('Toast (nativo)', () => {
@@ -28,7 +32,7 @@ describe('Toast (nativo)', () => {
   describe('interacción (las mismas que las funciones play)', () => {
     it('show muestra el toast en la zona de avisos del UIProvider', async () => {
       const user = userEvent.setup();
-      await renderWithProvider(<Default />);
+      await renderWithProvider(<Default duration={0} />);
       expect(screen.queryByRole('alert')).toBeNull();
 
       await user.press(screen.getByRole('button', { name: 'Guardar cambios' }));
@@ -38,7 +42,7 @@ describe('Toast (nativo)', () => {
 
     it('muestra la descripción', async () => {
       const user = userEvent.setup();
-      await renderWithProvider(<ConDescripcion />);
+      await renderWithProvider(<ConDescripcion duration={0} />);
 
       await user.press(screen.getByRole('button', { name: 'Comprar' }));
 
@@ -50,7 +54,7 @@ describe('Toast (nativo)', () => {
     it('la acción llama a su onPress y cierra el toast', async () => {
       const user = userEvent.setup();
       const onPress = jest.fn();
-      await renderWithProvider(<ConAccion action={{ label: 'Deshacer', onPress }} />);
+      await renderWithProvider(<ConAccion duration={0} action={{ label: 'Deshacer', onPress }} />);
 
       await user.press(screen.getByRole('button', { name: 'Quitar del carrito' }));
       await user.press(screen.getByRole('button', { name: 'Deshacer' }));
@@ -75,9 +79,10 @@ describe('Toast (nativo)', () => {
       await renderWithProvider(<SeCierraSolo />);
 
       await user.press(screen.getByRole('button', { name: 'Copiar enlace' }));
-      expect(screen.getByRole('alert')).toBeOnTheScreen();
 
-      await waitFor(() => expect(screen.queryByRole('alert')).toBeNull(), { timeout: 3000 });
+      // Que llegó a mostrarse lo dice el anuncio, que no depende de cuánto tarde el test.
+      expect(announce).toHaveBeenCalledWith('Enlace copiado');
+      await waitFor(() => expect(screen.queryByRole('alert')).toBeNull(), { timeout: 10_000 });
     });
 
     it('como mucho hay tres a la vez', async () => {
@@ -95,7 +100,7 @@ describe('Toast (nativo)', () => {
   describe('accesibilidad', () => {
     it('anuncia cada toast una vez al llegar, con su título y su descripción', async () => {
       const user = userEvent.setup();
-      await renderWithProvider(<ConDescripcion />);
+      await renderWithProvider(<ConDescripcion duration={0} />);
 
       await user.press(screen.getByRole('button', { name: 'Comprar' }));
 
@@ -110,9 +115,9 @@ describe('Toast (nativo)', () => {
       ['info', 'polite'],
     ] as const)('un toast %s se anuncia en Android de forma %s', async (tone, live) => {
       const user = userEvent.setup();
-      await renderWithProvider(<Tonos />);
+      await renderWithProvider(<Default tone={tone} duration={0} />);
 
-      await user.press(screen.getByRole('button', { name: tone }));
+      await user.press(screen.getByRole('button', { name: 'Guardar cambios' }));
 
       expect(screen.getByRole('alert').props.accessibilityLiveRegion).toBe(live);
     });

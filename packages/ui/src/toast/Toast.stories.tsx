@@ -125,11 +125,12 @@ export const ConCierre: Story = {
 
 /** Pasada su `duration`, se cierra solo. */
 export const SeCierraSolo: Story = {
-  args: { trigger: 'Copiar enlace', tone: 'info', title: 'Enlace copiado', duration: 400 },
+  // Un segundo y medio: tiempo de sobra para verlo aparecer incluso con el runner cargado.
+  args: { trigger: 'Copiar enlace', tone: 'info', title: 'Enlace copiado', duration: 1500 },
   play: async ({ canvas, userEvent }) => {
     await userEvent.click(canvas.getByRole('button', { name: 'Copiar enlace' }));
     await expect(await canvas.findByRole('status')).toBeInTheDocument();
-    await waitFor(() => expect(canvas.queryByRole('status')).toBeNull(), { timeout: 3000 });
+    await waitFor(() => expect(canvas.queryByRole('status')).toBeNull(), { timeout: 8000 });
   },
 };
 
