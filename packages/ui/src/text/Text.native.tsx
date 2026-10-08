@@ -1,6 +1,7 @@
 import { textVariantStyles, useTheme, type TextAlign } from '@satellatickets/core';
 import { Text as RNText, type TextStyle } from 'react-native';
 
+import { TextAncestorContext } from './TextAncestor';
 import type { TextNativeProps } from './Text.types';
 
 export type { TextNativeProps } from './Text.types';
@@ -45,7 +46,7 @@ export function Text({
       aria-level={spec.headingLevel}
       testID={testID}
     >
-      {children}
+      <TextAncestorContext.Provider value={true}>{children}</TextAncestorContext.Provider>
     </RNText>
   );
 }

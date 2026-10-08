@@ -6,6 +6,8 @@ export * from './badge';
 export * from './box';
 export * from './button';
 export * from './icon';
+export * from './icon-button';
+export * from './link';
 export * from './spinner';
 export * from './stack';
 export * from './text';
