@@ -1,0 +1,54 @@
+/*
+ * Etiqueta, control, ayuda y error, en columna. Todo son tokens semánticos (ADR-005).
+ */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+  font-family: var(--font-family-sans);
+}
+
+.label {
+  align-self: flex-start;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.disabled .label {
+  color: var(--color-text-disabled);
+}
+
+/* El asterisco es un refuerzo visual: a los lectores de pantalla les llega `aria-required`. */
+.required {
+  color: var(--color-feedback-danger-text);
+}
+
+.help,
+.error {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+}
+
+.help {
+  color: var(--color-text-muted);
+}
+
+/* El error no depende solo del color: lleva su icono. */
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  color: var(--color-feedback-danger-text);
+}
+
+/* El icono se alinea con la primera línea del mensaje. */
+.errorIcon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: var(--font-line-height-sm);
+}

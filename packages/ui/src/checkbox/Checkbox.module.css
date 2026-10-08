@@ -1,0 +1,102 @@
+/*
+ * La casilla es un `<input type="checkbox">` real, invisible y colocado sobre el
+ * dibujo: él recibe el foco, el teclado y los lectores de pantalla, y sus estados
+ * (`:checked`, `:indeterminate`, `:disabled`) pintan la caja. Todo son tokens
+ * semánticos (ADR-005) y los estados viven aquí, no en JS (ADR-007).
+ */
+.root {
+  --checkbox-size: var(--space-5);
+  /* Centra la caja con la primera línea del texto. */
+  --checkbox-offset: calc((var(--font-line-height-md) - var(--checkbox-size)) / 2);
+
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: var(--space-6);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+.input {
+  position: absolute;
+  top: var(--checkbox-offset);
+  left: var(--space-0);
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  margin-top: var(--checkbox-offset);
+  /* El contorno tiene que distinguirse del fondo con un contraste de 3:1. */
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  background-color: var(--color-bg-surface);
+  transition:
+    background-color var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+.invalid {
+  border-color: var(--color-feedback-danger-icon);
+}
+
+.mark {
+  display: none;
+}
+
+.label {
+  min-width: 0;
+}
+
+/* Marcada o indeterminada: la caja se rellena con el color de la acción principal. */
+.input:checked + .box,
+.input:indeterminate + .box {
+  border-color: var(--color-action-primary);
+  background-color: var(--color-action-primary);
+}
+
+.input:checked:not(:indeterminate) + .box .check,
+.input:indeterminate + .box .dash {
+  display: block;
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .root:hover .input:not(:disabled, :checked, :indeterminate) + .box {
+    border-color: var(--color-action-primary);
+  }
+}
+
+.input:focus-visible + .box {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--border-width-thick);
+}
+
+.input:disabled + .box {
+  border-color: transparent;
+  background-color: var(--color-action-disabled);
+}
+
+.input:disabled + .box svg {
+  stroke: var(--color-text-disabled);
+}

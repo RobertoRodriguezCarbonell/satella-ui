@@ -1,0 +1,83 @@
+/*
+ * La caja de los controles de texto (`Input`, `TextArea`, `Select`): borde, fondo,
+ * tipografía y estados. Cada componente añade su tamaño y su contenido. Todo son
+ * tokens semánticos (ADR-005) y los estados viven aquí, no en JS (ADR-007).
+ *
+ * El borde en reposo es `border.strong`: el contorno de un campo tiene que
+ * distinguirse del fondo con un contraste de 3:1.
+ */
+.field {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+  font-weight: var(--font-weight-regular);
+  cursor: text;
+  transition:
+    border-color var(--duration-fast),
+    background-color var(--duration-fast);
+}
+
+/* El foco se dibuja en la caja, que es lo que el usuario percibe como el campo. */
+.field:focus-within {
+  border-color: var(--color-border-focus);
+  outline: var(--border-width-thin) solid var(--color-border-focus);
+}
+
+.invalid,
+.invalid:focus-within {
+  border-color: var(--color-feedback-danger-icon);
+  outline-color: var(--color-feedback-danger-icon);
+}
+
+.readOnly {
+  background-color: var(--color-bg-subtle);
+}
+
+.disabled {
+  border-color: transparent;
+  background-color: var(--color-action-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* El elemento del navegador dentro de la caja: sin estilo propio, hereda el de la caja. */
+.control {
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  appearance: none;
+}
+
+.control::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.control:disabled {
+  /* Safari atenúa por su cuenta el texto de un control deshabilitado. */
+  -webkit-text-fill-color: currentcolor;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* El autocompletado del navegador pinta su propio fondo: se devuelve al del campo. */
+.control:autofill {
+  box-shadow: 0 0 0 100vmax var(--color-bg-surface) inset;
+  -webkit-text-fill-color: var(--color-text-primary);
+}

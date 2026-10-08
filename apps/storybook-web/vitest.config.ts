@@ -41,7 +41,8 @@ export default defineConfig({
         storybookTest({
           configDir: path.join(dirname, '.storybook'),
           storybookScript: 'pnpm dev',
-          initialGlobals: { theme },
+          // `tests` es el lienzo alto definido en preview.tsx.
+          initialGlobals: { theme, viewport: { value: 'tests' } },
         }),
       ],
       test: {

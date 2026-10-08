@@ -56,6 +56,15 @@ afterEach(async (context) => {
   if (story.parameters.visual === false) return;
 
   const root = page.getByTestId(STORY_ROOT_TEST_ID);
+  // Lo que no cabe en el lienzo sale en blanco en la captura: mejor fallar que guardar
+  // una referencia cortada.
+  const height = Math.ceil(root.element().getBoundingClientRect().height);
+  if (height > window.innerHeight) {
+    throw new Error(
+      `La historia "${story.id}" mide ${height} px de alto y el lienzo de los tests ${window.innerHeight} px: ` +
+        'su referencia visual saldría cortada. Divídela en varias historias.',
+    );
+  }
   forcePseudoStates(story, root.element());
   await document.fonts.ready;
   await expect.element(root).toMatchScreenshot(`${story.id}-${theme}`);

@@ -1,4 +1,4 @@
-import { iconSizePx } from '@satellatickets/core';
+import { iconSizePx, isFeedbackTone, type IconColor } from '@satellatickets/core';
 import { ICON_STROKE_WIDTH, ICON_VIEWBOX, icons, type IconElement } from '@satellatickets/icons';
 import { cssVariables } from '@satellatickets/tokens';
 
@@ -30,6 +30,13 @@ function renderElement(element: IconElement, index: number) {
   }
 }
 
+/** Variable CSS del color: un color de texto o el icono de un estado de feedback. */
+function colorVariable(color: IconColor): string {
+  return isFeedbackTone(color)
+    ? cssVariables[`color.feedback.${color}.icon`]
+    : cssVariables[`color.text.${color}`];
+}
+
 export function Icon({
   name,
   size = 'md',
@@ -47,7 +54,7 @@ export function Icon({
       height={px}
       viewBox={`0 0 ${ICON_VIEWBOX} ${ICON_VIEWBOX}`}
       fill="none"
-      stroke={`var(${cssVariables[`color.text.${color}`]})`}
+      stroke={`var(${colorVariable(color)})`}
       strokeWidth={ICON_STROKE_WIDTH}
       strokeLinecap="round"
       strokeLinejoin="round"

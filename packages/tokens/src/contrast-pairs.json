@@ -1,44 +1,167 @@
 {
   "$description": "Parejas texto/fondo que deben cumplir WCAG 2.2 AA en todos los temas y marcas (ADR-015). `text`: 4.5:1; `largeText` y `ui`: 3:1.",
-  "levels": { "text": 4.5, "largeText": 3, "ui": 3 },
+  "levels": {
+    "text": 4.5,
+    "largeText": 3,
+    "ui": 3
+  },
   "pairs": [
-    { "foreground": "color.text.primary", "background": "color.bg.canvas" },
-    { "foreground": "color.text.primary", "background": "color.bg.surface" },
-    { "foreground": "color.text.primary", "background": "color.bg.elevated" },
-    { "foreground": "color.text.primary", "background": "color.bg.subtle" },
-    { "foreground": "color.text.primary", "background": "color.bg.muted" },
-    { "foreground": "color.text.secondary", "background": "color.bg.canvas" },
-    { "foreground": "color.text.secondary", "background": "color.bg.surface" },
-    { "foreground": "color.text.secondary", "background": "color.bg.elevated" },
-    { "foreground": "color.text.secondary", "background": "color.bg.subtle" },
-    { "foreground": "color.text.muted", "background": "color.bg.canvas" },
-    { "foreground": "color.text.muted", "background": "color.bg.surface" },
-    { "foreground": "color.text.muted", "background": "color.bg.elevated" },
-    { "foreground": "color.text.inverse", "background": "color.bg.inverse" },
-    { "foreground": "color.text.link", "background": "color.bg.canvas" },
-    { "foreground": "color.text.link", "background": "color.bg.surface" },
-    { "foreground": "color.text.onPrimary", "background": "color.action.primary" },
-    { "foreground": "color.text.onPrimary", "background": "color.action.primaryHover" },
-    { "foreground": "color.text.onPrimary", "background": "color.action.primaryActive" },
-    { "foreground": "color.text.onDanger", "background": "color.action.danger" },
-    { "foreground": "color.text.onDanger", "background": "color.action.dangerHover" },
-    { "foreground": "color.text.onDanger", "background": "color.action.dangerActive" },
-    { "foreground": "color.text.primary", "background": "color.action.secondary" },
-    { "foreground": "color.text.primary", "background": "color.action.secondaryHover" },
-    { "foreground": "color.text.primary", "background": "color.action.secondaryActive" },
-    { "foreground": "color.accent.text", "background": "color.accent.bg" },
-    { "foreground": "color.feedback.success.text", "background": "color.feedback.success.bg" },
-    { "foreground": "color.feedback.warning.text", "background": "color.feedback.warning.bg" },
-    { "foreground": "color.feedback.danger.text", "background": "color.feedback.danger.bg" },
-    { "foreground": "color.feedback.info.text", "background": "color.feedback.info.bg" },
-    { "foreground": "color.border.strong", "background": "color.bg.canvas", "level": "ui" },
-    { "foreground": "color.border.strong", "background": "color.bg.surface", "level": "ui" },
-    { "foreground": "color.border.focus", "background": "color.bg.canvas", "level": "ui" },
-    { "foreground": "color.border.focus", "background": "color.bg.surface", "level": "ui" },
-    { "foreground": "color.action.primary", "background": "color.bg.canvas", "level": "ui" },
-    { "foreground": "color.action.primary", "background": "color.bg.surface", "level": "ui" },
-    { "foreground": "color.action.danger", "background": "color.bg.canvas", "level": "ui" },
-    { "foreground": "color.action.danger", "background": "color.bg.surface", "level": "ui" },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.bg.canvas"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.bg.surface"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.bg.elevated"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.bg.subtle"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.bg.muted"
+    },
+    {
+      "foreground": "color.text.secondary",
+      "background": "color.bg.canvas"
+    },
+    {
+      "foreground": "color.text.secondary",
+      "background": "color.bg.surface"
+    },
+    {
+      "foreground": "color.text.secondary",
+      "background": "color.bg.elevated"
+    },
+    {
+      "foreground": "color.text.secondary",
+      "background": "color.bg.subtle"
+    },
+    {
+      "foreground": "color.text.muted",
+      "background": "color.bg.canvas"
+    },
+    {
+      "foreground": "color.text.muted",
+      "background": "color.bg.surface"
+    },
+    {
+      "foreground": "color.text.muted",
+      "background": "color.bg.elevated"
+    },
+    {
+      "foreground": "color.text.inverse",
+      "background": "color.bg.inverse"
+    },
+    {
+      "foreground": "color.text.link",
+      "background": "color.bg.canvas"
+    },
+    {
+      "foreground": "color.text.link",
+      "background": "color.bg.surface"
+    },
+    {
+      "foreground": "color.text.onPrimary",
+      "background": "color.action.primary"
+    },
+    {
+      "foreground": "color.text.onPrimary",
+      "background": "color.action.primaryHover"
+    },
+    {
+      "foreground": "color.text.onPrimary",
+      "background": "color.action.primaryActive"
+    },
+    {
+      "foreground": "color.text.onDanger",
+      "background": "color.action.danger"
+    },
+    {
+      "foreground": "color.text.onDanger",
+      "background": "color.action.dangerHover"
+    },
+    {
+      "foreground": "color.text.onDanger",
+      "background": "color.action.dangerActive"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.action.secondary"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.action.secondaryHover"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.action.secondaryActive"
+    },
+    {
+      "foreground": "color.accent.text",
+      "background": "color.accent.bg"
+    },
+    {
+      "foreground": "color.feedback.success.text",
+      "background": "color.feedback.success.bg"
+    },
+    {
+      "foreground": "color.feedback.warning.text",
+      "background": "color.feedback.warning.bg"
+    },
+    {
+      "foreground": "color.feedback.danger.text",
+      "background": "color.feedback.danger.bg"
+    },
+    {
+      "foreground": "color.feedback.info.text",
+      "background": "color.feedback.info.bg"
+    },
+    {
+      "foreground": "color.border.strong",
+      "background": "color.bg.canvas",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.border.strong",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.border.focus",
+      "background": "color.bg.canvas",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.border.focus",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.action.primary",
+      "background": "color.bg.canvas",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.action.primary",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.action.danger",
+      "background": "color.bg.canvas",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.action.danger",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
     {
       "foreground": "color.feedback.success.icon",
       "background": "color.feedback.success.bg",
@@ -64,12 +187,38 @@
       "background": "color.feedback.danger.bg",
       "level": "ui"
     },
-    { "foreground": "color.feedback.danger.icon", "background": "color.bg.surface", "level": "ui" },
+    {
+      "foreground": "color.feedback.danger.icon",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
     {
       "foreground": "color.feedback.info.icon",
       "background": "color.feedback.info.bg",
       "level": "ui"
     },
-    { "foreground": "color.feedback.info.icon", "background": "color.bg.surface", "level": "ui" }
+    {
+      "foreground": "color.feedback.info.icon",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.feedback.danger.text",
+      "background": "color.bg.canvas"
+    },
+    {
+      "foreground": "color.feedback.danger.text",
+      "background": "color.bg.surface"
+    },
+    {
+      "foreground": "color.feedback.danger.icon",
+      "background": "color.bg.canvas",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.text.onPrimary",
+      "background": "color.border.strong",
+      "level": "ui"
+    }
   ]
 }
