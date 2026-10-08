@@ -9,6 +9,10 @@ module.exports = {
   preset: 'jest-expo',
   roots: ['<rootDir>/src'],
   testMatch: ['**/*.native.test.{ts,tsx}'],
+  // El límite por defecto son 5 s. En CI, con la caché de Babel vacía y los tests de
+  // historias corriendo en paralelo, el primer test que carga un módulo paga su
+  // transformación y puede superarlo sin que nada esté colgado.
+  testTimeout: 30_000,
   // Con pnpm cada paquete vive en node_modules/.pnpm/<paquete>/node_modules/<paquete>.
   // Se transforman con Babel React Native, Expo y Storybook (ESM); el resto se deja tal cual.
   transformIgnorePatterns: [
