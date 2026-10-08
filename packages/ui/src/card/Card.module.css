@@ -1,0 +1,54 @@
+/*
+ * Una superficie que agrupa contenido. Cada variante solo fija variables; la regla de
+ * `.root` las aplica. Todo son tokens semánticos (ADR-005) y los estados interactivos
+ * viven aquí, no en JS (ADR-007).
+ */
+.root {
+  display: block;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--card-padding);
+  /* Recorta el contenido que llega hasta el borde, por ejemplo una imagen. */
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  background-color: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  color: var(--color-text-primary);
+  transition:
+    background-color var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+/* Variantes */
+.outlined {
+  --card-bg: var(--color-bg-surface);
+  --card-shadow: none;
+}
+
+.elevated {
+  --card-bg: var(--color-bg-elevated);
+  --card-shadow: var(--shadow-md);
+}
+
+/* Pulsable: toda la tarjeta es un botón. */
+.interactive {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .interactive:hover {
+    border-color: var(--color-border-strong);
+  }
+}
+
+.interactive:active {
+  background-color: var(--color-bg-subtle);
+}
+
+.interactive:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--border-width-thick);
+}

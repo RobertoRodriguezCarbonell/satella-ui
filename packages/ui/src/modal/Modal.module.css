@@ -1,0 +1,112 @@
+/*
+ * Un `<dialog>` abierto con `showModal()` (ADR-040): el navegador lo pinta en la capa
+ * superior, atrapa el foco y deja inerte el resto de la página. Aquí solo va su
+ * aspecto. Todo son tokens semánticos (ADR-005).
+ */
+.root {
+  box-sizing: border-box;
+  padding: 0;
+  border: var(--border-width-thin) solid var(--color-border-default);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+}
+
+/* Solo abierto: cerrado, el navegador lo oculta con `display: none`. */
+.root[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* El fondo pertenece al propio `<dialog>`: pulsarlo es pulsar el diálogo. */
+.root::backdrop {
+  background-color: var(--color-bg-overlay);
+}
+
+/* Centrado, con un ancho de lectura cómoda. */
+.dialog {
+  width: calc(100% - var(--space-8));
+  /* No hay token de anchura: cinco veces el espacio mayor. */
+  max-width: calc(var(--space-24) * 5);
+  max-height: calc(100% - var(--space-8));
+  margin: auto;
+  border-radius: var(--radius-xl);
+}
+
+/* Anclado al borde inferior, a todo el ancho. */
+.sheet {
+  width: 100%;
+  max-width: 100%;
+  max-height: calc(100% - var(--space-12));
+  margin: auto auto var(--space-0);
+  border-width: var(--border-width-thin) var(--space-0) var(--space-0);
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-none) var(--radius-none);
+  /* En un móvil, por encima de la barra del sistema. */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-0);
+}
+
+.titles {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title,
+.description {
+  margin: 0;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  line-height: var(--font-line-height-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.description {
+  margin-top: var(--space-1);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+}
+
+/* El botón de cierre se centra con el título y no aumenta la altura de la cabecera. */
+.close {
+  flex-shrink: 0;
+  margin: calc((var(--font-line-height-lg) - var(--size-control-sm)) / 2) calc(var(--space-2) * -1)
+    calc((var(--font-line-height-lg) - var(--size-control-sm)) / 2) var(--space-0);
+}
+
+/* Si el contenido no cabe, se desplaza él; la cabecera y el pie se quedan a la vista. */
+.body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4) var(--space-5) var(--space-0);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-5) var(--space-0);
+}
+
+/* El relleno inferior lo pone el último bloque, sea cual sea. */
+.header:last-child,
+.body:last-child,
+.footer:last-child {
+  padding-bottom: var(--space-5);
+}

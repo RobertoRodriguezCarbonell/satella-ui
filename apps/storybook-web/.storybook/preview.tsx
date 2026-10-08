@@ -12,6 +12,12 @@ const DEFAULT_BRAND = 'satella';
 /** Elemento que capturan las referencias visuales; vitest.setup.ts lo busca por este id. */
 const STORY_ROOT_TEST_ID = 'sb-story';
 
+/**
+ * El lienzo entero. Lo capturan las historias con `parameters: { visual: 'canvas' }`: las
+ * que pintan fuera de su caja, como un diálogo abierto.
+ */
+const CANVAS_TEST_ID = 'sb-canvas';
+
 function isThemeMode(value: unknown): value is ThemeMode {
   return typeof value === 'string' && (themeModes as readonly string[]).includes(value);
 }
@@ -37,6 +43,13 @@ const preview: Preview = {
           styles: { width: '1200px', height: '1800px' },
           type: 'desktop',
         },
+        // Para las historias de un diálogo abierto, que capturan el lienzo entero: uno
+        // pequeño da una referencia donde el diálogo se ve, no un punto en una página vacía.
+        dialogo: {
+          name: 'Diálogo (720 × 560)',
+          styles: { width: '720px', height: '560px' },
+          type: 'desktop',
+        },
       },
     },
     // Accesibilidad bloqueante (ADR-016): una violación hace fallar el test de la historia.
@@ -48,7 +61,9 @@ const preview: Preview = {
           ['UIProvider', 'Box', 'Stack', 'Text', 'Icon'],
           'Acciones',
           ['Button', ['Patrón', '*', 'Estados web']],
+          'Formularios',
           'Feedback',
+          'Superficies',
         ],
       },
     },
@@ -87,7 +102,11 @@ const preview: Preview = {
       const brand = isBrandName(globals.brand) ? globals.brand : undefined;
       return (
         <UIProvider theme={theme} brand={brand}>
-          <Box background="canvas" className={viewMode === 'story' ? 'sb-canvas-fill' : undefined}>
+          <Box
+            background="canvas"
+            className={viewMode === 'story' ? 'sb-canvas-fill' : undefined}
+            testID={CANVAS_TEST_ID}
+          >
             <Box padding={6} testID={STORY_ROOT_TEST_ID}>
               <Story />
             </Box>

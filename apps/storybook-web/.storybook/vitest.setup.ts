@@ -25,6 +25,9 @@ interface TestedStory {
 /** El mismo `data-testid` que pone el decorador de preview.tsx alrededor de cada historia. */
 const STORY_ROOT_TEST_ID = 'sb-story';
 
+/** El `data-testid` del lienzo entero, también del decorador de preview.tsx. */
+const CANVAS_TEST_ID = 'sb-canvas';
+
 const visual = inject('visual');
 const theme = inject('theme');
 
@@ -54,6 +57,16 @@ afterEach(async (context) => {
   if (story === undefined || context.task.result?.state === 'fail') return;
   // Una historia puede excluirse con `parameters: { visual: false }` si no es determinista.
   if (story.parameters.visual === false) return;
+
+  // Con `parameters: { visual: 'canvas' }` se captura el lienzo entero: es para lo que se
+  // pinta fuera de la caja de la historia, como un diálogo abierto en la capa superior.
+  if (story.parameters.visual === 'canvas') {
+    await document.fonts.ready;
+    await expect
+      .element(page.getByTestId(CANVAS_TEST_ID))
+      .toMatchScreenshot(`${story.id}-${theme}`);
+    return;
+  }
 
   const root = page.getByTestId(STORY_ROOT_TEST_ID);
   // Lo que no cabe en el lienzo sale en blanco en la captura: mejor fallar que guardar
