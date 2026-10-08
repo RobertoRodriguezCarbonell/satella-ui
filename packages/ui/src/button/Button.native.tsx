@@ -37,8 +37,8 @@ interface SizeStyle {
 }
 
 // Mapas exhaustivos (ADR-014): una variante o un tamaño nuevos en `core` no compilan
-// hasta que tengan aquí sus tokens.
-const variantStyles = {
+// hasta que tengan aquí sus tokens. `IconButton` reutiliza el de variantes.
+export const variantStyles = {
   primary: (t) => ({
     background: t.color.action.primary,
     pressed: t.color.action.primaryActive,

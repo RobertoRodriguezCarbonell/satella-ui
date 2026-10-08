@@ -2,6 +2,9 @@
  * Cada variante y cada tamaño solo fijan variables; las reglas de `.root` y de sus
  * estados las aplican. Todo son tokens semánticos (ADR-005) y los estados
  * interactivos viven aquí, no en JS (ADR-007).
+ *
+ * `IconButton` reutiliza `.root`, las variantes y los estados, y fija su propio tamaño
+ * con las mismas variables `--button-*` (IconButton.module.css).
  */
 .root {
   position: relative;

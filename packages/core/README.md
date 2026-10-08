@@ -24,7 +24,7 @@ theme.color.action.primary;
 | Contratos de props      | `ButtonProps`, `BadgeProps`, `BoxProps`, `StackProps`, `TextProps`, `IconProps` |
 | Constantes de variantes | `buttonVariants`, `badgeVariants`, `textVariants`, `iconSizes`                  |
 | Tema                    | `UIContext`, `useTheme`, `useColorScheme`, `useBrand`, `resolveTheme`           |
-| Hooks headless          | `useButton`                                                                     |
+| Hooks headless          | `useButton`, `useLink`                                                          |
 
 Las variantes se exportan como arrays `as const`, además de como tipos, para poder recorrerlas: en historias, en selectores o en tests.
 

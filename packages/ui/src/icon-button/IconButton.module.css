@@ -1,0 +1,28 @@
+/*
+ * `IconButton` es un `Button` cuadrado: toma de Button.module.css la base, las
+ * variantes y los estados, y aquí solo fija el tamaño. Por eso define las mismas
+ * variables `--button-*` que las clases de tamaño de `Button`.
+ */
+.sm,
+.md,
+.lg {
+  --button-padding-x: var(--space-0);
+  --button-padding-y: var(--space-0);
+  --button-font-size: var(--font-size-sm);
+  --button-line-height: var(--font-line-height-sm);
+
+  flex-shrink: 0;
+  width: var(--button-height);
+}
+
+.sm {
+  --button-height: var(--size-control-sm);
+}
+
+.md {
+  --button-height: var(--size-control-md);
+}
+
+.lg {
+  --button-height: var(--size-control-lg);
+}

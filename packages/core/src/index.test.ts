@@ -13,8 +13,10 @@ describe('API pública de core', () => {
       'buttonIconSize',
       'buttonVariants',
       'createUIContextValue',
+      'iconButtonIconSize',
       'iconSizePx',
       'iconSizes',
+      'linkUnderlines',
       'mergeTheme',
       'radiusTokens',
       'resolveColorScheme',
@@ -34,6 +36,7 @@ describe('API pública de core', () => {
       'useBrand',
       'useButton',
       'useColorScheme',
+      'useLink',
       'useTheme',
       'useUIContext',
     ]);
@@ -49,6 +52,14 @@ describe('contrato de Button', () => {
   it('asigna a cada tamaño de botón un tamaño de icono existente', () => {
     for (const size of core.buttonVariants.size) {
       expect(core.iconSizes).toContain(core.buttonIconSize[size]);
+    }
+  });
+});
+
+describe('contrato de IconButton', () => {
+  it('asigna a cada tamaño de botón un tamaño de icono existente', () => {
+    for (const size of core.buttonVariants.size) {
+      expect(core.iconSizes).toContain(core.iconButtonIconSize[size]);
     }
   });
 });

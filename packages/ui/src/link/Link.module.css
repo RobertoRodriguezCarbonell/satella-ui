@@ -1,0 +1,57 @@
+/*
+ * Un enlace es texto: hereda la tipografía de lo que lo contiene salvo que reciba
+ * `variant` (clase `.typed`). Todo son tokens semánticos (ADR-005) y los estados
+ * interactivos viven aquí, no en JS (ADR-007).
+ */
+.root {
+  /* La única variable opcional: se reinicia para no heredarla de un ancestro. */
+  --link-letter-spacing: initial;
+
+  border-radius: var(--radius-xs);
+  color: var(--link-color);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: var(--border-width-thick);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--duration-fast);
+}
+
+/* Con `variant`: la misma tipografía que un `Text` de esa variante. */
+.typed {
+  font-family: var(--link-family);
+  font-size: var(--link-size);
+  line-height: var(--link-line-height);
+  font-weight: var(--link-weight);
+  letter-spacing: var(--link-letter-spacing, normal);
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* Subrayado. `.always` no cambia nada en reposo; existe para el mapa exhaustivo y el hover. */
+.hover {
+  text-decoration-line: none;
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .always:hover {
+    text-decoration-thickness: var(--border-width-thick);
+  }
+
+  .hover:hover {
+    text-decoration-line: underline;
+  }
+}
+
+.root:active {
+  color: var(--color-text-primary);
+}
+
+.root:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--border-width-thick);
+  text-decoration-line: underline;
+}
