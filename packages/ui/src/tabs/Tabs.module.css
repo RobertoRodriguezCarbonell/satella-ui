@@ -1,0 +1,89 @@
+/*
+ * Pestañas subrayadas: una línea bajo la lista y un indicador del color de la acción
+ * principal bajo la elegida. Todo son tokens semánticos (ADR-005) y los estados
+ * interactivos viven aquí, no en JS (ADR-007).
+ */
+.root {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: var(--font-family-sans);
+}
+
+/* Si no caben, la lista se desplaza en horizontal en vez de partirse en dos filas. */
+.list {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  border-bottom: var(--border-width-thin) solid var(--color-border-default);
+  scrollbar-width: none;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  min-height: var(--size-control-md);
+  margin: 0;
+  padding: var(--space-0) var(--space-3);
+  border: 0;
+  /* El indicador ocupa siempre su sitio: al elegir una pestaña nada se mueve. */
+  border-bottom: var(--border-width-thick) solid transparent;
+  border-radius: var(--radius-sm) var(--radius-sm) var(--radius-none) var(--radius-none);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--duration-fast),
+    border-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.selected {
+  border-bottom-color: var(--color-action-primary);
+  color: var(--color-text-primary);
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .tab:hover:not(:disabled) {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-text-primary);
+  }
+}
+
+.tab:active:not(:disabled) {
+  background-color: var(--color-bg-muted);
+}
+
+/* Hacia dentro: la lista recorta lo que sobresale. */
+.tab:focus-visible,
+.panel:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: calc(var(--border-width-thick) * -1);
+}
+
+.tab:disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Los iconos heredan el color del texto de la pestaña en todos sus estados. */
+.tab svg {
+  stroke: currentcolor;
+}
+
+.panel {
+  padding-top: var(--space-4);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+}

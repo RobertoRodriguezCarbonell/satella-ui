@@ -1,0 +1,19 @@
+/* Una línea del grosor y el color del borde por defecto. Todo son tokens semánticos (ADR-005). */
+.root {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+  background-color: var(--color-border-default);
+}
+
+.horizontal {
+  width: 100%;
+  height: var(--border-width-thin);
+}
+
+/* Ocupa la altura de la fila que lo contiene. */
+.vertical {
+  align-self: stretch;
+  width: var(--border-width-thin);
+}

@@ -45,6 +45,7 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [037](037-formularios-contexto-y-estado.md) | Formularios: estado controlado opcional y `FormField` por contexto | Aceptado |
 | [038](038-select-nativo-en-web-y-lista-modal-en-nativo.md) | `Select` usa el `<select>` del navegador en web y una lista modal en nativo | Aceptado |
 | [039](039-toast-desde-uiprovider.md) | `Toast` se muestra con `useToast` y lo aloja `UIProvider` | Aceptado |
+| [040](040-modal-y-sheet-dialog-nativo.md) | `Modal` y `Sheet` comparten contrato y usan `<dialog>` en web y `Modal` en nativo | Aceptado |
 
 ## Plantilla
 
