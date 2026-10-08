@@ -8,8 +8,8 @@
     "dev:native": "expo start",
     "ios": "expo start --ios",
     "android": "expo start --android",
-    "storybook:generate": "sb-rn-get-stories",
-    "typecheck": "sb-rn-get-stories && tsc -p tsconfig.json",
+    "generate": "sb-rn-get-stories",
+    "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint . --max-warnings 0"
   },
   "dependencies": {

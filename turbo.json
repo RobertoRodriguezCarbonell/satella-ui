@@ -23,6 +23,15 @@
     "typecheck": {
       "dependsOn": ["^build"]
     },
+    "storybook-native#generate": {
+      "cache": false
+    },
+    "storybook-native#lint": {
+      "dependsOn": ["^build", "generate"]
+    },
+    "storybook-native#typecheck": {
+      "dependsOn": ["^build", "generate"]
+    },
     "@satellatickets/tokens#typecheck": {
       "dependsOn": ["^build", "build"]
     },
