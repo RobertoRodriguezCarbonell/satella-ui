@@ -1,0 +1,106 @@
+/*
+ * La zona de avisos y la tarjeta de cada toast (ADR-039). Todo son tokens semánticos
+ * (ADR-005).
+ */
+
+/*
+ * Fija al borde inferior y por encima de todo. No recibe clics: solo las tarjetas.
+ * `position: fixed` basta porque `UIProvider` está en la raíz de la app.
+ */
+.viewport {
+  position: fixed;
+  z-index: var(--z-index-toast);
+  right: var(--space-0);
+  bottom: var(--space-0);
+  left: var(--space-0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  padding: var(--space-4);
+  /* En un móvil, por encima de la barra del sistema. */
+  padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  pointer-events: none;
+}
+
+/* Una superficie elevada neutra con el icono del tono: se lee sobre cualquier contenido. */
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  box-sizing: border-box;
+  width: 100%;
+  /* No hay token de anchura: cuatro veces el espacio mayor da una tarjeta de lectura cómoda. */
+  max-width: calc(var(--space-24) * 4);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--color-border-strong);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-lg);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  pointer-events: auto;
+  animation: enter var(--duration-normal) ease-out;
+}
+
+/* El icono se alinea con la primera línea del texto. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: var(--font-line-height-md);
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title,
+.description {
+  margin: 0;
+}
+
+.title {
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.description {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+}
+
+/*
+ * Los botones se centran con la primera línea y no aumentan la altura de la tarjeta:
+ * los márgenes negativos compensan lo que miden de más.
+ */
+.actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: var(--space-1);
+  margin: calc((var(--font-line-height-md) - var(--size-control-sm)) / 2) calc(var(--space-2) * -1)
+    calc((var(--font-line-height-md) - var(--size-control-sm)) / 2) var(--space-0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation: none;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-2));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(var(--space-0));
+  }
+}

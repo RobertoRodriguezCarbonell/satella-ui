@@ -6,9 +6,10 @@ import type { SpinnerWebProps } from './Spinner.types';
 export type { SpinnerWebProps } from './Spinner.types';
 
 /**
- * Indicador de carga indeterminada. Versión mínima (ROADMAP Fase 3): el icono
- * `loader-circle` girando. Con `label` es una barra de progreso indeterminada
- * para los lectores de pantalla; sin él, es decorativo.
+ * Indicador de carga indeterminada: el icono `loader-circle` girando. Con `label` es
+ * una barra de progreso indeterminada para los lectores de pantalla; sin él, es
+ * decorativo. Con movimiento reducido gira más despacio, pero no se detiene: parado
+ * no diría que algo está en curso.
  */
 export function Spinner({
   size = 'md',

@@ -9,6 +9,13 @@
   animation: spin calc(var(--duration-slow) * 2) linear infinite;
 }
 
+/* Con movimiento reducido gira más despacio: parado no diría que algo está en curso. */
+@media (prefers-reduced-motion: reduce) {
+  .icon {
+    animation-duration: calc(var(--duration-slow) * 8);
+  }
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);

@@ -1,11 +1,14 @@
 import {
   createUIContextValue,
+  ToastContext,
   UIContext,
   type ColorScheme,
   type UIProviderProps,
 } from '@satellatickets/core';
 import { useMemo, useSyncExternalStore } from 'react';
 
+import { ToastViewport } from '../toast/ToastViewport';
+import { useToastHost } from '../toast/useToastHost';
 import './UIProvider.css';
 import styles from './UIProvider.module.css';
 
@@ -33,16 +36,22 @@ export function useSystemColorScheme(): ColorScheme {
 
 /**
  * Activa tema y marca para todo lo que envuelve (ADR-010). Pone `data-theme` y
- * `data-brand` en un contenedor sin caja propia; `tokens.css` hace el resto.
+ * `data-brand` en un contenedor sin caja propia; `tokens.css` hace el resto. También
+ * guarda la cola de toasts y los pinta (ADR-039).
  */
 export function UIProvider({ theme = 'system', brand, children }: UIProviderProps) {
   const system = useSystemColorScheme();
   const value = useMemo(() => createUIContextValue(theme, system, brand), [theme, system, brand]);
+  const toasts = useToastHost();
   return (
     <UIContext.Provider value={value}>
-      <div className={styles.root} data-theme={value.colorScheme} data-brand={brand}>
-        {children}
-      </div>
+      <ToastContext.Provider value={toasts.store}>
+        <div className={styles.root} data-theme={value.colorScheme} data-brand={brand}>
+          {children}
+          {/* Dentro del contenedor, para heredar las variables del tema. */}
+          {toasts.own === null ? null : <ToastViewport store={toasts.own} />}
+        </div>
+      </ToastContext.Provider>
     </UIContext.Provider>
   );
 }

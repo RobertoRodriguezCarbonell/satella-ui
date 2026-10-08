@@ -1,11 +1,11 @@
 import type { FeedbackTone } from './feedback';
 import type { TextColorToken } from './text';
 
-export const iconSizes = ['sm', 'md', 'lg'] as const;
+export const iconSizes = ['sm', 'md', 'lg', 'xl'] as const;
 export type IconSize = (typeof iconSizes)[number];
 
 /** Tamaño en px/puntos de cada icono. */
-export const iconSizePx = { sm: 16, md: 20, lg: 24 } satisfies Record<IconSize, number>;
+export const iconSizePx = { sm: 16, md: 20, lg: 24, xl: 32 } satisfies Record<IconSize, number>;
 
 /**
  * Color de un icono: un color de texto o el de un estado de feedback (`success`,

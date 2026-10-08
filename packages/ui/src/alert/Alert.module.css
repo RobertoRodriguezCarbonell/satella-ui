@@ -1,0 +1,82 @@
+/*
+ * Cada tono solo fija variables; la regla de `.root` las aplica. Todo son tokens
+ * semánticos (ADR-005): el fondo, el borde y el texto de `color.feedback`.
+ */
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  box-sizing: border-box;
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width-thin) solid var(--alert-border);
+  border-radius: var(--radius-md);
+  background-color: var(--alert-bg);
+  color: var(--alert-fg);
+  font-family: var(--font-family-sans);
+}
+
+/* Tonos */
+.success {
+  --alert-bg: var(--color-feedback-success-bg);
+  --alert-border: var(--color-feedback-success-border);
+  --alert-fg: var(--color-feedback-success-text);
+}
+
+.warning {
+  --alert-bg: var(--color-feedback-warning-bg);
+  --alert-border: var(--color-feedback-warning-border);
+  --alert-fg: var(--color-feedback-warning-text);
+}
+
+.danger {
+  --alert-bg: var(--color-feedback-danger-bg);
+  --alert-border: var(--color-feedback-danger-border);
+  --alert-fg: var(--color-feedback-danger-text);
+}
+
+.info {
+  --alert-bg: var(--color-feedback-info-bg);
+  --alert-border: var(--color-feedback-info-border);
+  --alert-fg: var(--color-feedback-info-text);
+}
+
+/* El icono se alinea con la primera línea del texto. */
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: var(--font-line-height-md);
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+  font-weight: var(--font-weight-semibold);
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+  font-weight: var(--font-weight-regular);
+}
+
+/* Sin título, la descripción ocupa la primera línea y se alinea con el icono. */
+.description:first-child {
+  padding: calc((var(--font-line-height-md) - var(--font-line-height-sm)) / 2) var(--space-0);
+}
+
+/*
+ * El botón de cierre se centra con la primera línea y no aumenta la altura del aviso:
+ * los márgenes negativos compensan lo que mide de más.
+ */
+.close {
+  flex-shrink: 0;
+  margin: calc((var(--font-line-height-md) - var(--size-control-sm)) / 2) calc(var(--space-2) * -1)
+    calc((var(--font-line-height-md) - var(--size-control-sm)) / 2) var(--space-0);
+}

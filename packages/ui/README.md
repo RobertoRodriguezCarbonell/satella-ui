@@ -70,12 +70,12 @@ Los hooks `useTheme()`, `useColorScheme()` y `useBrand()` dan acceso al tema res
 
 ## Componentes
 
-| Grupo       | Componentes                                                      |
-| ----------- | ---------------------------------------------------------------- |
-| Fundamentos | `Box`, `Stack`, `Text`, `Icon`                                   |
-| Acciones    | `Button`, `IconButton`, `Link`                                   |
-| Formularios | `Input`, `TextArea`, `Checkbox`, `Switch`, `Select`, `FormField` |
-| Feedback    | `Badge`, `Spinner`                                               |
+| Grupo       | Componentes                                                           |
+| ----------- | --------------------------------------------------------------------- |
+| Fundamentos | `Box`, `Stack`, `Text`, `Icon`                                        |
+| Acciones    | `Button`, `IconButton`, `Link`                                        |
+| Formularios | `Input`, `TextArea`, `Checkbox`, `Switch`, `Select`, `FormField`      |
+| Feedback    | `Alert`, `Badge`, `Skeleton`, `Spinner` y los toasts con `useToast()` |
 
 Cada componente declara su madurez en el catálogo. Todos son todavía `experimental`: su API puede cambiar en cualquier `minor` mientras la librería esté en `0.x`. Fija la versión exacta y lee el `CHANGELOG` al actualizar.
 

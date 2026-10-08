@@ -2,16 +2,17 @@ import { spinnerSizePx, useTheme } from '@satellatickets/core';
 import { useEffect, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 
+import { useReducedMotion } from '../_internal/useReducedMotion';
 import { Icon } from '../icon/Icon';
 import type { SpinnerNativeProps } from './Spinner.types';
 
 export type { SpinnerNativeProps } from './Spinner.types';
 
 /**
- * Indicador de carga indeterminada. Versión mínima (ROADMAP Fase 3): el icono
- * `loader-circle` girando con `Animated` y el driver nativo, sin dependencias extra.
- * Con `label` es una barra de progreso indeterminada para los lectores de
- * pantalla; sin él, es decorativo.
+ * Indicador de carga indeterminada: el icono `loader-circle` girando con `Animated` y
+ * el driver nativo, sin dependencias extra. Con `label` es una barra de progreso
+ * indeterminada para los lectores de pantalla; sin él, es decorativo. Con movimiento
+ * reducido gira más despacio, pero no se detiene: parado no diría que algo está en curso.
  */
 export function Spinner({
   size = 'md',
@@ -22,8 +23,10 @@ export function Spinner({
 }: SpinnerNativeProps) {
   const t = useTheme();
   const [rotation] = useState(() => new Animated.Value(0));
-  // Una vuelta dura el doble de la transición lenta, igual que en web.
-  const duration = t.duration.slow * 2;
+  const reducedMotion = useReducedMotion();
+  // Una vuelta dura el doble de la transición lenta, igual que en web; con movimiento
+  // reducido, cuatro veces más.
+  const duration = t.duration.slow * (reducedMotion ? 8 : 2);
 
   useEffect(() => {
     const loop = Animated.loop(
