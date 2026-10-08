@@ -1,5 +1,100 @@
 # @satellatickets/core
 
+## 0.2.0
+
+### Minor Changes
+
+- [#7](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/7) [`f79251c`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/f79251cd3b84e0f4bc8b879ceeb243ddec1ecd96) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Alert`, un mensaje dentro de la página que no desaparece solo. Entra con madurez `experimental`.
+  
+  - `tone` (`success`, `warning`, `danger`, `info`) fija el color y el icono. `danger` y `warning` interrumpen al lector de pantalla; `success` e `info` esperan a que termine de leer.
+  - `title` y una descripción como `children`, que admite contenido propio, por ejemplo un enlace.
+  - Con `onClose` muestra un botón de cierre; su nombre accesible lo pone la app con `closeLabel`, obligatorio en ese caso.
+  - `core` publica el contrato `AlertProps`.
+
+- [#8](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/8) [`4aac0bb`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/4aac0bbac391f0166ee86a9752d4fae60c436951) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Card`, una superficie que agrupa contenido relacionado. Entra con madurez `experimental`.
+  
+  - Variantes `outlined` y `elevated`, que añade sombra. `padding` acepta un espacio de los tokens; con `0`, el contenido llega hasta el borde y la tarjeta lo recorta a su radio.
+  - Con `onPress`, toda la tarjeta es un botón: se pulsa con ratón, teclado o toque, y su nombre accesible es su contenido. En ese caso no debe contener otros controles.
+  - `core` publica el contrato `CardProps` y la constante `cardVariants`.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Checkbox`, una opción que se marca o no, con su etiqueta como `children`. Entra con madurez `experimental`.
+  
+  - Controlada con `checked` o no controlada con `defaultChecked`; avisa con `onCheckedChange(marcada)`. `indeterminate` la pinta como parcialmente marcada.
+  - Estados `disabled` e `invalid`. Sin etiqueta visible necesita `accessibilityLabel`.
+  - En web es un `<input type="checkbox">` real y viaja en un `<form>` con `name` y `value`. En nativo amplía su área táctil hasta 44 puntos.
+  - `core` publica el contrato `CheckboxProps` y el hook `useControllableState`.
+
+- [#8](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/8) [`4aac0bb`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/4aac0bbac391f0166ee86a9752d4fae60c436951) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Divider`, una línea fina que separa dos bloques de contenido. `orientation` es `horizontal` (por defecto) o `vertical`, para elementos de una fila. En web es un `<hr>` o un `role="separator"`; en nativo es decorativo. Entra con madurez `experimental`. `core` publica el contrato `DividerProps` y la constante `dividerOrientations`.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `FormField`, la etiqueta, la ayuda y el error de un control, enlazados con él para los lectores de pantalla. Envuelve un `Input`, un `TextArea` o un `Select`. Entra con madurez `experimental`.
+  
+  - `label`, `help` y `error` son texto. Con `error`, el control se marca como inválido; `required` y `disabled` se propagan al control.
+  - En web usa `<label htmlFor>` y `aria-describedby`, y el error se anuncia al aparecer. En nativo el control toma la etiqueta como nombre accesible y el error y la ayuda como pista (ADR-037).
+  - `core` publica el contrato `FormFieldProps`, el contexto `FormFieldContext`, `createFormFieldValue`, `resolveFormFieldControl` y el hook `useFormFieldControl`, para que un control propio de una app se pueda enlazar igual.
+
+- [#4](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/4) [`823d310`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/823d310b8e69118db5302900c8f6cb3242668193) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `IconButton`, un botón cuadrado cuyo único contenido es un icono. Comparte variantes, tamaños y estados con `Button`, y mide de lado lo que un `Button` de alto. `label` es obligatorio y es su nombre accesible. Por defecto es `ghost`. Mientras carga sustituye el icono por un spinner y no dispara `onPress`. Entra con madurez `experimental`. `core` publica el contrato `IconButtonProps` y la constante `iconButtonIconSize`.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Icon` acepta en `color`, además de los colores de texto, los cuatro estados de feedback: `success`, `warning`, `danger` e `info`, que usan el token `color.feedback.<estado>.icon`. `core` publica `feedbackTones`, `isFeedbackTone` y el tipo `IconColor`.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Input`, un campo de texto de una línea. Entra con madurez `experimental`.
+  
+  - `type` (`text`, `email`, `password`, `search`, `tel`, `url`, `number`) elige el teclado y el autocompletado de cada plataforma. `number` es un campo de texto con teclado numérico, no un `type="number"`.
+  - Tamaños `sm`, `md` y `lg`, con las mismas alturas que `Button`. Estados `disabled`, `readOnly` e `invalid`, e iconos decorativos con `iconStart` e `iconEnd`.
+  - Controlado con `value` o no controlado con `defaultValue`; avisa con `onChangeText(texto)`. `onSubmit` se llama con Intro o con la tecla de envío del teclado.
+  - En web el foco se dibuja en toda la caja, y pulsar el borde o un icono enfoca el campo. Acepta `name` y `autoComplete`.
+  - `core` publica el contrato `InputProps` y las constantes `inputTypes`, `inputIconSize` y `controlSizes`.
+
+- [#4](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/4) [`823d310`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/823d310b8e69118db5302900c8f6cb3242668193) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Link`, un enlace de texto. Entra con madurez `experimental`.
+  
+  - Dentro de un `Text` hereda su tipografía y fluye con el párrafo; fuera usa `body`. Con `variant` toma la tipografía de esa variante de `Text`.
+  - `color` acepta los colores de texto (por defecto `link`) y `underline` decide si se subraya siempre (`always`, por defecto) o solo al interactuar (`hover`).
+  - `onPress` se llama antes de navegar y puede cancelar la navegación con `event.preventDefault()`, para hacerla con el router de la app. En web no se llama si el clic lleva un modificador.
+  - En web es un `<a>`; con `target="_blank"` añade `rel="noopener noreferrer"`. En nativo abre el destino con `Linking`.
+  - `core` publica el contrato `LinkProps`, el tipo `LinkPressEvent`, la constante `linkUnderlines` y el hook `useLink`.
+
+- [#8](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/8) [`4aac0bb`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/4aac0bbac391f0166ee86a9752d4fae60c436951) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Modal` y `Sheet`: un diálogo que interrumpe lo que hay debajo (ADR-040). `Modal` se centra y `Sheet` se ancla al borde inferior; comparten contrato. Entran con madurez `experimental`.
+  
+  - Controlados: `open` lo decide la app y el diálogo pide cerrarse con `onClose`. El contenido solo se monta mientras está abierto.
+  - `title` es obligatorio y es su nombre accesible; `description`, `footer` y el contenido son opcionales. El botón de cierre aparece si la app pasa `closeLabel`.
+  - Con `dismissible={false}`, ni Escape, ni pulsar fuera, ni el botón atrás de Android lo cierran.
+  - En web es un `<dialog>` real abierto con `showModal()`: el navegador atrapa el foco, deja inerte el resto de la página y lo pinta por encima de todo. En nativo es el `Modal` de React Native.
+  - `core` publica los contratos `ModalProps` y `SheetProps` y la constante `modalPresentations`.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Select`, para elegir una opción de una lista. Entra con madurez `experimental`.
+  
+  - `options` es una lista de `{ value, label, disabled? }`. Controlado con `value` o no controlado con `defaultValue`; avisa con `onValueChange(value)`. `placeholder` se muestra mientras no hay opción elegida.
+  - Tamaños `sm`, `md` y `lg`, y estados `disabled` e `invalid`, como `Input`.
+  - En web es un `<select>` real: el teclado, los lectores de pantalla y el selector del sistema en móvil son los del navegador. En nativo es un disparador que abre una lista modal propia, sin dependencias nuevas (ADR-038).
+  - `core` publica los contratos `SelectProps` y `SelectOption`.
+
+- [#7](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/7) [`f79251c`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/f79251cd3b84e0f4bc8b879ceeb243ddec1ecd96) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Skeleton`, el hueco de un contenido que todavía se está cargando. Entra con madurez `experimental`.
+  
+  - Formas `text`, `rectangle` y `circle`. En `text`, cada línea ocupa lo mismo que una línea de `Text` de la `variant` indicada, así que nada se mueve al llegar el contenido; `lines` pinta varias, con la última más corta.
+  - `width` admite puntos o un porcentaje del contenedor, y `height`, puntos.
+  - Late entre dos fondos del tema y se queda quieto con movimiento reducido. Es decorativo: los lectores de pantalla lo ignoran.
+  - `core` publica el contrato `SkeletonProps` y la constante `skeletonShapes`.
+
+- [#7](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/7) [`f79251c`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/f79251cd3b84e0f4bc8b879ceeb243ddec1ecd96) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Spinner` deja de ser la versión mínima: tiene un tamaño `xl` de 32 puntos para la carga de una página o de una sección, y con movimiento reducido gira más despacio en vez de pararse. `Icon` comparte la escala y gana también el tamaño `xl`. En nativo, `Switch` respeta el movimiento reducido igual que en web.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Switch`, un ajuste que se activa o desactiva con efecto inmediato, con su etiqueta como `children`. Controlado con `checked` o no controlado con `defaultChecked`; avisa con `onCheckedChange(activado)`. En web es un `<input type="checkbox" role="switch">` real; en nativo, un control con su pulgar animado y un área táctil de 44 puntos. Entra con madurez `experimental`. `core` publica el contrato `SwitchProps`.
+
+- [#8](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/8) [`4aac0bb`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/4aac0bbac391f0166ee86a9752d4fae60c436951) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Tabs`, para cambiar entre varias vistas del mismo nivel sin salir de la página. Entra con madurez `experimental`.
+  
+  - `items` es una lista de `{ value, label, icon?, disabled?, content? }`. Con `content`, `Tabs` pinta el panel de la pestaña elegida; sin él, solo las pestañas, y la app decide qué mostrar.
+  - Controlado con `value` o no controlado con `defaultValue`; avisa con `onValueChange(value)`. Empieza en la primera pestaña habilitada.
+  - En web sigue el patrón de pestañas de ARIA: solo la elegida está en el orden de tabulación y las flechas, Inicio y Fin se mueven entre ellas saltando las deshabilitadas. Si no caben, la lista se desplaza en horizontal.
+  - `core` publica los contratos `TabsProps` y `TabItem`, y las funciones `getTabInDirection` y `firstEnabledTab`.
+
+- [#6](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/6) [`cabfef3`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/cabfef3c87821da14784aced050e167172b84a10) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `TextArea`, un campo de texto de varias líneas, con los mismos estados que `Input`. `rows` fija cuántas líneas se ven; en web se puede redimensionar en vertical y en nativo crece con el texto. Entra con madurez `experimental`. `core` publica el contrato `TextAreaProps`.
+
+- [#7](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/7) [`f79251c`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/f79251cd3b84e0f4bc8b879ceeb243ddec1ecd96) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - Toasts: avisos breves que aparecen sobre la interfaz y desaparecen solos (ADR-039). Entran con madurez `experimental`.
+  
+  - Se lanzan con `useToast()`: `show({ tone, title, description, duration, action, closeLabel })` devuelve el `id` del aviso y `dismiss(id)` lo cierra. No hay componente que colocar.
+  - `UIProvider` guarda la cola y pinta los avisos pegados al borde inferior. Uno anidado reutiliza la zona del de fuera.
+  - Se cierran a los 5 segundos por defecto; con `duration: 0`, cuando alguien los cierre. Como mucho hay tres a la vez. En web el cierre se pausa mientras el puntero o el foco están sobre ellos.
+  - `danger` y `warning` interrumpen al lector de pantalla; `success` e `info` esperan. En nativo se anuncian con `AccessibilityInfo`.
+  - `core` publica `createToastStore`, `ToastContext`, `useToast`, las constantes `TOAST_DEFAULT_DURATION` y `TOAST_MAX_VISIBLE`, y los tipos `ToastOptions`, `ToastAction`, `ToastItem` y `ToastApi`.
+
 ## 0.1.0
 
 ### Minor Changes
