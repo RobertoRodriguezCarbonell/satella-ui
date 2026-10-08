@@ -39,6 +39,7 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [031](031-publicacion-arranque-y-release-por-jobs.md) | Publicación: arranque manual, release por jobs y comprobación de paquetes | Aceptado |
 | [032](032-tipos-de-props-por-plataforma.md) | Los tipos de props de cada plataforma se exportan desde su vista | Aceptado |
 | [033](033-react-native-svg-no-se-instala-solo.md) | `react-native-svg` no se instala automáticamente | Aceptado |
+| [034](034-objetivo-de-desarrollo-expo-sdk-57.md) | Objetivo de desarrollo: Expo SDK 57 y React Native 0.86 | Aceptado |
 
 ## Plantilla
 

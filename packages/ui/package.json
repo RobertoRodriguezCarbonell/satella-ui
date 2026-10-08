@@ -81,7 +81,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "eslint": "catalog:",
-    "expo": "~56.0.23",
+    "expo": "~57.0.27",
     "jest": "catalog:",
     "jest-expo": "catalog:",
     "react": "catalog:",

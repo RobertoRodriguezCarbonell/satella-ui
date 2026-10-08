@@ -16,7 +16,7 @@ import { StatusBar } from 'expo-status-bar';
 import StorybookUIRoot from './.rnstorybook';
 
 /**
- * Fuentes de Satella (ADR-027). En Expo Go (SDK 56) cada clave es una familia: la clave
+ * Fuentes de Satella (ADR-027). En Expo Go cada clave es una familia: la clave
  * con el nombre de la familia lleva su peso principal (Android lo usa tal cual) y el
  * resto de pesos se registran con claves propias para que iOS, que empareja por los
  * metadatos del fichero, pueda elegir la cara por `fontWeight`. En una build nativa,

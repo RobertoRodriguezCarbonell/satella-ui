@@ -22,8 +22,8 @@ Librería de componentes de UI compartida entre aplicaciones **React (web)** y *
 | Versionado | Changesets | 003, 021 |
 | TypeScript | 5.x, modo `strict` | 014 |
 | React / React DOM | peer `>=19.0`, desarrollo con 19.2 | 024 |
-| React Native | peer `>=0.81`, Nueva Arquitectura únicamente, desarrollo con 0.85 | 024 |
-| Expo (apps internas) | SDK 56 | 024 |
+| React Native | peer `>=0.81`, Nueva Arquitectura únicamente, desarrollo con 0.86 | 024, 034 |
+| Expo (apps internas) | SDK 57 | 024, 034 |
 | Tokens | DTCG 2025.10 + Style Dictionary v5 | 006 |
 | Estilos web | CSS Modules + variables CSS | 007 |
 | Estilos nativo | `StyleSheet` de React Native + `ThemeProvider` propio | 008 |
