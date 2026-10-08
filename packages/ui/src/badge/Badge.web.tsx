@@ -4,6 +4,8 @@ import { cx } from '../_internal/cx';
 import styles from './Badge.module.css';
 import type { BadgeWebProps } from './Badge.types';
 
+export type { BadgeWebProps } from './Badge.types';
+
 // Mapa exhaustivo (ADR-014): una variante nueva en `core` no compila hasta que tenga
 // aquí su clase.
 const variantClass = {

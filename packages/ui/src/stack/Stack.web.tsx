@@ -7,6 +7,8 @@ import { Box } from '../box/Box';
 import styles from './Stack.module.css';
 import type { StackWebProps } from './Stack.types';
 
+export type { StackWebProps } from './Stack.types';
+
 const directionClass = {
   column: styles.column,
   row: styles.row,

@@ -4,6 +4,8 @@ import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 
 import type { IconNativeProps } from './Icon.types';
 
+export type { IconNativeProps } from './Icon.types';
+
 function renderElement(element: IconElement, index: number) {
   switch (element.type) {
     case 'path':

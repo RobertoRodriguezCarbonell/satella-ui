@@ -12,6 +12,8 @@ import { Spinner } from '../spinner/Spinner';
 import styles from './Button.module.css';
 import type { ButtonWebProps } from './Button.types';
 
+export type { ButtonWebProps } from './Button.types';
+
 // Mapas exhaustivos (ADR-014): una variante o un tamaño nuevos en `core` no compilan
 // hasta que tengan aquí su clase.
 const variantClass = {

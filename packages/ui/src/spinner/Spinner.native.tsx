@@ -5,6 +5,8 @@ import { Animated, Easing } from 'react-native';
 import { Icon } from '../icon/Icon';
 import type { SpinnerNativeProps } from './Spinner.types';
 
+export type { SpinnerNativeProps } from './Spinner.types';
+
 /**
  * Indicador de carga indeterminada. Versión mínima (ROADMAP Fase 3): el icono
  * `loader-circle` girando con `Animated` y el driver nativo, sin dependencias extra.

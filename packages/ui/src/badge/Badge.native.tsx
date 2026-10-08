@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, type TextStyle, type ViewStyle } from 'react-na
 
 import type { BadgeNativeProps } from './Badge.types';
 
+export type { BadgeNativeProps } from './Badge.types';
+
 /** Fondo, borde y texto de un color de feedback. */
 type FeedbackColors = Theme['color']['feedback'][BadgeVariant];
 

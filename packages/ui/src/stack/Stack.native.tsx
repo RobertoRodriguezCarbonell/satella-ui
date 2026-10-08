@@ -4,6 +4,8 @@ import type { ViewStyle } from 'react-native';
 import { Box } from '../box/Box';
 import type { StackNativeProps } from './Stack.types';
 
+export type { StackNativeProps } from './Stack.types';
+
 const alignItems = {
   stretch: 'stretch',
   start: 'flex-start',

@@ -14,6 +14,8 @@ import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
 import type { ButtonNativeProps } from './Button.types';
 
+export type { ButtonNativeProps } from './Button.types';
+
 interface VariantStyle {
   background: string;
   /** Fondo mientras se mantiene pulsado. */

@@ -5,6 +5,8 @@ import { cx } from '../_internal/cx';
 import styles from './Text.module.css';
 import type { TextElement, TextWebProps } from './Text.types';
 
+export type { TextElement, TextWebProps } from './Text.types';
+
 const defaultElement = {
   hero: 'h1',
   display: 'h1',

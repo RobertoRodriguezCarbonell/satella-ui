@@ -3,6 +3,8 @@ import { Text as RNText, type TextStyle } from 'react-native';
 
 import type { TextNativeProps } from './Text.types';
 
+export type { TextNativeProps } from './Text.types';
+
 const textAlign = {
   left: 'left',
   center: 'center',

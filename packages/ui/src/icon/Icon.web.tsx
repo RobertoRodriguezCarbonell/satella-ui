@@ -6,6 +6,8 @@ import { cx } from '../_internal/cx';
 import styles from './Icon.module.css';
 import type { IconWebProps } from './Icon.types';
 
+export type { IconWebProps } from './Icon.types';
+
 function renderElement(element: IconElement, index: number) {
   switch (element.type) {
     case 'path':

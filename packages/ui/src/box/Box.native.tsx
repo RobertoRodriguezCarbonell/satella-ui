@@ -3,6 +3,8 @@ import { View, type ViewStyle } from 'react-native';
 
 import type { BoxNativeProps } from './Box.types';
 
+export type { BoxNativeProps } from './Box.types';
+
 export function Box({
   padding,
   paddingX,

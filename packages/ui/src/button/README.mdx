@@ -90,6 +90,9 @@ Las comunes a ambas plataformas están en el contrato de `core`
 | `type`, `className`, `style`   | `style`        |
 | `ref` a un `HTMLButtonElement` | `ref` a `View` |
 
+Los tipos se exportan con esa misma separación: `ButtonProps` en las dos plataformas,
+`ButtonWebProps` solo en web y `ButtonNativeProps` solo en React Native.
+
 ## El patrón: cómo está construido
 
 Un componente nuevo sigue estos pasos, en este orden (CLAUDE.md §7). `Button` es el
@@ -178,7 +181,22 @@ implementan. La paridad no depende de acordarse.
 Un test de humo renderiza además **todas** las historias compartidas con las vistas
 nativas, así que un componente nuevo queda cubierto en nativo solo con tener historias.
 
-### 6. Revisión y changeset
+### 6. Exportar
+
+`index.ts` exporta el componente y sus tipos sin nombrar la plataforma. Cada vista exporta el
+tipo de sus propias props y el índice lo recoge con `export type *`:
+
+```ts
+export { Button } from './Button';
+export type * from './Button'; // ButtonWebProps en web, ButtonNativeProps en nativo
+export type { ButtonProps } from './Button.types';
+```
+
+Así los tipos publicados para web no dependen de `react-native`, ni los de nativo del DOM.
+`pnpm check:packages` lo comprueba: empaqueta la librería, la instala en una app externa
+al monorepo y la compila con tipos estrictos.
+
+### 7. Revisión y changeset
 
 Antes de dar un componente por terminado se repasa la checklist de CLAUDE.md §8: ambos
 Storybooks, ambos temas, panel de accesibilidad sin violaciones, exportado desde

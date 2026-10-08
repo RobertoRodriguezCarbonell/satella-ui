@@ -4,6 +4,8 @@ import { cx } from '../_internal/cx';
 import styles from './Box.module.css';
 import type { BoxWebProps } from './Box.types';
 
+export type { BoxElement, BoxWebProps } from './Box.types';
+
 type BoxVariables = Record<`--box-${string}`, string>;
 
 export function Box({
