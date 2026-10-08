@@ -1,6 +1,6 @@
 # ADR-035: `main` protegida: la CI es obligatoria en el commit, la PR no
 
-**Estado:** Aceptado
+**Estado:** Superseded por ADR-036
 **Fecha:** 2026-10-08
 
 ## Contexto

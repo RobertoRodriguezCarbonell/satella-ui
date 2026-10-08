@@ -30,7 +30,7 @@ Librería de componentes de UI compartida entre aplicaciones **React (web)** y *
 | Catálogo | Storybook: `@storybook/react-vite` (web) y `@storybook/react-native` en Expo (nativo) | 011 |
 | Tests | Vitest (core, tokens, ui-web en navegador) y Jest + RNTL (ui-nativo) | 015–017 |
 | Bundler | tsdown | 019 |
-| CI/CD | GitHub Actions, trusted publishing en npm, `main` protegida por la CI | 022, 035 |
+| CI/CD | GitHub Actions, trusted publishing en npm, `main` solo por pull request | 022, 036 |
 
 **Prohibido** introducir dependencias de estilos en tiempo de ejecución (CSS-in-JS, NativeWind, Unistyles, Tamagui…) sin un ADR que lo justifique. Las apps consumidoras no deben necesitar configurar nada más allá de importar `styles.css` (web) y envolverse en `<UIProvider>`.
 
@@ -123,6 +123,7 @@ Reglas:
 5. **Tests**: funciones `play`, tests nativos, referencias visuales.
 6. **Revisión**: panel A11y sin violaciones, ambos temas, ambos Storybooks.
 7. **Changeset** (`pnpm changeset`) describiendo el cambio. Un componente nuevo es `minor` y entra con madurez `experimental` (ADR-026).
+8. **Pull request** a `main`. Se fusiona con merge commit cuando la CI está en verde (ADR-036).
 
 `Button` es el **componente de referencia**: ante cualquier duda de estructura o estilo, hacer lo mismo que `Button`.
 
@@ -172,5 +173,5 @@ pnpm pack --filter @satellatickets/ui   # .tgz para probar en una app externa
 - No editar nada en `packages/tokens/dist/`: es generado.
 - No generar referencias visuales en local: se generan en CI (ADR-016).
 - No publicar a mano: la publicación la hace `release.yml` a través de Changesets (ADR-022).
-- No llevar a `main` un commit sin la CI en verde: la rama está protegida y lo rechaza (ADR-035). Se sube la rama de trabajo, se espera a la CI y se avanza `main` a ese mismo commit.
+- No empujar a `main` directamente: la rama está protegida y lo rechaza. Todo cambio entra por pull request con la CI en verde y se fusiona con merge commit, nunca con squash ni rebase (ADR-036).
 - No eliminar nada deprecado fuera de una `major`.
