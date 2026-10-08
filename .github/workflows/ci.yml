@@ -50,11 +50,9 @@ jobs:
       - name: Instalar Chromium para los tests de historias
         run: pnpm --filter storybook-web exec playwright install --with-deps --only-shell chromium
 
+      # En CI la comparación visual está activa: cada historia se compara con su
+      # referencia de packages/ui/src/**/__screenshots__ (ADR-030).
       - run: pnpm test
-        env:
-          # Las referencias visuales todavía no existen: se generan con el workflow
-          # "Referencias visuales" y esta línea se quita en el commit que las añade.
-          VISUAL: 'off'
 
       - name: Guardar capturas y diffs de los tests visuales fallidos
         if: failure()
