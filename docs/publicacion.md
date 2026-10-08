@@ -12,12 +12,16 @@ No hay que ejecutar nada a mano.
 
 ## Arranque: la primera vez
 
-npm solo deja configurar un trusted publisher en un paquete que ya existe, así que la primera versión de cada paquete la sube una persona. Se hace una sola vez.
+npm solo deja configurar un trusted publisher en un paquete que ya existe, así que la primera versión de cada paquete la sube una persona. Se hace una sola vez por paquete.
+
+Los tres paquetes actuales pasaron por aquí el 8 de octubre de 2026. La sección queda como referencia para [un paquete nuevo](#añadir-un-paquete-nuevo).
 
 ### 1. Cuenta y organización
 
 - En [npmjs.com](https://www.npmjs.com), crea la organización **`satellatickets`**. El plan gratuito basta para paquetes públicos.
-- Activa la verificación en dos pasos en tu cuenta. npm la exige para publicar y para gestionar trusted publishers.
+- Activa la verificación en dos pasos en tu cuenta: Account → Two-Factor Authentication → Enable 2FA. npm la exige para publicar y para gestionar trusted publishers.
+- El segundo factor tiene que ser una llave de seguridad o una passkey (Touch ID, Windows Hello, una llave física). npm ya no deja dar de alta apps de códigos como Google Authenticator o Microsoft Authenticator.
+- Guarda los códigos de recuperación fuera del dispositivo donde vive la llave. Son la única forma de recuperar la cuenta, y usar uno bloquea la publicación durante 72 horas.
 
 ### 2. Licencia
 
@@ -35,7 +39,11 @@ pnpm check:packages
 pnpm changeset publish --no-git-tag
 ```
 
-`changeset publish` sube los tres paquetes en su versión actual, `0.0.0`, porque todavía no existen en el registro. npm pedirá el segundo factor en cada uno. Después, márcalas como obsoletas para que nadie las instale:
+`changeset publish` sube los tres paquetes en su versión actual, `0.0.0`, porque todavía no existen en el registro. npm pide el segundo factor en cada uno: muestra una dirección, se abre en el navegador y se confirma con la llave. La casilla que lo omite durante cinco minutos evita repetirlo.
+
+Un paquete recién creado tarda unos minutos en aparecer: hasta entonces `npm view` responde 404. npm añade por su cuenta una versión `0.0.0-stage`, un marcador temporal que no afecta a `latest`.
+
+Después, márcalas como obsoletas para que nadie las instale:
 
 ```bash
 for p in tokens core ui; do
@@ -53,9 +61,11 @@ En npmjs.com, para **cada uno de los tres paquetes**: Settings → Trusted Publi
 | Repository           | `satella-ui`                |
 | Workflow filename    | `release.yml`               |
 | Environment name     | vacío                       |
-| Allowed actions      | marca **`npm publish`**     |
+| Allowed actions      | marca **`npm publish`**; deja `npm dist-tag` sin marcar |
 
-Changesets todavía no admite la publicación por etapas (`npm stage publish`), por eso hace falta el permiso `npm publish`.
+Changesets todavía no admite la publicación por etapas (`npm stage publish`), por eso hace falta el permiso `npm publish` aunque npm lo marque como no recomendado. `npm dist-tag` no hace falta: el flujo nunca ejecuta ese comando.
+
+Los campos no se pueden editar después de guardar. Si hay una errata, se borra la conexión y se crea de nuevo.
 
 Una configuración nueva caduca si no publica en **dos días**: haz este paso justo antes del siguiente.
 
@@ -82,8 +92,15 @@ En la página de cada paquete en npm debe aparecer la insignia de procedencia.
 
 En los ajustes de cada paquete, en "Publishing access", elige la opción que exige verificación en dos pasos y no admite tokens. A partir de ahí solo puede publicar el workflow.
 
+## Añadir un paquete nuevo
+
+Un paquete publicable nuevo necesita su propio arranque antes de fusionar la PR "Version Packages" que lo incluya: publicar su primera versión a mano (paso 3) y configurar su trusted publisher (paso 4). Sin eso, `release.yml` falla al llegar a ese paquete.
+
+Desde octubre de 2026 `npm stage publish` puede crear paquetes nuevos sin esa publicación manual, pero Changesets todavía no lo usa.
+
 ## Si la publicación falla
 
+- **`E403` con "Two-factor authentication or granular access token with bypass 2fa enabled is required"**, al publicar a mano: la cuenta no tiene la verificación en dos pasos activada. `npm profile get` puede decir lo contrario; la señal fiable es este error. Actívala (paso 1 del arranque) y repite el comando.
 - **`ENEEDAUTH`**: el nombre del workflow configurado en npm no coincide con `release.yml`, o el trusted publisher ha caducado. Bórralo y créalo de nuevo.
 - **El campo `repository` no coincide**: npm exige que `repository.url` del `package.json` sea exactamente el repositorio de GitHub.
 - **Falla `pnpm check:packages`**: el paquete no se publica. Reproduce el fallo en local con ese mismo comando; `KEEP=1` conserva la app de prueba para inspeccionarla.
