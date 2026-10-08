@@ -1,0 +1,43 @@
+/*
+ * Cada variante solo fija variables; la regla de `.root` las aplica. Todo son tokens
+ * semánticos (ADR-005): el trío fondo/borde/texto de `color.feedback`.
+ */
+.root {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-width-thin) solid var(--badge-border);
+  border-radius: var(--radius-full);
+  background-color: var(--badge-bg);
+  color: var(--badge-fg);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-xs);
+  line-height: var(--font-line-height-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Variantes */
+.success {
+  --badge-bg: var(--color-feedback-success-bg);
+  --badge-border: var(--color-feedback-success-border);
+  --badge-fg: var(--color-feedback-success-text);
+}
+
+.warning {
+  --badge-bg: var(--color-feedback-warning-bg);
+  --badge-border: var(--color-feedback-warning-border);
+  --badge-fg: var(--color-feedback-warning-text);
+}
+
+.danger {
+  --badge-bg: var(--color-feedback-danger-bg);
+  --badge-border: var(--color-feedback-danger-border);
+  --badge-fg: var(--color-feedback-danger-text);
+}
+
+.info {
+  --badge-bg: var(--color-feedback-info-bg);
+  --badge-border: var(--color-feedback-info-border);
+  --badge-fg: var(--color-feedback-info-text);
+}

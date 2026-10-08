@@ -8,6 +8,7 @@ describe('API pública de core', () => {
     expect(Object.keys(core).sort()).toEqual([
       'UIContext',
       'backgroundTokens',
+      'badgeVariants',
       'borderColorTokens',
       'buttonIconSize',
       'buttonVariants',
