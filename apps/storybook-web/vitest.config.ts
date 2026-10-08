@@ -16,7 +16,14 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
  */
 const visual = process.env.VISUAL ? process.env.VISUAL !== 'off' : Boolean(process.env.CI);
 
-const themes = ['dark', 'light'] as const;
+/**
+ * Desde la terminal y en CI hay un proyecto por tema. Cuando los tests se lanzan desde el
+ * panel de Storybook (VITEST_STORYBOOK), el addon da a cada proyecto el nombre de su carpeta
+ * de configuración: dos proyectos chocarían y Vitest no arrancaría, así que ahí solo se
+ * ejecuta el tema oscuro, el del producto.
+ */
+const fromStorybookUi = process.env.VITEST_STORYBOOK === 'true';
+const themes = fromStorybookUi ? (['dark'] as const) : (['dark', 'light'] as const);
 
 export default defineConfig({
   test: {
