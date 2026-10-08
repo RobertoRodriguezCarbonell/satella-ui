@@ -1,0 +1,33 @@
+{
+  "name": "playground-web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "App web mínima que consume @satellatickets/ui como lo haría una app real (ROADMAP Fase 4)",
+  "type": "module",
+  "scripts": {
+    "start": "vite --port 5173",
+    "build": "vite build",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint . --max-warnings 0"
+  },
+  "dependencies": {
+    "@fontsource/hanken-grotesk": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/unbounded": "^5.3.0",
+    "@satellatickets/tokens": "workspace:*",
+    "@satellatickets/ui": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@satellatickets/eslint-config": "workspace:*",
+    "@satellatickets/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

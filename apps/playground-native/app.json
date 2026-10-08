@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Satella UI Playground",
+    "slug": "satella-ui-playground",
+    "version": "0.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.satellatickets.ui.playground"
+    },
+    "android": {
+      "package": "com.satellatickets.ui.playground"
+    }
+  }
+}

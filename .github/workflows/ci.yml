@@ -1,4 +1,4 @@
-# CI (ADR-022): lint → typecheck → test → build en cada PR y en cada push a main.
+# CI (ADR-022): lint → typecheck → test → build → paquetes en cada PR y en cada push a main.
 # `pnpm test` ejecuta los tests unitarios (core, tokens), las historias en Chromium
 # (interacción, accesibilidad y regresión visual, ADR-016) y los tests nativos (ADR-017).
 # Turborepo ejecuta solo lo afectado por el cambio; la caché remota se activa
@@ -64,3 +64,6 @@ jobs:
           retention-days: 14
 
       - run: pnpm build
+
+      # Los paquetes tal y como llegarían a npm: publint y una app externa que los instala.
+      - run: pnpm check:packages

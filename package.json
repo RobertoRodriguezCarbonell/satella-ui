@@ -21,6 +21,7 @@
     "test": "turbo run test test:web test:native",
     "test:web": "turbo run test:web",
     "test:native": "turbo run test:native",
+    "check:packages": "node scripts/check-packages.mjs",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write .",
@@ -37,6 +38,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
     "prettier": "^3.9.9",
+    "publint": "^0.3.25",
     "turbo": "^2.11.7"
   },
   "prettier": "@satellatickets/prettier-config"

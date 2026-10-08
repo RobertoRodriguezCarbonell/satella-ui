@@ -6,7 +6,11 @@
  * @type {import('lint-staged').Configuration}
  */
 export default {
-  '*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}': ['eslint --fix --max-warnings=0', 'prettier --write'],
+  // --no-warn-ignored: un fichero ignorado por ESLint no debe contar como aviso.
+  '*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}': [
+    'eslint --fix --max-warnings=0 --no-warn-ignored',
+    'prettier --write',
+  ],
   '*.{json,md,mdx,css,yml,yaml}': ['prettier --write'],
   '*.{ts,tsx,mts,cts}': () => 'turbo run typecheck --filter=...[HEAD]',
 };

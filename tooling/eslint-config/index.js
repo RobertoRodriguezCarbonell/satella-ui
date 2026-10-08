@@ -42,6 +42,8 @@ const IGNORES = [
   '**/storybook-static/**',
   // Generado por @storybook/react-native al arrancar
   '**/storybook.requires.ts',
+  // App de prueba de consumo: se compila fuera del monorepo (scripts/check-packages.mjs)
+  '**/tests/consumer-web/**',
 ];
 
 // ---------------------------------------------------------------------------

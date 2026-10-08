@@ -1,0 +1,4 @@
+{
+  "extends": "@satellatickets/tsconfig/react-native.json",
+  "include": ["App.tsx", "index.ts"]
+}

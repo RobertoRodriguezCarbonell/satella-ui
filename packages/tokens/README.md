@@ -12,7 +12,7 @@ import '@satellatickets/tokens/tokens.css';
 // Web o React Native: temas resueltos y tipos
 import { themes, brands, type Theme, type TokenName } from '@satellatickets/tokens';
 const t: Theme = themes.light;
-t.color.action.primary; // "#2563eb"
+t.color.action.primary; // "#6c4cf5"
 t.space[4]; // 16
 ```
 

@@ -1,0 +1,34 @@
+{
+  "name": "playground-native",
+  "version": "0.0.0",
+  "private": true,
+  "description": "App Expo mínima que consume @satellatickets/ui como lo haría una app real (ROADMAP Fase 4)",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "ios": "expo start --ios",
+    "android": "expo start --android",
+    "typecheck": "tsc -p tsconfig.json",
+    "lint": "eslint . --max-warnings 0"
+  },
+  "dependencies": {
+    "@expo-google-fonts/hanken-grotesk": "^0.4.3",
+    "@expo-google-fonts/ibm-plex-mono": "^0.4.1",
+    "@expo-google-fonts/unbounded": "^0.4.1",
+    "@satellatickets/tokens": "workspace:*",
+    "@satellatickets/ui": "workspace:*",
+    "expo": "~56.0.23",
+    "expo-font": "~56.0.7",
+    "expo-status-bar": "~56.0.4",
+    "react": "catalog:",
+    "react-native": "catalog:",
+    "react-native-svg": "catalog:"
+  },
+  "devDependencies": {
+    "@satellatickets/eslint-config": "workspace:*",
+    "@satellatickets/tsconfig": "workspace:*",
+    "@types/react": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,60 @@
+# Storybook (ADR-022, ADR-023): en cada push a main se compila el catálogo web y se
+# publica como sitio estático en GitHub Pages. Es la documentación pública de la librería.
+#   https://robertorodriguezcarbonell.github.io/satella-ui/
+name: Storybook
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Un despliegue cada vez; el más reciente sustituye al que esté en cola.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  HUSKY: 0
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+
+jobs:
+  build:
+    name: Compilar el catálogo
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec turbo run build --filter=storybook-web
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: apps/storybook-web/storybook-static
+
+  deploy:
+    name: Publicar en GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
