@@ -1,6 +1,6 @@
 {
   "name": "@satellatickets/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Design tokens de satella-ui: primitivos y semánticos en formato DTCG 2025.10 con salidas para web (variables CSS) y React Native",
   "license": "MIT",
   "repository": {
