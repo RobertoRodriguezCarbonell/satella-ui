@@ -2,6 +2,7 @@ import type { Preview } from '@storybook/react-vite';
 import { themeModes, type ThemeMode } from '@satellatickets/core';
 import { brandNames, type BrandName } from '@satellatickets/tokens';
 import { Box, UIProvider } from '@satellatickets/ui';
+import { MINIMAL_VIEWPORTS } from 'storybook/viewport';
 
 import './fonts';
 import './preview.css';
@@ -25,6 +26,19 @@ const preview: Preview = {
   parameters: {
     backgrounds: { disable: true },
     controls: { expanded: true },
+    // `tests` es el lienzo en el que se ejecutan los tests (vitest.config.ts). Es más alto
+    // que el del addon (1200 × 900) para que una matriz larga quepa entera en su
+    // referencia visual: lo que queda fuera del lienzo sale en blanco en la captura.
+    viewport: {
+      options: {
+        ...MINIMAL_VIEWPORTS,
+        tests: {
+          name: 'Tests (1200 × 1800)',
+          styles: { width: '1200px', height: '1800px' },
+          type: 'desktop',
+        },
+      },
+    },
     // Accesibilidad bloqueante (ADR-016): una violación hace fallar el test de la historia.
     a11y: { test: 'error' },
     options: {
