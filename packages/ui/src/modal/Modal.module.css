@@ -19,6 +19,15 @@
   flex-direction: column;
 }
 
+/*
+ * Sin nada enfocable dentro, el foco se queda en el propio diálogo: se dibuja con el
+ * color de foco del tema, no con el contorno por defecto del navegador.
+ */
+.root:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--border-width-thick);
+}
+
 /* El fondo pertenece al propio `<dialog>`: pulsarlo es pulsar el diálogo. */
 .root::backdrop {
   background-color: var(--color-bg-overlay);
