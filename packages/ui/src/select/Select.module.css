@@ -1,0 +1,65 @@
+/*
+ * `Select` es la caja compartida de los campos (_internal/field.module.css) con un
+ * `<select>` real dentro (ADR-038). Se estila la caja cerrada; la lista abierta es la
+ * del navegador. El `<select>` ocupa toda la caja, también bajo la flecha.
+ */
+.root {
+  position: relative;
+  min-height: var(--select-height);
+  cursor: pointer;
+}
+
+.sm {
+  --select-height: var(--size-control-sm);
+  --select-padding-x: var(--space-3);
+  --select-icon: var(--space-4);
+}
+
+.md {
+  --select-height: var(--size-control-md);
+  --select-padding-x: var(--space-3);
+  --select-icon: var(--space-5);
+}
+
+.lg {
+  --select-height: var(--size-control-lg);
+  --select-padding-x: var(--space-4);
+  --select-icon: var(--space-5);
+}
+
+.select {
+  align-self: stretch;
+  min-height: calc(var(--select-height) - var(--border-width-thin) * 2);
+  /* A la derecha deja sitio a la flecha. */
+  padding: var(--space-0) calc(var(--select-padding-x) + var(--select-icon) + var(--space-2))
+    var(--space-0) var(--select-padding-x);
+  border-radius: inherit;
+  text-overflow: ellipsis;
+  cursor: inherit;
+}
+
+/* Sin opción elegida, el texto visible es el placeholder. */
+.placeholder {
+  color: var(--color-text-muted);
+}
+
+/* La lista abierta la pinta el navegador: se le dan los colores del tema por si los respeta. */
+.select option {
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+}
+
+.select option:disabled {
+  color: var(--color-text-disabled);
+}
+
+/* La flecha es decorativa y deja pasar el clic al `<select>` que tiene debajo. */
+.chevron {
+  position: absolute;
+  top: var(--space-0);
+  right: var(--select-padding-x);
+  bottom: var(--space-0);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}

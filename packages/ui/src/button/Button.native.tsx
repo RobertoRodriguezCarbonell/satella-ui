@@ -7,9 +7,10 @@ import {
   type TextColorToken,
 } from '@satellatickets/core';
 import type { Theme } from '@satellatickets/tokens';
-import { Children, useState, type ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View, type TextStyle, type ViewStyle } from 'react-native';
+import { useState } from 'react';
+import { Pressable, StyleSheet, View, type TextStyle, type ViewStyle } from 'react-native';
 
+import { renderLabel } from '../_internal/label';
 import { Icon } from '../icon/Icon';
 import { Spinner } from '../spinner/Spinner';
 import type { ButtonNativeProps } from './Button.types';
@@ -109,14 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-/** El texto como `children` se envuelve en `<Text>`; cualquier otro contenido se deja tal cual. */
-function renderLabel(children: ReactNode, style: TextStyle): ReactNode {
-  const isText = Children.toArray(children).every(
-    (child) => typeof child === 'string' || typeof child === 'number',
-  );
-  return isText ? <Text style={style}>{children}</Text> : children;
-}
 
 export function Button({
   variant = 'primary',

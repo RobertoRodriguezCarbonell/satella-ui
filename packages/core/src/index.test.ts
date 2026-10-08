@@ -6,20 +6,28 @@ describe('API pública de core', () => {
   it('exporta exactamente estos nombres en runtime', () => {
     // Quitar o renombrar uno es un breaking change (ADR-025): este test obliga a hacerlo a propósito.
     expect(Object.keys(core).sort()).toEqual([
+      'FormFieldContext',
       'UIContext',
       'backgroundTokens',
       'badgeVariants',
       'borderColorTokens',
       'buttonIconSize',
       'buttonVariants',
+      'controlSizes',
+      'createFormFieldValue',
       'createUIContextValue',
+      'feedbackTones',
       'iconButtonIconSize',
       'iconSizePx',
       'iconSizes',
+      'inputIconSize',
+      'inputTypes',
+      'isFeedbackTone',
       'linkUnderlines',
       'mergeTheme',
       'radiusTokens',
       'resolveColorScheme',
+      'resolveFormFieldControl',
       'resolveTheme',
       'shadowTokens',
       'spaceTokens',
@@ -36,6 +44,8 @@ describe('API pública de core', () => {
       'useBrand',
       'useButton',
       'useColorScheme',
+      'useControllableState',
+      'useFormFieldControl',
       'useLink',
       'useTheme',
       'useUIContext',
@@ -61,6 +71,21 @@ describe('contrato de IconButton', () => {
     for (const size of core.buttonVariants.size) {
       expect(core.iconSizes).toContain(core.iconButtonIconSize[size]);
     }
+  });
+});
+
+describe('contrato de Input', () => {
+  it('asigna a cada tamaño de campo un tamaño de icono existente', () => {
+    for (const size of core.controlSizes) {
+      expect(core.iconSizes).toContain(core.inputIconSize[size]);
+    }
+  });
+});
+
+describe('tonos de feedback', () => {
+  it('reconoce solo los cuatro tonos', () => {
+    expect(core.feedbackTones.every((tone) => core.isFeedbackTone(tone))).toBe(true);
+    expect(core.isFeedbackTone('primary')).toBe(false);
   });
 });
 

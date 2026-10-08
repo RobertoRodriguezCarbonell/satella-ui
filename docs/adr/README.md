@@ -42,6 +42,8 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [034](034-objetivo-de-desarrollo-expo-sdk-57.md) | Objetivo de desarrollo: Expo SDK 57 y React Native 0.86 | Aceptado |
 | [035](035-main-protegida-ci-obligatoria.md) | `main` protegida: la CI es obligatoria en el commit, la PR no | Superseded por ADR-036 |
 | [036](036-todo-llega-a-main-por-pull-request.md) | Todo cambio llega a `main` por pull request | Aceptado |
+| [037](037-formularios-contexto-y-estado.md) | Formularios: estado controlado opcional y `FormField` por contexto | Aceptado |
+| [038](038-select-nativo-en-web-y-lista-modal-en-nativo.md) | `Select` usa el `<select>` del navegador en web y una lista modal en nativo | Aceptado |
 
 ## Plantilla
 

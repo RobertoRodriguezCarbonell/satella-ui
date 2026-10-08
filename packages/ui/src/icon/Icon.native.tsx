@@ -1,4 +1,4 @@
-import { iconSizePx, useTheme } from '@satellatickets/core';
+import { iconSizePx, isFeedbackTone, useTheme } from '@satellatickets/core';
 import { ICON_STROKE_WIDTH, ICON_VIEWBOX, icons, type IconElement } from '@satellatickets/icons';
 import Svg, { Circle, Line, Path, Rect } from 'react-native-svg';
 
@@ -56,7 +56,8 @@ export function Icon({
       height={px}
       viewBox={`0 0 ${ICON_VIEWBOX} ${ICON_VIEWBOX}`}
       fill="none"
-      stroke={t.color.text[color]}
+      // Un color de texto o el icono de un estado de feedback.
+      stroke={isFeedbackTone(color) ? t.color.feedback[color].icon : t.color.text[color]}
       strokeWidth={ICON_STROKE_WIDTH}
       strokeLinecap="round"
       strokeLinejoin="round"

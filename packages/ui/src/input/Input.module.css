@@ -1,0 +1,36 @@
+/*
+ * `Input` es la caja compartida de los campos (_internal/field.module.css) con una
+ * sola línea de texto. Aquí solo van el tamaño y la separación con los iconos.
+ */
+.root {
+  gap: var(--space-2);
+  min-height: var(--input-height);
+  padding: var(--space-0) var(--input-padding-x);
+}
+
+.sm {
+  --input-height: var(--size-control-sm);
+  --input-padding-x: var(--space-3);
+}
+
+.md {
+  --input-height: var(--size-control-md);
+  --input-padding-x: var(--space-3);
+}
+
+.lg {
+  --input-height: var(--size-control-lg);
+  --input-padding-x: var(--space-4);
+}
+
+/* El `<input>` ocupa toda la altura de la caja para que cualquier clic dentro lo enfoque. */
+.input {
+  align-self: stretch;
+  min-height: calc(var(--input-height) - var(--border-width-thin) * 2);
+}
+
+/* El campo de búsqueda de WebKit trae su propia lupa y su propio botón de borrar. */
+.input::-webkit-search-decoration,
+.input::-webkit-search-cancel-button {
+  appearance: none;
+}

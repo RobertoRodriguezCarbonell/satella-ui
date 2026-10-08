@@ -1,0 +1,25 @@
+/*
+ * `TextArea` es la caja compartida de los campos (_internal/field.module.css) aplicada
+ * al propio `<textarea>`: así el tirador para redimensionar queda en la esquina de la
+ * caja. La altura la fija el atributo `rows`.
+ */
+.root {
+  display: block;
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  appearance: none;
+  /* Solo en vertical: a lo ancho ya ocupa su contenedor. */
+  resize: vertical;
+}
+
+.root::placeholder {
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.root:disabled {
+  /* Safari atenúa por su cuenta el texto de un control deshabilitado. */
+  -webkit-text-fill-color: currentcolor;
+  opacity: 1;
+  resize: none;
+}
