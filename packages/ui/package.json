@@ -13,7 +13,8 @@
     "**/*.css"
   ],
   "files": [
-    "dist"
+    "dist",
+    "NOTICE.md"
   ],
   "exports": {
     ".": "./src/index.ts",

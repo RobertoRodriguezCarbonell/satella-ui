@@ -39,11 +39,13 @@ Es un CSS estático, sin runtime de estilos: funciona con SSR y Server Component
 
 ### React Native
 
-Requiere `react-native >=0.81` con la Nueva Arquitectura y `react-native-svg >=15`, que dibuja los iconos:
+Requiere `react-native >=0.81` con la Nueva Arquitectura y `react-native-svg >=15`, que dibuja los iconos. Se instalan juntos:
 
 ```bash
-npx expo install react-native-svg
+npx expo install @satellatickets/ui react-native-svg
 ```
+
+`react-native-svg` no se instala solo a propósito. Es un módulo nativo: tiene que figurar en el `package.json` de la app para que se enlace, y `expo install` elige la versión que corresponde a tu SDK. Además, así las apps web no lo reciben.
 
 No hay nada más que configurar: Metro resuelve la versión nativa del paquete.
 

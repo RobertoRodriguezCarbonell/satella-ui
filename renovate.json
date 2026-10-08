@@ -37,6 +37,32 @@
       "description": "ADR-024: la versión de Node es una decisión de arquitectura (.nvmrc, engines)",
       "matchDepNames": ["node"],
       "enabled": false
+    },
+    {
+      "description": "ADR-024: los módulos nativos van en la versión que fija el SDK de Expo. Se suben a mano, todos a la vez, al cambiar de SDK (npx expo install --fix)",
+      "matchPackageNames": [
+        "/^expo-/",
+        "/^@react-native-community\\//",
+        "@react-native-async-storage/async-storage",
+        "react-native-gesture-handler",
+        "react-native-reanimated",
+        "react-native-safe-area-context",
+        "react-native-svg",
+        "react-native-worklets"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "ADR-003, ADR-014 y ADR-024: TypeScript 5.x, pnpm 10 y los tipos de Node 22 son decisiones de arquitectura. Sus versiones mayores no se proponen: cambiarlas requiere un ADR",
+      "matchPackageNames": ["typescript", "pnpm", "@types/node"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "ADR-030: actualizar Playwright cambia Chromium y puede obligar a regenerar las referencias visuales con el workflow \"Referencias visuales\". Va en su propia PR, junto con Vitest",
+      "matchPackageNames": ["playwright", "vitest", "/^@vitest\\//"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "vitest y playwright"
     }
   ]
 }

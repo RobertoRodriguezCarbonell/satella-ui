@@ -21,7 +21,7 @@ npm solo deja configurar un trusted publisher en un paquete que ya existe, así 
 
 ### 2. Licencia
 
-Los `package.json` declaran `MIT`, pero el repositorio no tiene fichero `LICENSE`. Confirma la licencia y añade el fichero antes de publicar.
+La librería se publica bajo licencia MIT. El fichero `LICENSE` está en la raíz y en cada paquete, y `pnpm check:packages` comprueba que viaja en los `.tgz`. Antes de publicar, revisa que el titular del copyright es el que quieres.
 
 ### 3. Versión de arranque `0.0.0`
 

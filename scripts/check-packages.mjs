@@ -2,7 +2,7 @@
  * Comprueba los paquetes tal y como llegarían a npm (ADR-019, ADR-022).
  *
  *   1. `pnpm pack` de tokens, core y ui: el mismo .tgz que se publicaría.
- *   2. publint sobre cada .tgz.
+ *   2. Cada .tgz incluye su licencia y su README, y publint lo da por bueno.
  *   3. Prueba de consumo: copia tests/consumer-web fuera del monorepo, le instala los
  *      .tgz con npm y comprueba tipos, build, render en servidor y la resolución de
  *      la condición `react-native`.
@@ -54,6 +54,19 @@ try {
     assert(file, `No se ha generado el .tgz de ${name}.`);
     tarballs[name] = path.join(work, file);
   }
+
+  step('Contenido');
+  for (const name of PACKAGES) {
+    const files = execFileSync('tar', ['-tzf', tarballs[name]], { encoding: 'utf8' }).split('\n');
+    for (const required of ['package/LICENSE', 'package/README.md']) {
+      assert(files.includes(required), `El .tgz de ${name} no incluye ${required}.`);
+    }
+  }
+  assert(
+    execFileSync('tar', ['-tzf', tarballs.ui], { encoding: 'utf8' }).includes('package/NOTICE.md'),
+    'El .tgz de ui no incluye NOTICE.md, el aviso de licencia de los iconos de Lucide.',
+  );
+  console.log('Cada paquete incluye su licencia y su README.');
 
   step('publint');
   for (const name of PACKAGES) run('pnpm', ['exec', 'publint', tarballs[name], '--strict']);
