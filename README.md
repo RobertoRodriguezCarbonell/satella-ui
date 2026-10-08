@@ -46,4 +46,4 @@ pnpm build
 pnpm check:packages # publint y prueba de consumo de los paquetes empaquetados
 ```
 
-Las reglas para contribuir están en [`CLAUDE.md`](CLAUDE.md), y el patrón que sigue cada componente, con `Button` como referencia, en la página "Patrón" del Storybook. Cada cambio termina con un changeset (`pnpm changeset`).
+Las reglas para contribuir están en [`CLAUDE.md`](CLAUDE.md), y el patrón que sigue cada componente, con `Button` como referencia, en la página "Patrón" del Storybook. Cada cambio termina con un changeset (`pnpm changeset`) y llega a `main` por pull request.
