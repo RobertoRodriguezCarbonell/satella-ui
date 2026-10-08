@@ -40,7 +40,8 @@
     },
     "test:web": {
       "dependsOn": ["^build"],
-      "env": ["CI", "VISUAL"]
+      "env": ["CI", "VISUAL"],
+      "passThroughEnv": ["VISUAL_MANIFEST"]
     },
     "test:native": {
       "dependsOn": ["^build"]

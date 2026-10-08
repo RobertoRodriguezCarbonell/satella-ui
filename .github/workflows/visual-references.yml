@@ -1,6 +1,7 @@
-# Referencias visuales (ADR-016, ADR-030): regenera las capturas de las historias en el
+# Referencias visuales (ADR-016, ADR-030): actualiza las capturas de las historias en el
 # mismo entorno en el que la CI las compara (Chromium en ubuntu-latest). Nunca se
 # generan en local: el renderizado de fuentes cambia entre sistemas operativos.
+# Solo cambia las capturas nuevas o que difieren de verdad, y borra las huérfanas.
 #
 # Uso: Actions → "Referencias visuales" → Run workflow, eligiendo la rama de la PR.
 #   gh workflow run visual-references.yml --ref <rama>
@@ -51,14 +52,29 @@ jobs:
       - name: Instalar Chromium
         run: pnpm --filter storybook-web exec playwright install --with-deps --only-shell chromium
 
-      - name: Borrar las referencias anteriores
-        # Así no quedan capturas huérfanas de historias renombradas o eliminadas.
-        run: find packages/ui/src -type d -name __screenshots__ -prune -exec rm -rf {} +
-
       - name: Generar las referencias
+        # Con --update, Vitest crea las capturas que faltan y sustituye solo las que
+        # difieren de su referencia más allá de la tolerancia. Las demás no se tocan,
+        # así el commit contiene únicamente cambios visuales reales.
         run: pnpm exec turbo run test:web -- --update
         env:
           VISUAL: 'on'
+          VISUAL_MANIFEST: ${{ runner.temp }}/referencias.txt
+
+      - name: Borrar las referencias huérfanas
+        # El manifiesto lista cada captura que han pedido los tests; lo que no esté en
+        # él es de una historia renombrada o eliminada.
+        run: |
+          if [ ! -s "$RUNNER_TEMP/referencias.txt" ]; then
+            echo "::error::Los tests no han pedido ninguna captura: no se borra nada."
+            exit 1
+          fi
+          find packages/ui/src -path '*/__screenshots__/*.png' | while read -r file; do
+            if ! grep -qxF "$GITHUB_WORKSPACE/$file" "$RUNNER_TEMP/referencias.txt"; then
+              echo "Huérfana: $file"
+              rm "$file"
+            fi
+          done
 
       - name: Resumen de cambios
         id: changes
