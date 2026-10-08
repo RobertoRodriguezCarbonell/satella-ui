@@ -1,4 +1,4 @@
-# CI (ADR-022): lint → typecheck → test → build → paquetes en cada PR y en cada push a main.
+# CI (ADR-022): lint → typecheck → test → build → paquetes en cada PR y en cada push.
 # `pnpm test` ejecuta los tests unitarios (core, tokens), las historias en Chromium
 # (interacción, accesibilidad y regresión visual, ADR-016) y los tests nativos (ADR-017).
 # Turborepo ejecuta solo lo afectado por el cambio; la caché remota se activa
@@ -7,8 +7,10 @@ name: CI
 
 on:
   pull_request:
+  # En todas las ramas: `main` solo acepta commits que ya han pasado esta CI (ADR-035).
+  # Las de Renovate se excluyen porque ya la ejecutan desde su PR.
   push:
-    branches: [main]
+    branches-ignore: ['renovate/**']
   # Permite relanzarla a mano; la usa el workflow "Referencias visuales" tras subir capturas.
   workflow_dispatch:
 

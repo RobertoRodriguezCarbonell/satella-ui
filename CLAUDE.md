@@ -30,7 +30,7 @@ Librería de componentes de UI compartida entre aplicaciones **React (web)** y *
 | Catálogo | Storybook: `@storybook/react-vite` (web) y `@storybook/react-native` en Expo (nativo) | 011 |
 | Tests | Vitest (core, tokens, ui-web en navegador) y Jest + RNTL (ui-nativo) | 015–017 |
 | Bundler | tsdown | 019 |
-| CI/CD | GitHub Actions, trusted publishing en npm | 022 |
+| CI/CD | GitHub Actions, trusted publishing en npm, `main` protegida por la CI | 022, 035 |
 
 **Prohibido** introducir dependencias de estilos en tiempo de ejecución (CSS-in-JS, NativeWind, Unistyles, Tamagui…) sin un ADR que lo justifique. Las apps consumidoras no deben necesitar configurar nada más allá de importar `styles.css` (web) y envolverse en `<UIProvider>`.
 
@@ -172,4 +172,5 @@ pnpm pack --filter @satellatickets/ui   # .tgz para probar en una app externa
 - No editar nada en `packages/tokens/dist/`: es generado.
 - No generar referencias visuales en local: se generan en CI (ADR-016).
 - No publicar a mano: la publicación la hace `release.yml` a través de Changesets (ADR-022).
+- No llevar a `main` un commit sin la CI en verde: la rama está protegida y lo rechaza (ADR-035). Se sube la rama de trabajo, se espera a la CI y se avanza `main` a ese mismo commit.
 - No eliminar nada deprecado fuera de una `major`.
