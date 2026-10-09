@@ -1,5 +1,34 @@
 # @satellatickets/ui
 
+## 0.5.0
+
+### Minor Changes
+
+- [#16](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/16) [`7dfd21e`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/7dfd21e90dd718649a3b09b219e59a827682fdb3) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - En web, la página de detrás ya no se desplaza mientras hay un `Modal` o un `Sheet` abierto (ADR-044). Antes la rueda del ratón y el dedo seguían moviéndola. Si la barra de desplazamiento ocupa sitio, se compensa su ancho para que nada salte al abrir ni al cerrar.
+  
+  Mientras el diálogo está en pantalla, la librería pone `overflow: hidden` en el elemento raíz del documento y lo restaura al cerrarse el último.
+
+- [#16](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/16) [`7dfd21e`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/7dfd21e90dd718649a3b09b219e59a827682fdb3) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - Más componentes entran y salen con una transición, con las mismas duraciones y curvas en web y en móvil (ADR-043).
+  
+  - `Modal` aparece y desaparece con un fundido también en web, junto con su fondo. En móvil ya lo hacía.
+  - `Toast` se va con un fundido al cerrarse, en web y en nativo. Antes solo animaba la entrada.
+  - La lista de `Select` en web aparece y desaparece con un fundido corto.
+  - Las animaciones que ya había (`Sheet`, el indicador de `Tabs`, la entrada de `Toast`) toman su curva de los tokens `easing` nuevos en lugar de llevarla escrita.
+  
+  Con movimiento reducido en los ajustes del sistema, nada de esto se anima.
+  
+  Un `Modal`, un toast o una lista cerrados siguen en pantalla lo que dura su salida, hasta 150 ms, sin poder pulsarse. El toast y la lista dejan de existir para los lectores de pantalla en el momento, así que un test que los busque por su rol no cambia. Un test que compruebe que un `Modal` ha desaparecido nada más cerrarlo en web tiene que esperar (`waitFor`).
+
+- [#16](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/16) [`7dfd21e`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/7dfd21e90dd718649a3b09b219e59a827682fdb3) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - En React Native, `Select` abre sus opciones en una hoja inferior, la misma de `Sheet`: sube desde el borde mientras el fondo se oscurece, y lleva de título el nombre del campo (la etiqueta del `FormField` o `accessibilityLabel`; si no hay ninguno, el placeholder). Antes era una lista centrada con su propio modal. Las props no cambian.
+  
+  Cambian los `testID` de la lista: con `testID="ciudad"`, la hoja es `ciudad-list`, su ventana `ciudad-list-modal` y su fondo `ciudad-list-backdrop` (antes `ciudad-modal` y `ciudad-backdrop`).
+
+### Patch Changes
+
+- Updated dependencies [[`50ca773`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/50ca773f51684e1625c36bae0492c34940c167f9)]:
+  - @satellatickets/tokens@0.2.0
+  - @satellatickets/core@0.3.1
+
 ## 0.4.0
 
 ### Minor Changes
