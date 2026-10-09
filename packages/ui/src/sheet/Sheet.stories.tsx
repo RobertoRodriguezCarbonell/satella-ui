@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { expect, fn } from 'storybook/test';
+import { expect, fn, waitFor } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Button } from '../button';
@@ -82,13 +82,16 @@ export const Abierto: Story = {
   },
 };
 
-/** El botón de cierre y las acciones del pie piden cerrar con `onClose`. */
+/**
+ * El botón de cierre y las acciones del pie piden cerrar con `onClose`. La hoja se va
+ * como vino: baja hasta el borde mientras el fondo se aclara, y entonces desaparece.
+ */
 export const Cerrar: Story = {
   args: { open: true },
   play: async ({ args, canvas, userEvent }) => {
     await canvas.findByRole('dialog', { name: NAME });
     await userEvent.click(canvas.getByRole('button', { name: 'Aplicar' }));
     await expect(args.onClose).toHaveBeenCalledOnce();
-    await expect(canvas.queryByRole('dialog')).toBeNull();
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
   },
 };

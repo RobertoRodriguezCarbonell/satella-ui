@@ -1,11 +1,15 @@
 import { useTheme, type ModalPresentation } from '@satellatickets/core';
 import type { Theme } from '@satellatickets/tokens';
+import { useEffect, useState } from 'react';
 import {
+  Animated,
+  Easing,
   Modal as RNModal,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
   type ModalProps as RNModalProps,
   type TextStyle,
@@ -13,12 +17,19 @@ import {
 } from 'react-native';
 
 import { renderLabel } from '../_internal/label';
+import { useReducedMotion } from '../_internal/useReducedMotion';
 import { IconButton } from '../icon-button/IconButton';
 import type { ModalDialogNativeProps } from './Modal.types';
 
 interface PresentationStyle {
-  /** Cómo entra la ventana. */
+  /** Cómo entra la ventana entera, con su fondo. `none` si la entrada la anima la vista. */
   animation: NonNullable<RNModalProps['animationType']>;
+  /**
+   * La superficie sube desde el borde inferior mientras el fondo se oscurece entero, y se
+   * va igual. `Modal` de React Native solo sabe deslizar la ventana completa, con el
+   * fondo dentro, y entonces se ve subir el borde del oscurecido.
+   */
+  slides: boolean;
   /** Dónde se coloca la superficie dentro de la pantalla. */
   overlay: ViewStyle;
   surface: ViewStyle;
@@ -30,6 +41,7 @@ const presentationStyle = {
   // Centrado, con margen alrededor.
   dialog: (t) => ({
     animation: 'fade',
+    slides: false,
     overlay: { justifyContent: 'center', padding: t.space[4] },
     surface: {
       // No hay token de anchura: cinco veces el espacio mayor, como en web.
@@ -41,7 +53,8 @@ const presentationStyle = {
   }),
   // Anclado al borde inferior, a todo el ancho.
   sheet: (t) => ({
-    animation: 'slide',
+    animation: 'none',
+    slides: true,
     overlay: { justifyContent: 'flex-end' },
     surface: {
       maxHeight: '90%',
@@ -87,6 +100,36 @@ export function ModalDialog({
 }: ModalDialogNativeProps) {
   const t = useTheme();
   const shape: PresentationStyle = presentationStyle[presentation](t);
+  const { slides } = shape;
+  const { height: windowHeight } = useWindowDimensions();
+  const reducedMotion = useReducedMotion();
+  // Con movimiento reducido aparece y desaparece sin deslizarse, como en web.
+  const duration = reducedMotion ? 0 : t.duration.normal;
+  // 0 es fuera de la pantalla y 1, en su sitio.
+  const [progress] = useState(() => new Animated.Value(0));
+  // Lo que recorre la hoja es su altura, que no se sabe hasta que se pinta. Hasta
+  // entonces vale la de la pantalla: en los dos casos empieza fuera de ella.
+  const [surfaceHeight, setSurfaceHeight] = useState<number>();
+  // Lo que hay en pantalla. Va por detrás de `open` al cerrar: la ventana sigue ahí
+  // mientras dura la salida.
+  const [shown, setShown] = useState(open);
+  if (open && !shown) setShown(true);
+
+  useEffect(() => {
+    if (!slides) return;
+    const animation = Animated.timing(progress, {
+      toValue: open ? 1 : 0,
+      duration,
+      // Frena al llegar y acelera al irse.
+      easing: open ? Easing.out(Easing.cubic) : Easing.in(Easing.cubic),
+      useNativeDriver: true,
+    });
+    animation.start(({ finished }) => {
+      if (finished && !open) setShown(false);
+    });
+    return () => animation.stop();
+  }, [slides, progress, open, duration]);
+
   const padding = t.space[5];
   const titleLine = t.font.lineHeight.lg;
 
@@ -121,17 +164,26 @@ export function ModalDialog({
 
   return (
     <RNModal
-      visible={open}
+      visible={slides ? shown : open}
       transparent
       animationType={shape.animation}
       statusBarTranslucent
       // El botón atrás de Android.
       onRequestClose={() => {
-        if (dismissible) onClose();
+        if (dismissible && open) onClose();
       }}
       testID={testID === undefined ? undefined : `${testID}-modal`}
     >
-      <View style={[styles.overlay, shape.overlay, { backgroundColor: t.color.bg.overlay }]}>
+      {/* Mientras se va ya no se puede pulsar. */}
+      <View style={[styles.overlay, shape.overlay, { pointerEvents: open ? 'auto' : 'none' }]}>
+        {/* El oscurecido es una capa propia: así aparece entero mientras la hoja sube. */}
+        <Animated.View
+          style={[
+            styles.backdrop,
+            { backgroundColor: t.color.bg.overlay },
+            slides && { opacity: progress },
+          ]}
+        />
         {/* Tocar fuera lo cierra. Para los lectores de pantalla no es un control. */}
         <Pressable
           style={styles.backdrop}
@@ -140,7 +192,7 @@ export function ModalDialog({
           importantForAccessibility="no"
           testID={testID === undefined ? undefined : `${testID}-backdrop`}
         />
-        <View
+        <Animated.View
           // Los lectores de pantalla no salen del diálogo mientras está abierto.
           accessibilityViewIsModal
           style={[
@@ -154,7 +206,20 @@ export function ModalDialog({
             },
             shape.surface,
             style,
+            slides && {
+              transform: [
+                {
+                  translateY: progress.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [surfaceHeight ?? windowHeight, 0],
+                  }),
+                },
+              ],
+            },
           ]}
+          onLayout={
+            slides ? (event) => setSurfaceHeight(event.nativeEvent.layout.height) : undefined
+          }
           testID={testID}
         >
           <View style={[styles.header, { gap: t.space[3] }]}>
@@ -181,7 +246,7 @@ export function ModalDialog({
             <ScrollView style={styles.body}>{renderLabel(children, bodyText)}</ScrollView>
           ) : null}
           {hasFooter ? <View style={[styles.footer, { gap: t.space[3] }]}>{footer}</View> : null}
-        </View>
+        </Animated.View>
       </View>
     </RNModal>
   );

@@ -1,5 +1,13 @@
 import type { ModalPresentation } from '@satellatickets/core';
-import { useEffect, useId, useMemo, useRef, type MouseEvent, type SyntheticEvent } from 'react';
+import {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+  type SyntheticEvent,
+} from 'react';
 
 import { cx } from '../_internal/cx';
 import { mergeRefs } from '../_internal/mergeRefs';
@@ -38,31 +46,56 @@ export function ModalDialog({
   const setRef = useMemo(() => mergeRefs(dialog, ref), [ref]);
   const titleId = useId();
   const descriptionId = useId();
+  // Lo que hay en pantalla. Va por detrás de `open` al cerrar: el diálogo sigue ahí, con
+  // su contenido, mientras dura su animación de salida.
+  const [shown, setShown] = useState(open);
+  if (open && !shown) setShown(true);
+  const closing = shown && !open;
 
   // `open` lo decide la app; `showModal()` y `close()` son la forma de decírselo al navegador.
   useEffect(() => {
     const element = dialog.current;
     if (element === null) return;
-    if (open && !element.open) element.showModal();
-    else if (!open && element.open) element.close();
+    if (open) {
+      if (!element.open) element.showModal();
+      return;
+    }
+    if (!element.open) return;
+    // La salida la anima el CSS con `data-closing`. Si no hay animación (un `Modal`, o el
+    // usuario ha pedido reducir el movimiento), se cierra en el momento.
+    const exit = element.getAnimations();
+    if (exit.length === 0) {
+      element.close();
+      return;
+    }
+    let cancelled = false;
+    void Promise.allSettled(exit.map((animation) => animation.finished)).then(() => {
+      if (!cancelled) element.close();
+    });
+    // Si la app lo vuelve a abrir a media salida, se queda abierto.
+    return () => {
+      cancelled = true;
+    };
   }, [open]);
 
   // Escape y los demás gestos de cierre del navegador (el botón atrás en Android).
   function handleCancel(event: SyntheticEvent<HTMLDialogElement>) {
     // Sin esto el navegador lo cerraría por su cuenta, sin que la app cambie `open`.
     event.preventDefault();
-    if (dismissible) onClose();
+    if (dismissible && open) onClose();
   }
 
-  // Algo de dentro lo ha cerrado sin pasar por la app, por ejemplo un `<form method="dialog">`.
   function handleNativeClose() {
+    // Ya no está en pantalla: su contenido deja de existir.
+    setShown(false);
+    // Algo de dentro lo ha cerrado sin pasar por la app, por ejemplo un `<form method="dialog">`.
     if (open) onClose();
   }
 
   // El fondo (`::backdrop`) pertenece al `<dialog>`: un clic cuyo destino es el propio
   // elemento, y no algo de dentro, es un clic fuera.
   function handleClick(event: MouseEvent<HTMLDialogElement>) {
-    if (event.target === event.currentTarget && dismissible) onClose();
+    if (event.target === event.currentTarget && dismissible && open) onClose();
   }
 
   const hasBody = children !== undefined && children !== null;
@@ -78,13 +111,14 @@ export function ModalDialog({
       style={style}
       aria-labelledby={titleId}
       aria-describedby={description === undefined ? undefined : descriptionId}
+      data-closing={closing ? '' : undefined}
       data-testid={testID}
       onCancel={handleCancel}
       onClose={handleNativeClose}
       onClick={handleClick}
     >
-      {/* El contenido solo existe mientras está abierto. */}
-      {open ? (
+      {/* El contenido solo existe mientras está en pantalla. */}
+      {shown ? (
         <>
           <div className={styles.header}>
             <div className={styles.titles}>
