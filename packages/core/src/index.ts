@@ -1,11 +1,16 @@
 // API pública de @satellatickets/core: contratos, constantes de variantes y hooks headless (ADR-009).
-export * from './form-field';
-export * from './hooks/use-button';
-export * from './hooks/use-controllable-state';
-export * from './hooks/use-link';
+//
+// Los contextos y los hooks viven en `client.ts`, que en el build lleva "use client"
+// (ADR-041). Todo lo demás es código puro y se puede usar también desde un Server Component.
+export * from './client';
 export * from './tabs';
-export * from './theme';
-export * from './toast';
+export { mergeTheme, resolveColorScheme, resolveTheme } from './theme/resolve-theme';
+export {
+  createToastStore,
+  TOAST_DEFAULT_DURATION,
+  TOAST_MAX_VISIBLE,
+  type ToastStore,
+} from './toast/store';
 export * from './types/alert';
 export * from './types/badge';
 export * from './types/box';
