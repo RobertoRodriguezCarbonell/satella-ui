@@ -12,6 +12,7 @@
 
 /* Si no caben, la lista se desplaza en horizontal en vez de partirse en dos filas. */
 .list {
+  position: relative;
   display: flex;
   gap: var(--space-1);
   overflow-x: auto;
@@ -50,6 +51,47 @@
 .selected {
   border-bottom-color: var(--color-action-primary);
   color: var(--color-text-primary);
+}
+
+/*
+ * El indicador: una sola barra que se desliza hasta la pestaña elegida. La vista mide la
+ * pestaña y deja aquí dónde empieza y cuánto ocupa:
+ *
+ *   --tabs-indicator-left   borde izquierdo de la pestaña elegida, dentro de la lista
+ *   --tabs-indicator-width  su ancho
+ *
+ * Va dentro de la lista, así se desplaza con las pestañas. Ocupa justo el sitio del borde
+ * inferior de la pestaña.
+ */
+.indicator {
+  position: absolute;
+  bottom: var(--space-0);
+  left: var(--space-0);
+  width: var(--tabs-indicator-width, 0);
+  height: var(--border-width-thick);
+  background-color: var(--color-action-primary);
+  transform: translateX(var(--tabs-indicator-left, 0));
+  pointer-events: none;
+}
+
+/*
+ * Hasta que la vista lo coloca (en el servidor, o sin JavaScript) el indicador es el
+ * borde de la pestaña elegida. Después, ese borde se apaga y la transición se activa.
+ */
+.list[data-indicator] .selected {
+  border-bottom-color: transparent;
+}
+
+.list[data-indicator] .indicator {
+  transition:
+    transform var(--duration-normal) ease-out,
+    width var(--duration-normal) ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .list[data-indicator] .indicator {
+    transition: none;
+  }
 }
 
 /* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */

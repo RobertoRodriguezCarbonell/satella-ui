@@ -1,6 +1,6 @@
 import { themes } from '@satellatickets/tokens';
 import { composeStories } from '@storybook/react';
-import { screen, userEvent } from '@testing-library/react-native';
+import { fireEvent, screen, userEvent } from '@testing-library/react-native';
 import { StyleSheet, Text as RNText } from 'react-native';
 
 import { renderWithProvider } from '../_testing/render';
@@ -109,8 +109,9 @@ describe('Tabs (nativo)', () => {
   });
 
   describe('aspecto', () => {
-    it('la pestaña elegida lleva el indicador del color de la acción principal', async () => {
-      await renderWithProvider(<Default />, { theme: 'dark' });
+    it('hasta que se pinta, el indicador es el borde de la pestaña elegida', async () => {
+      await renderWithProvider(<Default testID="entradas" />, { theme: 'dark' });
+      expect(screen.queryByTestId('entradas-indicator')).toBeNull();
 
       expect(styleOf(screen.getByRole('tab', { name: 'Próximas' }))).toMatchObject({
         borderBottomWidth: 2,
@@ -121,6 +122,33 @@ describe('Tabs (nativo)', () => {
         borderBottomWidth: 2,
         borderBottomColor: 'transparent',
       });
+    });
+
+    it('ya pintadas, el indicador es una sola barra bajo la elegida, que nace en su sitio', async () => {
+      await renderWithProvider(<Default testID="entradas" />, { theme: 'dark' });
+      // Cada pestaña avisa de dónde está al pintarse.
+      const paint = (name: string, x: number, width: number) =>
+        fireEvent(screen.getByRole('tab', { name }), 'layout', {
+          nativeEvent: { layout: { x, y: 0, width, height: 44 } },
+        });
+      await paint('Próximas', 0, 90);
+      await paint('Pasadas', 94, 80);
+      await paint('Devueltas', 178, 96);
+
+      // Mide un punto y se estira hasta el ancho de la pestaña desde su borde izquierdo.
+      expect(styleOf(screen.getByTestId('entradas-indicator'))).toMatchObject({
+        position: 'absolute',
+        bottom: 0,
+        height: 2,
+        width: 1,
+        transformOrigin: 'left',
+        backgroundColor: themes.dark.color.action.primary,
+        transform: [{ translateX: 0 }, { scaleX: 90 }],
+      });
+      // El borde de la pestaña se apaga: si no, habría dos indicadores mientras se desliza.
+      expect(styleOf(screen.getByRole('tab', { name: 'Próximas' })).borderBottomColor).toBe(
+        'transparent',
+      );
     });
 
     it('cada pestaña mide al menos lo que un control por defecto', async () => {

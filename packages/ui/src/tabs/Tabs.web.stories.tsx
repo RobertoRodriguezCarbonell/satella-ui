@@ -1,4 +1,4 @@
-import { expect, fn } from 'storybook/test';
+import { expect, fn, waitFor } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Tabs } from './Tabs';
@@ -76,5 +76,29 @@ export const UnSoloTabulador: Story = {
     await expect(canvas.getByRole('tab', { name: 'Tus datos' })).toHaveAttribute('tabindex', '0');
     await expect(canvas.getByRole('tab', { name: 'Entradas' })).toHaveAttribute('tabindex', '-1');
     await expect(canvas.getByRole('tab', { name: 'Pago' })).toHaveAttribute('tabindex', '-1');
+  },
+};
+
+/**
+ * El indicador es una sola barra: al elegir otra pestaña se desliza hasta ella en vez de
+ * apagarse en una y encenderse en la otra. Ocupa el sitio del borde inferior de la pestaña.
+ */
+export const Indicador: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const bar = canvas.getByRole('tablist').querySelector(':scope > span');
+    const under = async (name: string) => {
+      const tab = canvas.getByRole('tab', { name }).getBoundingClientRect();
+      await waitFor(async () => {
+        const rect = bar?.getBoundingClientRect();
+        await expect(rect?.left).toBeCloseTo(tab.left, 0);
+        await expect(rect?.width).toBeCloseTo(tab.width, 0);
+        await expect(rect?.bottom).toBeCloseTo(tab.bottom, 0);
+      });
+    };
+    await under('Entradas');
+    await userEvent.click(canvas.getByRole('tab', { name: 'Pago' }));
+    await under('Pago');
+    await userEvent.keyboard('{Home}');
+    await under('Entradas');
   },
 };
