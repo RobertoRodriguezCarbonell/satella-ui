@@ -35,7 +35,7 @@ Requiere `react-dom >=19.0`. Importa los estilos **una vez**, en la entrada de l
 import '@satellatickets/ui/styles.css';
 ```
 
-Es un CSS estático, sin runtime de estilos: funciona con SSR y Server Components, y cambiar de tema no re-renderiza nada.
+Es un CSS estático, sin runtime de estilos: funciona con SSR, y cambiar de tema no re-renderiza nada. En Next.js, los componentes se importan directamente desde una página o un layout, sin envolverlos: el paquete ya lleva `"use client"`.
 
 ### React Native
 
@@ -51,7 +51,7 @@ No hay nada más que configurar: Metro resuelve la versión nativa del paquete.
 
 ### Fuentes
 
-La librería nombra las familias de Satella (Unbounded, Hanken Grotesk e IBM Plex Mono) pero no las empaqueta: las carga cada app, con `next/font` o un `<link>` en web y con `expo-font` en nativo. Si una fuente no está cargada, se usa la del sistema.
+La librería nombra las familias de Satella (Unbounded, Hanken Grotesk e IBM Plex Mono) pero no las empaqueta: las carga cada app, con `@fontsource` o un `<link>` en web y con `expo-font` en nativo. Si una fuente no está cargada, se usa la del sistema.
 
 ## Tema y marca
 

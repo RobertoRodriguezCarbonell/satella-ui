@@ -109,6 +109,24 @@ Componentes de dominio (tablas de datos, calendarios, editores…) se evalúan d
 
 ---
 
+## Fase 6 — Lista para adoptar
+
+**Objetivo:** que una app real pueda adoptar el paquete publicado sin apaños, en los tres entornos que la librería promete: Next.js, una app React con Vite y Expo. Es el paso previo a que los componentes puedan pasar a `stable`, que exige estar en producción en dos apps (ADR-026).
+
+Nace de un dato: la `0.2.0` falla al importarse desde un Server Component de Next.js, y hasta ahora solo se probaba el consumo con Vite.
+
+Entregables:
+
+- Compatibilidad con los Server Components de Next.js: el build web lleva `"use client"` y las constantes de `core` se pueden leer en el servidor (ADR-041).
+- `pnpm check:packages` prueba el consumo en tres apps externas al monorepo: Vite, Next.js con App Router y Expo empaquetada con Metro.
+- Guía de adopción en `docs/adopcion.md`: instalación, estilos, `UIProvider`, fuentes, Next.js, Expo, navegación con `Link`, formularios y avisos.
+- `apps/playground-web` y `apps/playground-native` ejercitan el catálogo con un flujo real de compra, no con una sola tarjeta.
+- Alertas de seguridad de dependencias revisadas.
+
+**Hecho cuando:** las tres apps externas se construyen en CI a partir de los paquetes empaquetados y la versión que lo corrige está publicada.
+
+---
+
 ## Hitos posteriores (no planificados aún)
 
 - Salto a `1.0.0` cuando la API lleve un ciclo estable en producción.
