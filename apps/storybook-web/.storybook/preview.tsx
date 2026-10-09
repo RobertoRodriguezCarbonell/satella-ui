@@ -97,6 +97,15 @@ const preview: Preview = {
   },
   initialGlobals: { theme: 'dark', brand: DEFAULT_BRAND },
   decorators: [
+    // En la página de documentación todas las historias comparten documento, y un diálogo
+    // abierto ocupa su capa superior: las que arrancan con `open` se apilarían unas sobre
+    // otras. Ahí empiezan cerradas y cada una se abre con su botón.
+    (Story, { args, viewMode }) =>
+      viewMode === 'docs' && args.open === true ? (
+        <Story args={{ ...args, open: false }} />
+      ) : (
+        <Story />
+      ),
     (Story, { globals, viewMode }) => {
       const theme = isThemeMode(globals.theme) ? globals.theme : 'dark';
       const brand = isBrandName(globals.brand) ? globals.brand : undefined;
