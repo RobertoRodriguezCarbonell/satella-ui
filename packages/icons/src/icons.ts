@@ -21,17 +21,21 @@ export const ICON_VIEWBOX = 24;
 export const ICON_STROKE_WIDTH = 2;
 
 export const iconNames = [
+  "arrow-down",
   "arrow-left",
   "arrow-right",
+  "arrow-up",
   "calendar",
   "check",
   "chevron-down",
   "chevron-left",
   "chevron-right",
   "chevron-up",
+  "chevrons-up-down",
   "circle-alert",
   "circle-check",
   "circle-x",
+  "ellipsis",
   "eye-off",
   "eye",
   "globe",
@@ -52,6 +56,10 @@ export const iconNames = [
 export type IconName = (typeof iconNames)[number];
 
 export const icons: Readonly<Record<IconName, readonly IconElement[]>> = {
+  "arrow-down": [
+    {"type":"path","d":"M12 5v14"},
+    {"type":"path","d":"m19 12-7 7-7-7"},
+  ],
   "arrow-left": [
     {"type":"path","d":"m12 19-7-7 7-7"},
     {"type":"path","d":"M19 12H5"},
@@ -59,6 +67,10 @@ export const icons: Readonly<Record<IconName, readonly IconElement[]>> = {
   "arrow-right": [
     {"type":"path","d":"M5 12h14"},
     {"type":"path","d":"m12 5 7 7-7 7"},
+  ],
+  "arrow-up": [
+    {"type":"path","d":"m5 12 7-7 7 7"},
+    {"type":"path","d":"M12 19V5"},
   ],
   "calendar": [
     {"type":"path","d":"M8 2v3"},
@@ -81,6 +93,10 @@ export const icons: Readonly<Record<IconName, readonly IconElement[]>> = {
   "chevron-up": [
     {"type":"path","d":"m18 15-6-6-6 6"},
   ],
+  "chevrons-up-down": [
+    {"type":"path","d":"m7 15 5 5 5-5"},
+    {"type":"path","d":"m7 9 5-5 5 5"},
+  ],
   "circle-alert": [
     {"type":"circle","cx":12,"cy":12,"r":10},
     {"type":"line","x1":12,"y1":8,"x2":12,"y2":12},
@@ -94,6 +110,11 @@ export const icons: Readonly<Record<IconName, readonly IconElement[]>> = {
     {"type":"circle","cx":12,"cy":12,"r":10},
     {"type":"path","d":"m15 9-6 6"},
     {"type":"path","d":"m9 9 6 6"},
+  ],
+  "ellipsis": [
+    {"type":"circle","cx":12,"cy":12,"r":1},
+    {"type":"circle","cx":19,"cy":12,"r":1},
+    {"type":"circle","cx":5,"cy":12,"r":1},
   ],
   "eye-off": [
     {"type":"path","d":"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49"},

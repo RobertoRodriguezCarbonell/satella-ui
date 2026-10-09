@@ -1,0 +1,191 @@
+/*
+ * Un mes en una rejilla de siete columnas. Cada día es un botón cuadrado del alto de un
+ * control; el tamaño solo fija esa medida. Todo son tokens semánticos (ADR-005) y los
+ * estados interactivos viven aquí, no en JS (ADR-007).
+ */
+.root {
+  display: inline-block;
+  box-sizing: border-box;
+  /* No se encoge: siete días caben siempre. */
+  flex-shrink: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+}
+
+.sm {
+  --calendar-day: var(--size-control-sm);
+}
+
+.md {
+  --calendar-day: var(--size-control-md);
+}
+
+/* El título del mes entre los dos botones que lo cambian. */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--font-size-md);
+  line-height: var(--font-line-height-md);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+
+/*
+ * Sin colapsar los bordes: así cada celda puede redondear sus esquinas, que es lo que da
+ * forma a los extremos de un periodo. Entre semanas queda un hueco; entre días no, para
+ * que el fondo del periodo sea una franja continua.
+ */
+.grid {
+  border-collapse: separate;
+  border-spacing: var(--space-0) var(--space-1);
+  /* El hueco de arriba y de abajo de la rejilla no forma parte del calendario. */
+  margin: calc(var(--space-1) * -1) var(--space-0);
+}
+
+.weekday {
+  width: var(--calendar-day);
+  height: var(--size-control-sm);
+  padding: var(--space-0);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  line-height: var(--font-line-height-xs);
+  font-weight: var(--font-weight-medium);
+  text-align: center;
+}
+
+.cell {
+  width: var(--calendar-day);
+  height: var(--calendar-day);
+  padding: var(--space-0);
+}
+
+/* Un periodo: una franja teñida de extremo a extremo, redondeada donde empieza y acaba. */
+.inRange {
+  background-color: var(--color-accent-bg);
+}
+
+.rangeStart {
+  border-start-start-radius: var(--radius-md);
+  border-end-start-radius: var(--radius-md);
+}
+
+.rangeEnd {
+  border-start-end-radius: var(--radius-md);
+  border-end-end-radius: var(--radius-md);
+}
+
+.day {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--calendar-day);
+  height: var(--calendar-day);
+  margin: 0;
+  padding: var(--space-0);
+  border: var(--border-width-thin) solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+  font-weight: var(--font-weight-regular);
+  /* Cifras del mismo ancho: las columnas quedan alineadas. */
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--duration-fast),
+    border-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+/* Hoy lleva un contorno. */
+.today {
+  border-color: var(--color-border-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+/*
+ * Dentro de un periodo, con el color del acento: sobre el fondo teñido, `border.strong`
+ * no llega al contraste de 3:1 en todas las marcas.
+ */
+.inRange .today:not(.selected) {
+  border-color: var(--color-accent-text);
+}
+
+/* La fecha elegida y los dos extremos de un periodo. */
+.selected {
+  border-color: transparent;
+  background-color: var(--color-action-primary);
+  color: var(--color-text-on-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* El punto de un día señalado, bajo su número. */
+.mark {
+  position: absolute;
+  bottom: var(--space-1);
+  left: 50%;
+  width: var(--space-1);
+  height: var(--space-1);
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent-text);
+  transform: translateX(-50%);
+}
+
+/* Sobre el día elegido, el punto toma el color de su número. */
+.selected .mark,
+.day[aria-disabled='true'] .mark {
+  background-color: currentcolor;
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .day:hover:not(.selected, [aria-disabled='true']) {
+    background-color: var(--color-bg-muted);
+  }
+
+  .selected:hover:not([aria-disabled='true']) {
+    background-color: var(--color-action-primary-hover);
+  }
+}
+
+.day:active:not(.selected, [aria-disabled='true']) {
+  background-color: var(--color-bg-muted);
+}
+
+.selected:active:not([aria-disabled='true']) {
+  background-color: var(--color-action-primary-active);
+}
+
+/* Por encima de los días vecinos, que si no taparían parte del anillo. */
+.day:focus-visible {
+  z-index: var(--z-index-raised);
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: var(--border-width-thick);
+}
+
+.day[aria-disabled='true'] {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+/* Un día elegido que ya no se puede elegir, por ejemplo con el calendario deshabilitado. */
+.selected[aria-disabled='true'] {
+  background-color: var(--color-action-disabled);
+}
+
+.today[aria-disabled='true'],
+.inRange .today[aria-disabled='true']:not(.selected) {
+  border-color: var(--color-border-default);
+}

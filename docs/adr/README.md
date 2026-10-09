@@ -50,6 +50,8 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [042](042-select-con-lista-propia-en-web.md) | `Select` pinta su propia lista también en web | Aceptado |
 | [043](043-movimiento-curvas-y-salidas-animadas.md) | Movimiento: curvas en los tokens y salidas animadas | Aceptado |
 | [044](044-modal-y-sheet-bloquean-el-desplazamiento.md) | `Modal` y `Sheet` bloquean el desplazamiento de la página en web | Aceptado |
+| [045](045-tablas-de-datos.md) | Tablas de datos: `Table` guiada por columnas y `Pagination` | Aceptado |
+| [046](046-calendarios-y-fechas.md) | Calendarios: `Calendar` y `DatePicker`, con las fechas como texto ISO | Aceptado |
 
 ## Plantilla
 

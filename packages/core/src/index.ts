@@ -2,8 +2,11 @@
 //
 // Los contextos y los hooks viven en `client.ts`, que en el build lleva "use client"
 // (ADR-041). Todo lo demás es código puro y se puede usar también desde un Server Component.
+export * from './calendar';
 export * from './client';
+export * from './pagination';
 export * from './select';
+export * from './table';
 export * from './tabs';
 export { mergeTheme, resolveColorScheme, resolveTheme } from './theme/resolve-theme';
 export {
@@ -16,9 +19,11 @@ export * from './types/alert';
 export * from './types/badge';
 export * from './types/box';
 export * from './types/button';
+export * from './types/calendar';
 export * from './types/card';
 export * from './types/checkbox';
 export * from './types/control';
+export * from './types/date-picker';
 export * from './types/divider';
 export * from './types/feedback';
 export * from './types/form-field';
@@ -27,11 +32,13 @@ export * from './types/icon-button';
 export * from './types/input';
 export * from './types/link';
 export * from './types/modal';
+export * from './types/pagination';
 export * from './types/select';
 export * from './types/skeleton';
 export * from './types/spinner';
 export * from './types/stack';
 export * from './types/switch';
+export * from './types/table';
 export * from './types/tabs';
 export * from './types/text';
 export * from './types/text-area';

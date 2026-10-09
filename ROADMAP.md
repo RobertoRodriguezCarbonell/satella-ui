@@ -105,7 +105,7 @@ Orden:
 | 5.3 Feedback | `Spinner` (completo), `Skeleton`, `Badge`, `Alert`, `Toast` |
 | 5.4 Superficies | `Card`, `Divider`, `Modal` / `Sheet`, `Tabs` |
 
-Componentes de dominio (tablas de datos, calendarios, editores…) se evalúan después, cuando el núcleo sea `stable`.
+Componentes de dominio (editores…) se evalúan después, cuando el núcleo sea `stable`. Las tablas de datos se adelantaron a la Fase 7 (ADR-045) y los calendarios, a la Fase 8 (ADR-046).
 
 ---
 
@@ -124,6 +124,41 @@ Entregables:
 - Alertas de seguridad de dependencias revisadas.
 
 **Hecho cuando:** las tres apps externas se construyen en CI a partir de los paquetes empaquetados y la versión que lo corrige está publicada.
+
+---
+
+## Fase 7 — Datos
+
+**Objetivo:** que el panel de administración y el de organización compartan sus listados. Son las dos primeras apps con las mismas necesidades de datos, y por eso las tablas entran antes de que el núcleo sea `stable` (ADR-045, que matiza a ADR-026).
+
+Entregables:
+
+- `Table`: guiada por columnas, con ordenación, selección de filas, carga y estado vacío. Un `<table>` real en web y una rejilla con desplazamiento horizontal en nativo.
+- `Pagination`: anterior, siguiente y números de página resumidos alrededor de la actual.
+- Lógica compartida en `core`: siguiente orden, operaciones de selección, reparto de anchos y páginas visibles, con tests.
+- Grupo **Datos** en el catálogo.
+
+Quedan para cuando haya un caso real: cabecera o columnas fijas, virtualización, filas que se despliegan, pie con totales y filas pulsables.
+
+**Hecho cuando:** un listado real de uno de los paneles usa `Table` y `Pagination` desde el paquete publicado.
+
+---
+
+## Fase 8 — Fechas
+
+**Objetivo:** que elegir una fecha sea igual en los paneles y en la web pública, sin el calendario del navegador y sin fallos de un día por la zona horaria (ADR-046).
+
+Entregables:
+
+- Fechas como texto ISO (`'2026-10-09'`) en toda la API, con su aritmética en `core` y los nombres de meses y días escritos por `Intl`.
+- `Calendar`: un mes en rejilla para elegir una fecha o un periodo, con límites, días deshabilitados y días señalados. Rejilla de fechas de ARIA con teclado en web; botones en nativo.
+- `DatePicker`: el campo de formulario que abre el calendario, en la capa superior en web y en una hoja inferior en nativo.
+- Hook `useCalendar` en `core`, común a las dos vistas.
+- Grupo **Fechas** en el catálogo.
+
+Quedan para cuando haya un caso real: el campo para un periodo, selector de mes y año, hora, varios meses a la vez y la agenda de eventos por mes.
+
+**Hecho cuando:** el formulario de creación de un evento de uno de los paneles usa `DatePicker` desde el paquete publicado.
 
 ---
 

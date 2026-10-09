@@ -19,12 +19,14 @@ theme.color.action.primary;
 
 ## Qué contiene
 
-| Qué                     | Ejemplos                                                                          |
-| ----------------------- | --------------------------------------------------------------------------------- |
-| Contratos de props      | `ButtonProps`, `BadgeProps`, `BoxProps`, `StackProps`, `TextProps`, `IconProps`   |
-| Constantes de variantes | `buttonVariants`, `badgeVariants`, `textVariants`, `iconSizes`                    |
-| Tema                    | `UIContext`, `useTheme`, `useColorScheme`, `useBrand`, `resolveTheme`             |
-| Hooks headless          | `useButton`, `useLink`, `useControllableState`, `useFormFieldControl`, `useToast` |
+| Qué                     | Ejemplos                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------ |
+| Contratos de props      | `ButtonProps`, `BadgeProps`, `BoxProps`, `StackProps`, `TextProps`, `IconProps`                  |
+| Constantes de variantes | `buttonVariants`, `badgeVariants`, `textVariants`, `iconSizes`                                   |
+| Tema                    | `UIContext`, `useTheme`, `useColorScheme`, `useBrand`, `resolveTheme`                            |
+| Hooks headless          | `useButton`, `useLink`, `useControllableState`, `useFormFieldControl`, `useToast`, `useCalendar` |
+| Lógica sin interfaz     | `getTabInDirection`, `getOptionInDirection`, `getNextSort`, `getPaginationItems`                 |
+| Fechas como texto ISO   | `todayISO`, `addDays`, `addMonths`, `toISODate`, `parseISODate`, `createCalendarFormatter`       |
 
 Las variantes se exportan como arrays `as const`, además de como tipos, para poder recorrerlas: en historias, en selectores o en tests.
 

@@ -1,0 +1,79 @@
+/*
+ * Una fila de botones: anterior, los números de página y siguiente. Los botones son los
+ * de `Button` (Button.module.css): aquí solo se fija su tamaño, con las mismas variables
+ * `--button-*`, y cómo se marca la página actual. Todo son tokens semánticos (ADR-005).
+ */
+.root {
+  font-family: var(--font-family-sans);
+}
+
+/* Tamaños: cada botón es un cuadrado del alto de un control. */
+.sm {
+  --pagination-size: var(--size-control-sm);
+}
+
+.md {
+  --pagination-size: var(--size-control-md);
+}
+
+/* Si no caben en una línea, por ejemplo en un móvil, siguen en la siguiente. */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+}
+
+/*
+ * Con `.list` delante para imponerse a la base de `Button`, que tiene la misma
+ * especificidad. Un número de tres cifras ensancha su botón; las cifras tienen todas el
+ * mismo ancho para que los botones no bailen al pasar de página.
+ */
+.list .page {
+  --button-height: var(--pagination-size);
+  --button-padding-x: var(--space-2);
+  --button-padding-y: var(--space-0);
+  --button-font-size: var(--font-size-sm);
+  --button-line-height: var(--font-line-height-sm);
+
+  min-width: var(--pagination-size);
+  font-variant-numeric: tabular-nums;
+}
+
+/* La página actual: teñida con el color de acento, como la fila elegida de una tabla. */
+.list .current {
+  --button-bg: var(--color-accent-bg);
+  --button-bg-hover: var(--color-accent-bg);
+  --button-bg-active: var(--color-accent-bg);
+  --button-bg-disabled: var(--color-action-disabled);
+  --button-fg: var(--color-accent-text);
+  --button-border: transparent;
+
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Ya estás en ella: pulsarla no hace nada. */
+.list .current:not(:disabled) {
+  cursor: default;
+}
+
+/* El salto entre páginas ocupa lo mismo que un botón, para que la fila no cambie de ancho. */
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pagination-size);
+  height: var(--pagination-size);
+  color: var(--color-text-muted);
+}
+
+.ellipsis svg {
+  stroke: currentcolor;
+}

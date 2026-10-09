@@ -1,0 +1,205 @@
+/*
+ * Una tabla de datos: una superficie con borde, cabecera con la tipografía de etiqueta y
+ * filas separadas por una línea. Cada tamaño solo fija variables; las reglas de las celdas
+ * las aplican. Todo son tokens semánticos (ADR-005) y los estados interactivos viven
+ * aquí, no en JS (ADR-007).
+ *
+ * La vista deja en `.root` la tipografía de la cabecera, leída del mapa de `core`:
+ *
+ *   --table-header-family, --table-header-size, --table-header-line-height,
+ *   --table-header-weight, --table-header-letter-spacing (opcional)
+ */
+.root {
+  /* Opcional: se reinicia para no heredarla de un ancestro. */
+  --table-header-letter-spacing: initial;
+
+  box-sizing: border-box;
+  min-width: 0;
+  /* Recorta las esquinas de la cabecera y de la última fila. */
+  overflow: hidden;
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-surface);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-sm);
+  line-height: var(--font-line-height-sm);
+}
+
+/* Tamaños: una fila mide como mínimo lo que un control de ese tamaño. */
+.sm {
+  --table-row-height: var(--size-control-sm);
+  --table-padding-x: var(--space-3);
+  --table-padding-y: var(--space-1);
+}
+
+.md {
+  --table-row-height: var(--size-control-md);
+  --table-padding-x: var(--space-4);
+  --table-padding-y: var(--space-2);
+}
+
+/* Si la tabla no cabe, se desplaza aquí dentro y la página no se ensancha. */
+.scroll {
+  overflow-x: auto;
+}
+
+/* Hacia dentro: `.root` recorta lo que sobresale. */
+.scroll:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: calc(var(--border-width-thick) * -1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.header,
+.cell {
+  box-sizing: border-box;
+  /* En una celda de tabla, `height` es la altura mínima. */
+  height: var(--table-row-height);
+  padding: var(--table-padding-y) var(--table-padding-x);
+  text-align: start;
+  vertical-align: middle;
+}
+
+.header {
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-secondary);
+  font-family: var(--table-header-family);
+  font-size: var(--table-header-size);
+  line-height: var(--table-header-line-height);
+  font-weight: var(--table-header-weight);
+  letter-spacing: var(--table-header-letter-spacing, normal);
+  white-space: nowrap;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* La línea separa cada fila de la anterior y la primera, de la cabecera. */
+.cell {
+  border-top: var(--border-width-thin) solid var(--color-border-default);
+  font-weight: var(--font-weight-regular);
+  transition: background-color var(--duration-fast);
+}
+
+/* Alineación de la columna, cabecera incluida. Van después de la base para imponerse. */
+.start {
+  text-align: start;
+}
+
+.center {
+  text-align: center;
+}
+
+.end {
+  text-align: end;
+}
+
+.selected .cell {
+  background-color: var(--color-accent-bg);
+}
+
+/*
+ * La columna de casillas mide lo que la casilla. No lleva relleno al final: la separa de
+ * la columna siguiente el relleno de esta.
+ */
+.selection {
+  width: var(--space-5);
+  padding-inline-end: var(--space-0);
+  /* Sin esto, la casilla se alinea con la línea base de un texto que no existe. */
+  line-height: 0;
+}
+
+/* El mensaje de una tabla sin filas ocupa todo el ancho. */
+.empty {
+  padding: var(--space-8) var(--table-padding-x);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/*
+ * Cabecera ordenable: el botón ocupa la celda entera, así que el relleno pasa a él. En
+ * una columna alineada al final el icono va delante, para que el texto de la cabecera
+ * siga alineado con los valores.
+ */
+.sortable {
+  padding: var(--space-0);
+}
+
+.sort {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-1);
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--table-row-height);
+  margin: 0;
+  padding: var(--table-padding-y) var(--table-padding-x);
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  white-space: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.center .sort {
+  justify-content: center;
+}
+
+.end .sort {
+  flex-direction: row-reverse;
+}
+
+/* La columna por la que se ordena destaca sobre las demás. */
+.header[aria-sort] .sort {
+  color: var(--color-text-primary);
+}
+
+/* Los iconos heredan el color del texto de la cabecera en todos sus estados. */
+.sort svg {
+  flex-shrink: 0;
+  stroke: currentcolor;
+}
+
+/* Estados. Hover solo con puntero real, para que no se quede "pegado" tras un toque. */
+@media (hover: hover) {
+  .sort:hover {
+    background-color: var(--color-bg-muted);
+    color: var(--color-text-primary);
+  }
+}
+
+.sort:active {
+  background-color: var(--color-bg-muted);
+  color: var(--color-text-primary);
+}
+
+/* Hacia dentro: el contenedor recorta lo que sobresale. */
+.sort:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: calc(var(--border-width-thick) * -1);
+}
+
+/* Fuera de la vista, pero no de los lectores de pantalla. */
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
