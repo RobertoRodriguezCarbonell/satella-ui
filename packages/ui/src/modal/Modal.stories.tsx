@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { expect, fn } from 'storybook/test';
+import { expect, fn, waitFor } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Button } from '../button';
@@ -98,7 +98,7 @@ export const CerrarConElBoton: Story = {
     await canvas.findByRole('dialog', { name: NAME });
     await userEvent.click(canvas.getByRole('button', { name: 'Cerrar' }));
     await expect(args.onClose).toHaveBeenCalledOnce();
-    await expect(canvas.queryByRole('dialog')).toBeNull();
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
   },
 };
 
@@ -108,7 +108,7 @@ export const CerrarConUnaAccion: Story = {
   play: async ({ canvas, userEvent }) => {
     await canvas.findByRole('dialog', { name: NAME });
     await userEvent.click(canvas.getByRole('button', { name: 'Cancelar' }));
-    await expect(canvas.queryByRole('dialog')).toBeNull();
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
   },
 };
 

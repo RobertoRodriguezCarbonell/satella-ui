@@ -66,6 +66,22 @@ export const Teclado: Story = {
 };
 
 /**
+ * Al cerrarse se va con un fundido. Para el lector de pantalla deja de existir en el
+ * momento; en la página sigue lo que dura su salida, y entonces se quita.
+ */
+export const Salida: Story = {
+  args: { duration: 0, closeLabel: 'Cerrar aviso' },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('button', { name: 'Copiar enlace' }));
+    await canvas.findByRole('status');
+    await userEvent.click(canvas.getByRole('button', { name: 'Cerrar aviso' }));
+    await expect(canvas.queryByRole('status')).toBeNull();
+    await expect(canvas.getByText('Enlace copiado')).toBeInTheDocument();
+    await waitFor(() => expect(canvas.queryByText('Enlace copiado')).toBeNull());
+  },
+};
+
+/**
  * Un `UIProvider` anidado, por ejemplo para cambiar de marca en una sección, usa la
  * zona de avisos del de fuera: no aparece una segunda.
  */

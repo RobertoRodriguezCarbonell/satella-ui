@@ -40,6 +40,7 @@ describe('web/tokens.css', () => {
     expect(outputs.css).toContain('--shadow-sm: 0 1px 3px 0 #00000073;');
     expect(outputs.css).toContain('--shadow-glow: 0 0 28px 0 #6c4cf559;');
     expect(outputs.css).toContain('--duration-fast: 150ms;');
+    expect(outputs.css).toContain('--easing-enter: cubic-bezier(0, 0, 0.2, 1);');
     expect(outputs.css).toContain('--z-index-modal: 1300;');
     expect(outputs.css).not.toContain('--palette-');
     const darkBlock = outputs.css.split('[data-theme="dark"] {')[1]?.split('}')[0] ?? '';

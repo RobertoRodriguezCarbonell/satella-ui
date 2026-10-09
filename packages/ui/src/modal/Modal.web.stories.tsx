@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { expect, fn } from 'storybook/test';
+import { expect, fn, waitFor } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Button } from '../button';
@@ -55,7 +55,7 @@ export const Escape: Story = {
   play: async ({ args, canvas }) => {
     cancel(await canvas.findByRole('dialog', { name: NAME }));
     await expect(args.onClose).toHaveBeenCalledOnce();
-    await expect(canvas.queryByRole('dialog')).toBeNull();
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
   },
 };
 
@@ -65,7 +65,7 @@ export const ClicFuera: Story = {
     const dialog = await canvas.findByRole('dialog', { name: NAME });
     await userEvent.click(dialog);
     await expect(args.onClose).toHaveBeenCalledOnce();
-    await expect(canvas.queryByRole('dialog')).toBeNull();
+    await waitFor(() => expect(canvas.queryByRole('dialog')).toBeNull());
   },
 };
 
@@ -96,5 +96,22 @@ export const Foco: Story = {
   play: async ({ canvas }) => {
     const dialog = await canvas.findByRole('dialog', { name: NAME });
     await expect(dialog.contains(document.activeElement)).toBe(true);
+  },
+};
+
+/**
+ * Mientras está en pantalla, la página de detrás no se desplaza (ADR-044): el navegador
+ * deja inerte lo de detrás, pero la rueda y el dedo lo seguirían moviendo. Al cerrarse,
+ * la página vuelve a como estaba.
+ */
+export const BloqueaElDesplazamiento: Story = {
+  play: async ({ canvas, userEvent }) => {
+    const page = document.documentElement;
+    await canvas.findByRole('dialog', { name: NAME });
+    await expect(page.style.overflow).toBe('hidden');
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Entendido' }));
+    await waitFor(() => expect(page.style.overflow).toBe(''));
+    await expect(canvas.queryByRole('dialog')).toBeNull();
   },
 };

@@ -5,15 +5,27 @@
  */
 import type { RenderInput } from './css.ts';
 import { diffTokens, GENERATED_HEADER, orderedTokens } from './css.ts';
-import type { NativeValue, ResolvedToken, TokenMap } from './model.ts';
+import type {
+  BoxShadow,
+  DtcgCubicBezierValue,
+  NativeValue,
+  ResolvedToken,
+  TokenMap,
+} from './model.ts';
 import { cssVariableName, isIdentifier, objectKey } from './naming.ts';
 import { buildTree, type TreeNode } from './tree.ts';
 import { toNativeValue } from './values.ts';
+
+function isCubicBezier(value: BoxShadow[] | DtcgCubicBezierValue): value is DtcgCubicBezierValue {
+  return typeof value[0] === 'number';
+}
 
 function renderValue(value: NativeValue, indent: string): string {
   if (value === undefined) return 'undefined';
   if (typeof value === 'number') return String(value);
   if (typeof value === 'string') return JSON.stringify(value);
+  // Una curva: sus cuatro números, en una línea.
+  if (isCubicBezier(value)) return `[${value.join(', ')}]`;
   const inner = `${indent}  `;
   const layers = value.map((layer) => {
     const fields = Object.entries(layer).map(

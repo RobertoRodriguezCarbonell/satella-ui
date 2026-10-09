@@ -31,6 +31,7 @@ const CATEGORY_ORDER = [
   'font',
   'shadow',
   'duration',
+  'easing',
   'zIndex',
 ];
 

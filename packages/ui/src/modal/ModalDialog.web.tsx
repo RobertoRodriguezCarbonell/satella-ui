@@ -9,8 +9,10 @@ import {
   type SyntheticEvent,
 } from 'react';
 
+import { afterAnimations } from '../_internal/afterAnimations';
 import { cx } from '../_internal/cx';
 import { mergeRefs } from '../_internal/mergeRefs';
+import { lockScroll } from '../_internal/scrollLock';
 import { IconButton } from '../icon-button/IconButton';
 import styles from './Modal.module.css';
 import type { ModalDialogWebProps } from './Modal.types';
@@ -61,22 +63,13 @@ export function ModalDialog({
       return;
     }
     if (!element.open) return;
-    // La salida la anima el CSS con `data-closing`. Si no hay animación (un `Modal`, o el
-    // usuario ha pedido reducir el movimiento), se cierra en el momento.
-    const exit = element.getAnimations();
-    if (exit.length === 0) {
-      element.close();
-      return;
-    }
-    let cancelled = false;
-    void Promise.allSettled(exit.map((animation) => animation.finished)).then(() => {
-      if (!cancelled) element.close();
-    });
-    // Si la app lo vuelve a abrir a media salida, se queda abierto.
-    return () => {
-      cancelled = true;
-    };
+    // La salida la anima el CSS con `data-closing`; al terminar se cierra. Si la app lo
+    // vuelve a abrir a media salida, se queda abierto.
+    return afterAnimations(element, () => element.close());
   }, [open]);
+
+  // Mientras está en pantalla, la página de detrás no se desplaza.
+  useEffect(() => (shown ? lockScroll() : undefined), [shown]);
 
   // Escape y los demás gestos de cierre del navegador (el botón atrás en Android).
   function handleCancel(event: SyntheticEvent<HTMLDialogElement>) {

@@ -17,6 +17,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from 'react';
 
+import { afterAnimations } from '../_internal/afterAnimations';
 import { cx } from '../_internal/cx';
 import field from '../_internal/field.module.css';
 import { Icon } from '../icon/Icon';
@@ -98,10 +99,15 @@ export function Select({
   // Si se deshabilita con la lista abierta, queda cerrada: no reaparece al habilitarlo.
   if (opened && control.disabled) setOpened(false);
   const open = opened && !control.disabled;
+  // Lo que hay en pantalla. Va por detrás de `open` al cerrar: la lista sigue ahí, sin
+  // poder usarse, mientras dura su salida.
+  const [shown, setShown] = useState(false);
+  if (open && !shown) setShown(true);
+  const closing = shown && !open;
   const selected = options.find((option) => option.value === current);
-  const activeIndex = open ? options.findIndex((option) => option.value === active?.value) : -1;
+  const activeIndex = shown ? options.findIndex((option) => option.value === active?.value) : -1;
   const listId = `${baseId}-list`;
-  const activeId = activeIndex === -1 ? undefined : `${baseId}-option-${activeIndex}`;
+  const activeId = open && activeIndex !== -1 ? `${baseId}-option-${activeIndex}` : undefined;
 
   /** Abre la lista con una opción resaltada: la indicada o, si no, la elegida. */
   function show(
@@ -138,6 +144,8 @@ export function Select({
 
     const { top, bottom, width } = anchor.getBoundingClientRect();
     popup.style.setProperty('--select-list-width', `${width}px`);
+    // Si se reabre a media salida, conserva el límite de la vez anterior.
+    popup.style.removeProperty('--select-list-space');
     // En un navegador sin la API Popover se queda donde está, con `position: fixed`. Si ya
     // está en la capa superior (el modo estricto de React repite el efecto), no se repite.
     if (typeof popup.showPopover === 'function' && !popup.matches(':popover-open')) {
@@ -172,6 +180,12 @@ export function Select({
       window.removeEventListener('resize', place);
     };
   }, [open]);
+
+  // La salida la anima el CSS con `data-closing`; al terminar, la lista deja de existir.
+  useLayoutEffect(() => {
+    if (!closing || list.current === null) return;
+    return afterAnimations(list.current, () => setShown(false));
+  }, [closing]);
 
   // La opción resaltada siempre queda a la vista.
   useLayoutEffect(() => {
@@ -315,13 +329,16 @@ export function Select({
           color={control.disabled ? 'disabled' : 'muted'}
         />
       </span>
-      {/* La lista solo existe mientras está abierta. */}
-      {open ? (
+      {/* La lista solo existe mientras está en pantalla. */}
+      {shown ? (
         <div
           ref={list}
           popover="manual"
           role="listbox"
           id={listId}
+          // Mientras se va ya no existe para el lector de pantalla.
+          aria-hidden={closing ? true : undefined}
+          data-closing={closing ? '' : undefined}
           // Fuera del orden de tabulación: una zona con desplazamiento entraría en él.
           tabIndex={-1}
           aria-label={control.accessibilityLabel}

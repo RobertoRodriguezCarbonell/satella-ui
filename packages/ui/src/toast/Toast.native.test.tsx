@@ -74,6 +74,21 @@ describe('Toast (nativo)', () => {
       expect(screen.queryByRole('alert')).toBeNull();
     });
 
+    it('al cerrarse deja de anunciarse en el momento y se quita cuando termina su salida', async () => {
+      const user = userEvent.setup();
+      await renderWithProvider(<ConCierre />);
+      await user.press(screen.getByRole('button', { name: 'Reintentar el pago' }));
+
+      await user.press(screen.getByRole('button', { name: 'Cerrar aviso' }));
+
+      expect(screen.queryByRole('alert')).toBeNull();
+      await waitFor(() =>
+        expect(
+          screen.queryByText('No se ha podido cobrar', { includeHiddenElements: true }),
+        ).toBeNull(),
+      );
+    });
+
     it('pasada su duración, se cierra solo', async () => {
       const user = userEvent.setup();
       await renderWithProvider(<SeCierraSolo />);

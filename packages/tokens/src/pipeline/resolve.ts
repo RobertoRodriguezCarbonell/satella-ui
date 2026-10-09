@@ -85,7 +85,7 @@ export async function resolveTokenSet(files: TokenSetFiles): Promise<TokenMap> {
     const name = raw.path.join('.');
     if (!isSupportedType(raw.$type)) {
       throw new Error(
-        `${name}: tipo "${String(raw.$type)}" no soportado. Tipos válidos: color, dimension, fontFamily, fontWeight, duration, number, shadow.`,
+        `${name}: tipo "${String(raw.$type)}" no soportado. Tipos válidos: color, dimension, fontFamily, fontWeight, duration, cubicBezier, number, shadow.`,
       );
     }
     const token: ResolvedToken = {

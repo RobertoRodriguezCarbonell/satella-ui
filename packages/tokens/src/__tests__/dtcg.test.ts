@@ -52,9 +52,9 @@ beforeAll(async () => {
 });
 
 describe('ficheros DTCG 2025.10', () => {
-  it('encuentra los nueve ficheros de primitivos, dos temas y la marca de ejemplo', () => {
+  it('encuentra los diez ficheros de primitivos, dos temas y la marca de ejemplo', () => {
     const names = files.map((file) => path.relative(PACKAGE_DIR, file));
-    expect(names.filter((name) => name.startsWith('src/primitives/'))).toHaveLength(9);
+    expect(names.filter((name) => name.startsWith('src/primitives/'))).toHaveLength(10);
     expect(names).toContain('src/semantic/light.tokens.json');
     expect(names).toContain('src/semantic/dark.tokens.json');
     expect(names.some((name) => name.includes('fixtures/brands/demo/'))).toBe(true);

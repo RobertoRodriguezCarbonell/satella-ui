@@ -115,20 +115,21 @@ export function ModalDialog({
   const [shown, setShown] = useState(open);
   if (open && !shown) setShown(true);
 
+  const [x1, y1, x2, y2] = open ? t.easing.enter : t.easing.exit;
   useEffect(() => {
     if (!slides) return;
     const animation = Animated.timing(progress, {
       toValue: open ? 1 : 0,
       duration,
       // Frena al llegar y acelera al irse.
-      easing: open ? Easing.out(Easing.cubic) : Easing.in(Easing.cubic),
+      easing: Easing.bezier(x1, y1, x2, y2),
       useNativeDriver: true,
     });
     animation.start(({ finished }) => {
       if (finished && !open) setShown(false);
     });
     return () => animation.stop();
-  }, [slides, progress, open, duration]);
+  }, [slides, progress, open, duration, x1, y1, x2, y2]);
 
   const padding = t.space[5];
   const titleLine = t.font.lineHeight.lg;
@@ -174,8 +175,12 @@ export function ModalDialog({
       }}
       testID={testID === undefined ? undefined : `${testID}-modal`}
     >
-      {/* Mientras se va ya no se puede pulsar. */}
-      <View style={[styles.overlay, shape.overlay, { pointerEvents: open ? 'auto' : 'none' }]}>
+      {/* Mientras se va ya no se puede pulsar ni existe para el lector de pantalla. */}
+      <View
+        accessibilityElementsHidden={!open}
+        importantForAccessibility={open ? 'auto' : 'no-hide-descendants'}
+        style={[styles.overlay, shape.overlay, { pointerEvents: open ? 'auto' : 'none' }]}
+      >
         {/* El oscurecido es una capa propia: así aparece entero mientras la hoja sube. */}
         <Animated.View
           style={[

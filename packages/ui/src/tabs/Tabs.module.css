@@ -84,8 +84,8 @@
 
 .list[data-indicator] .indicator {
   transition:
-    transform var(--duration-normal) ease-out,
-    width var(--duration-normal) ease-out;
+    transform var(--duration-normal) var(--easing-move),
+    width var(--duration-normal) var(--easing-move);
 }
 
 @media (prefers-reduced-motion: reduce) {

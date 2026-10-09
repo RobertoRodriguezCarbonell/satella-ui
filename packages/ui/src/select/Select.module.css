@@ -112,6 +112,32 @@
   cursor: default;
 }
 
+/*
+ * Aparece y desaparece con un fundido corto. La salida la pide la vista con
+ * `data-closing` y espera a que termine para quitarla. Anima `filter` y no `opacity`,
+ * como `Modal`: una lista que está apareciendo no es contenido oculto ni de bajo contraste.
+ */
+.list {
+  animation: list-enter var(--duration-fast) var(--easing-enter);
+}
+
+.list[data-closing] {
+  pointer-events: none;
+  animation: list-exit var(--duration-fast) var(--easing-exit) forwards;
+}
+
+@keyframes list-enter {
+  from {
+    filter: opacity(0);
+  }
+}
+
+@keyframes list-exit {
+  to {
+    filter: opacity(0);
+  }
+}
+
 /* Hacia arriba se ancla por abajo, para crecer desde el disparador. */
 .list[data-side='top'] {
   top: auto;
@@ -162,5 +188,10 @@
 @media (prefers-reduced-motion: reduce) {
   .chevron {
     transition: none;
+  }
+
+  .list,
+  .list[data-closing] {
+    animation: none;
   }
 }

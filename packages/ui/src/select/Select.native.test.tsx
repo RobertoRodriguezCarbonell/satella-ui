@@ -6,8 +6,8 @@ import { renderWithProvider } from '../_testing/render';
 import * as stories from './Select.stories';
 
 // Las historias son la especificación compartida con web (ADR-017). En nativo `Select`
-// es un disparador que abre una lista modal (ADR-042): las opciones son botones de
-// radio dentro de esa lista.
+// es un disparador que abre las opciones en una hoja inferior, la de `Sheet` (ADR-042):
+// son botones de radio dentro de ella.
 const { Default, ConValor, Invalido, Deshabilitado, Controlado, EnFormField } =
   composeStories(stories);
 
@@ -116,7 +116,7 @@ describe('Select (nativo)', () => {
       await renderWithProvider(<Default testID="ciudad" />);
       await user.press(trigger());
 
-      await user.press(screen.getByTestId('ciudad-backdrop', { includeHiddenElements: true }));
+      await user.press(screen.getByTestId('ciudad-list-backdrop', { includeHiddenElements: true }));
 
       expect(screen.queryByRole('radio', { name: 'Madrid' })).toBeNull();
       expect(onValueChange).not.toHaveBeenCalled();
@@ -128,11 +128,34 @@ describe('Select (nativo)', () => {
       await user.press(trigger());
 
       await fireEvent(
-        screen.getByTestId('ciudad-modal', { includeHiddenElements: true }),
+        screen.getByTestId('ciudad-list-modal', { includeHiddenElements: true }),
         'requestClose',
       );
 
       expect(screen.queryByRole('radio', { name: 'Madrid' })).toBeNull();
+    });
+  });
+
+  describe('la hoja de opciones', () => {
+    it('sube desde el borde inferior, como un Sheet, y lleva de título el nombre del campo', async () => {
+      const user = userEvent.setup();
+      await renderWithProvider(<Default testID="ciudad" />);
+      await user.press(trigger());
+
+      const sheet = screen.getByTestId('ciudad-list');
+      expect(
+        styleOf(sheet.parent as unknown as { props: { style?: unknown } }).justifyContent,
+      ).toBe('flex-end');
+      expect(screen.getByRole('header', { name: NAME })).toBeOnTheScreen();
+      expect(screen.getByRole('radio', { name: 'Madrid' })).toBeOnTheScreen();
+    });
+
+    it('sin nombre, el título es el placeholder', async () => {
+      const user = userEvent.setup();
+      await renderWithProvider(<Default accessibilityLabel={undefined} />);
+      await user.press(screen.getByRole('combobox'));
+
+      expect(screen.getByRole('header', { name: 'Elige una ciudad' })).toBeOnTheScreen();
     });
   });
 
