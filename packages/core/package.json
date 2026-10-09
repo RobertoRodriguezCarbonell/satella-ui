@@ -1,6 +1,6 @@
 {
   "name": "@satellatickets/core",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Lógica headless de satella-ui: contratos de props, constantes de variantes, contexto de tema y hooks compartidos por React y React Native",
   "license": "MIT",
   "repository": {
