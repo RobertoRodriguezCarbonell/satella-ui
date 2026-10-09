@@ -1,6 +1,6 @@
 import { themes } from '@satellatickets/tokens';
 import { composeStories } from '@storybook/react';
-import { fireEvent, screen, userEvent, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, screen, userEvent } from '@testing-library/react-native';
 import { Dimensions, StyleSheet } from 'react-native';
 
 import { renderWithProvider } from '../_testing/render';
@@ -31,6 +31,21 @@ describe('Sheet (nativo)', () => {
     onClose.mockClear();
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  /**
+   * Deja pasar el tiempo de la salida. Con temporizadores falsos, para que el test vea la
+   * hoja mientras se va: en Jest una animación nativa termina sola a los 16 ms, y con el
+   * reloj de verdad sería una carrera.
+   */
+  async function finishExit() {
+    await act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+  }
+
   it('cerrada no pinta nada y se abre cuando la app pone open a true', async () => {
     const user = userEvent.setup();
     await renderWithProvider(<Default />);
@@ -43,6 +58,7 @@ describe('Sheet (nativo)', () => {
   });
 
   it('las acciones del pie piden cerrar con onClose', async () => {
+    jest.useFakeTimers();
     const user = userEvent.setup();
     await renderWithProvider(<Abierto />);
 
@@ -51,21 +67,23 @@ describe('Sheet (nativo)', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
     // Sigue en pantalla mientras dura su salida, y entonces desaparece.
     expect(screen.getByRole('header', { name: TITLE })).toBeOnTheScreen();
-    await waitFor(() => expect(screen.queryByRole('header', { name: TITLE })).toBeNull());
+    await finishExit();
+    expect(screen.queryByRole('header', { name: TITLE })).toBeNull();
   });
 
-  it('tocar fuera pide cerrar, una sola vez aunque se toque otra durante la salida', async () => {
+  it('tocar fuera pide cerrar, y mientras se va ya no se puede pulsar', async () => {
+    jest.useFakeTimers();
     const user = userEvent.setup();
     await renderWithProvider(<Abierto testID="filtros" />);
-    const overlay = screen.getByTestId('filtros').parent as unknown as StyledElement;
-    expect(styleOf(overlay).pointerEvents).toBe('auto');
+    const overlay = () => screen.getByTestId('filtros').parent as unknown as StyledElement;
+    expect(styleOf(overlay()).pointerEvents).toBe('auto');
 
     await user.press(screen.getByTestId('filtros-backdrop', HIDDEN));
 
     expect(onClose).toHaveBeenCalledTimes(1);
-    // Mientras se va ya no se puede pulsar.
-    expect(styleOf(overlay).pointerEvents).toBe('none');
-    await waitFor(() => expect(screen.queryByTestId('filtros', HIDDEN)).toBeNull());
+    expect(styleOf(overlay()).pointerEvents).toBe('none');
+    await finishExit();
+    expect(screen.queryByTestId('filtros', HIDDEN)).toBeNull();
   });
 
   it('el botón atrás de Android pide cerrar', async () => {
