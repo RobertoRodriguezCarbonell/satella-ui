@@ -1,5 +1,23 @@
 # @satellatickets/ui
 
+## 0.4.0
+
+### Minor Changes
+
+- [#14](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/14) [`e106881`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/e1068811193ad90f78cd31ce74366705b5038447) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - `Sheet` entra y sale con una animación: la hoja sube desde el borde inferior mientras el fondo se oscurece entero, y al cerrarse baja mientras el fondo se aclara. Dura lo que marca el token `duration.normal` (250 ms).
+  
+  - En web aparecía y desaparecía de golpe.
+  - En nativo se deslizaba la ventana completa, con el fondo dentro, y se veía subir el borde del oscurecido. Ahora el fondo aparece a la vez en toda la pantalla.
+  - Con movimiento reducido en los ajustes del sistema, aparece y desaparece sin animación.
+  
+  Al cerrarse, la hoja y su contenido siguen en pantalla mientras dura la salida, sin poder pulsarse. Un test que compruebe que ha desaparecido nada más cerrarla tiene que esperar a que termine (`waitFor`). `Modal` no cambia.
+
+- [#14](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/14) [`bbef41b`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/bbef41baffc50eb79a78b52a988e0d71773f645b) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - El indicador de `Tabs` se desliza de una pestaña a otra. Antes se apagaba bajo una y se encendía bajo la otra; ahora es una sola barra que se desplaza y cambia de ancho hasta la pestaña elegida, con el ratón, con el toque y con las flechas del teclado. Dura lo que marca el token `duration.normal` (250 ms).
+  
+  - Al cargar aparece ya en su sitio, y si las pestañas cambian de tamaño (llega la fuente, se estrecha la página) las sigue sin deslizarse.
+  - Con movimiento reducido en los ajustes del sistema, cambia de sitio sin animación.
+  - En web, la lista de pestañas lleva dentro un `<span aria-hidden="true">` nuevo, que es la barra. En el servidor, o sin JavaScript, el indicador sigue siendo el borde de la pestaña elegida.
+
 ## 0.3.0
 
 ### Minor Changes
