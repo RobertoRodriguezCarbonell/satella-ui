@@ -1,5 +1,12 @@
 # @satellatickets/core
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [[`50ca773`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/50ca773f51684e1625c36bae0492c34940c167f9)]:
+  - @satellatickets/tokens@0.2.0
+
 ## 0.3.0
 
 ### Minor Changes
