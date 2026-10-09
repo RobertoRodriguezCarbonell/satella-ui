@@ -151,14 +151,36 @@ export const NoDescartable: Story = {
   },
 };
 
-/** Solo el título y el contenido: sin descripción, sin pie y sin botón de cierre. */
+/**
+ * Solo el título y el contenido: sin descripción, sin pie y sin botón de cierre. Se cierra
+ * tocando fuera, con Escape o con el botón atrás.
+ */
 export const SoloContenido: Story = {
   args: { open: true, description: undefined, closeLabel: undefined, title: 'Condiciones' },
   parameters: { visual: 'canvas' },
   globals: { viewport: { value: 'dialogo' } },
-  render: (args) => (
-    <Modal {...args}>Las entradas no se pueden revender por encima de su precio.</Modal>
-  ),
+  // `open` vive en la historia, como en una app. Si se quedara fijo en los args, el
+  // diálogo no se podría cerrar, y en un móvil tapa también la navegación de Storybook.
+  render: function SoloContenido(args) {
+    const [open, setOpen] = useState(args.open);
+    return (
+      <Stack align="start">
+        <Button variant="secondary" onPress={() => setOpen(true)}>
+          Ver condiciones
+        </Button>
+        <Modal
+          {...args}
+          open={open}
+          onClose={() => {
+            setOpen(false);
+            args.onClose();
+          }}
+        >
+          Las entradas no se pueden revender por encima de su precio.
+        </Modal>
+      </Stack>
+    );
+  },
   play: async ({ canvas }) => {
     await expect(await canvas.findByRole('dialog', { name: 'Condiciones' })).toHaveTextContent(
       'Las entradas no se pueden revender por encima de su precio.',
