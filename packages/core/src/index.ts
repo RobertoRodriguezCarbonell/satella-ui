@@ -3,6 +3,7 @@
 // Los contextos y los hooks viven en `client.ts`, que en el build lleva "use client"
 // (ADR-041). Todo lo demás es código puro y se puede usar también desde un Server Component.
 export * from './client';
+export * from './select';
 export * from './tabs';
 export { mergeTheme, resolveColorScheme, resolveTheme } from './theme/resolve-theme';
 export {

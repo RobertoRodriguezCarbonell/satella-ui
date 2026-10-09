@@ -6,7 +6,7 @@ import { renderWithProvider } from '../_testing/render';
 import * as stories from './Select.stories';
 
 // Las historias son la especificación compartida con web (ADR-017). En nativo `Select`
-// es un disparador que abre una lista modal (ADR-038): las opciones son botones de
+// es un disparador que abre una lista modal (ADR-042): las opciones son botones de
 // radio dentro de esa lista.
 const { Default, ConValor, Invalido, Deshabilitado, Controlado, EnFormField } =
   composeStories(stories);
