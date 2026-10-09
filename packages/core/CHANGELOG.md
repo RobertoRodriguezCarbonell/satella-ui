@@ -1,5 +1,116 @@
 # @satellatickets/core
 
+## 0.4.0
+
+### Minor Changes
+
+- [#18](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/18) [`db53b0f`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/db53b0fece7a5b4ab79eae39a8c803d061f7dd82) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - Componente nuevo: `Calendar`, un mes en una rejilla para elegir una fecha o un periodo. Entra como `experimental` en un grupo nuevo del catálogo, **Fechas** (ADR-046).
+  
+  ```tsx
+  <Calendar
+    locale="es"
+    value={date}
+    onValueChange={setDate}
+    previousMonthLabel="Mes anterior"
+    nextMonthLabel="Mes siguiente"
+  />
+  ```
+  
+  - Las fechas son textos ISO (`'2026-10-09'`), sin hora ni zona horaria: lo que se guarda es el día que el usuario ha pulsado, en cualquier parte del mundo. Sin fecha, la cadena vacía.
+  - `mode="range"` elige un periodo `{ start, end }`: una pulsación fija el inicio y la siguiente el final, en el orden que sea. Mientras falta el final, se adelanta hasta el día sobre el que está el puntero o el foco.
+  - Límites con `min` y `max`, días sueltos con `isDateDisabled`, y `isDateMarked` para señalar con un punto los días que tienen algo.
+  - Los nombres de los meses y los días los escribe `Intl` en el idioma de `locale`, que es obligatorio. La semana empieza en lunes (`weekStartsOn`).
+  - El mes que se ve es controlable (`month`, `onMonthChange`), y `today` fija el día que se destaca como hoy.
+  - En web sigue el patrón de rejilla de fechas de ARIA: un solo día en el orden de tabulación, flechas para moverse, Inicio y Fin, RePág y AvPág para cambiar de mes y, con Mayúsculas, de año.
+  - Dos tamaños, `sm` y `md`.
+  
+  `core` exporta el contrato (`CalendarProps`, `DateRange`), el hook `useCalendar` con toda la lógica, y las funciones de fechas sobre texto ISO: `todayISO`, `addDays`, `addMonths`, `shiftMonth`, `toISODate`, `parseISODate`, `isISODate`, `toMonth`, `getMonthWeeks`, `getNextRange`, `isDateInRange`, `createCalendarFormatter` y las demás que usan las vistas.
+
+- [#18](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/18) [`db53b0f`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/db53b0fece7a5b4ab79eae39a8c803d061f7dd82) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - Componente nuevo: `DatePicker`, un campo de formulario que muestra una fecha y abre un `Calendar` para elegirla. Entra como `experimental` en el grupo **Fechas** (ADR-046).
+  
+  ```tsx
+  <FormField label="Fecha del evento">
+    <DatePicker
+      locale="es"
+      value={date}
+      onValueChange={setDate}
+      placeholder="Elige una fecha"
+      previousMonthLabel="Mes anterior"
+      nextMonthLabel="Mes siguiente"
+    />
+  </FormField>
+  ```
+  
+  - La fecha es un texto ISO (`'2026-10-09'`); la cadena vacía es sin fecha. En el campo se escribe en el idioma de `locale` ("9 oct 2026").
+  - Se enlaza con `FormField` como los demás controles, y tiene los tamaños de un campo (`sm`, `md`, `lg`), `disabled`, `invalid` y `required`.
+  - Acepta los mismos límites y días señalados que `Calendar`: `min`, `max`, `isDateDisabled`, `isDateMarked`.
+  - En web, el calendario se pinta en la capa superior del navegador, bajo el campo o encima si no cabe, igual que la lista de `Select`. Al abrirse el foco pasa al día elegido; elegir un día cierra y devuelve el foco al campo, y Escape, pulsar fuera o salir con el tabulador cierran sin cambiar nada. Con `name`, la fecha viaja en un `<form>`.
+  - En React Native, el calendario se abre en la hoja inferior de `Sheet`.
+  - Elige una sola fecha. Para un periodo, `Calendar` con `mode="range"`.
+  
+  `core` exporta el contrato, `DatePickerProps`.
+
+- [#18](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/18) [`db53b0f`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/db53b0fece7a5b4ab79eae39a8c803d061f7dd82) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - Componente nuevo: `Pagination`, para moverse entre las páginas de un listado. Entra como `experimental` en el grupo **Datos** (ADR-045).
+  
+  ```tsx
+  <Pagination
+    page={page}
+    pageCount={12}
+    onPageChange={setPage}
+    accessibilityLabel="Páginas de pedidos"
+    previousLabel="Página anterior"
+    nextLabel="Página siguiente"
+    getPageLabel={(number) => `Página ${number}`}
+  />
+  ```
+  
+  - Anterior, siguiente y los números de página. Si no caben todos, quedan la primera, la última, la actual y sus vecinas (`siblingCount`), con un salto donde se omiten varias. El número de elementos no cambia al pasar de página, así que los botones no se mueven bajo el puntero.
+  - Controlada con `page`, o con estado propio a partir de `defaultPage`. Las páginas empiezan en 1.
+  - Dos tamaños, `sm` y `md`, y `disabled` para mientras llega la página pedida.
+  - No sabe nada de los datos: acompaña a una `Table` o a cualquier otra lista.
+  - En web es un `<nav>` con una lista de botones y `aria-current="page"` en la actual. Los nombres accesibles los da la app.
+  
+  `core` exporta el contrato (`PaginationProps`), `paginationSizes` y las funciones que deciden qué páginas se muestran: `getPaginationItems` y `clampPage`.
+
+- [#18](https://github.com/RobertoRodriguezCarbonell/satella-ui/pull/18) [`db53b0f`](https://github.com/RobertoRodriguezCarbonell/satella-ui/commit/db53b0fece7a5b4ab79eae39a8c803d061f7dd82) Thanks [@RobertoRodriguezCarbonell](https://github.com/RobertoRodriguezCarbonell)! - Componente nuevo: `Table`, una tabla de datos para los listados de un panel. Entra como `experimental` en un grupo nuevo del catálogo, **Datos** (ADR-045).
+  
+  ```tsx
+  <Table
+    accessibilityLabel="Pedidos"
+    columns={[
+      {
+        key: 'id',
+        header: 'Pedido',
+        rowHeader: true,
+        sortable: true,
+        cell: (order) => `#${order.id}`,
+      },
+      {
+        key: 'total',
+        header: 'Total',
+        align: 'end',
+        sortable: true,
+        cell: (order) => euros(order.total),
+      },
+    ]}
+    rows={orders}
+    getRowKey={(order) => order.id}
+    sort={sort}
+    onSortChange={setSort}
+  />
+  ```
+  
+  - Guiada por columnas: cada una dice cómo se llama y cómo se pinta su celda, que puede ser texto o cualquier componente. Alineación, ancho fijo o mínimo, cabecera oculta para las columnas de acciones y celda que identifica a la fila (`rowHeader`).
+  - Pinta las filas que recibe y en ese orden: no ordena ni pagina. Una columna `sortable` avisa con `onSortChange` del orden que se pide, y la app devuelve las filas ya ordenadas.
+  - Selección con `selectable`: una casilla por fila y otra en la cabecera, con estado intermedio. `selectedKeys` guarda las claves, también las de otras páginas.
+  - `loading` sustituye las filas por huecos; `empty` es lo que se ve cuando no hay ninguna.
+  - Dos densidades, `sm` y `md`.
+  - En web es un `<table>` real que se desplaza en horizontal dentro de su contenedor cuando no cabe. En React Native es una rejilla en la que cada columna mide lo mismo en todas las filas, también con desplazamiento horizontal, y cada celda de texto se anuncia con el nombre de su columna.
+  
+  `core` exporta el contrato (`TableProps`, `TableColumn`, `TableSort`), las constantes `tableSizes`, `tableAligns` y `sortDirections`, y la lógica que usan las vistas: `getNextSort`, `getSelectionState`, `toggleSelectedKey`, `toggleAllSelected` y `getColumnWidths`.
+  
+  `Icon` tiene cuatro iconos nuevos: `arrow-up`, `arrow-down`, `chevrons-up-down` y `ellipsis`.
+
 ## 0.3.1
 
 ### Patch Changes
