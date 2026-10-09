@@ -1,0 +1,19 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "easing": {
+    "$type": "cubicBezier",
+    "$description": "Curvas de las animaciones. En nativo se emiten como los cuatro números de la curva, para `Easing.bezier`.",
+    "enter": {
+      "$description": "Para lo que aparece: llega rápido y frena.",
+      "$value": [0, 0, 0.2, 1]
+    },
+    "exit": {
+      "$description": "Para lo que se va: arranca despacio y acelera.",
+      "$value": [0.4, 0, 1, 1]
+    },
+    "move": {
+      "$description": "Para lo que cambia de sitio sin salir de la pantalla: arranca y frena.",
+      "$value": [0.4, 0, 0.2, 1]
+    }
+  }
+}

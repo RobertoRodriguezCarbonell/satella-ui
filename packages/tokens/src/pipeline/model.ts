@@ -9,6 +9,7 @@ export const SUPPORTED_TYPES = [
   'fontFamily',
   'fontWeight',
   'duration',
+  'cubicBezier',
   'number',
   'shadow',
 ] as const;
@@ -36,6 +37,9 @@ export interface DtcgDurationValue {
   value: number;
   unit: 'ms' | 's';
 }
+
+/** Los cuatro números de una curva de Bézier cúbica: `[x1, y1, x2, y2]`. */
+export type DtcgCubicBezierValue = [number, number, number, number];
 
 export type DtcgFontFamilyValue = string | string[];
 
@@ -95,4 +99,4 @@ export interface BoxShadow {
   inset?: boolean;
 }
 
-export type NativeValue = string | number | undefined | BoxShadow[];
+export type NativeValue = string | number | undefined | BoxShadow[] | DtcgCubicBezierValue;

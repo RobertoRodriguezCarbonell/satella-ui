@@ -96,6 +96,14 @@ describe('duraciones y números', () => {
   });
 });
 
+describe('curvas', () => {
+  it('emite `cubic-bezier()` en CSS y los cuatro números en nativo', () => {
+    const curve = token({ type: 'cubicBezier', value: [0.4, 0, 0.2, 1] });
+    expect(toCssValue(curve)).toBe('cubic-bezier(0.4, 0, 0.2, 1)');
+    expect(toNativeValue(curve)).toEqual([0.4, 0, 0.2, 1]);
+  });
+});
+
 describe('sombras', () => {
   const layer = {
     color: { colorSpace: 'srgb', components: [0, 0, 0], alpha: 0.1, hex: '#000000' },

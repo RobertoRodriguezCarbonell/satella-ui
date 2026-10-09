@@ -22,7 +22,7 @@ En las apps, `UIProvider` de `@satellatickets/ui` se encarga de aplicar tema y m
 
 ```
 src/
-├── primitives/      paleta (`palette.*`, nunca se emite) y escalas: space, radius, font, shadow, duration, zIndex
+├── primitives/      paleta (`palette.*`, nunca se emite) y escalas: space, radius, font, shadow, duration, easing, zIndex
 ├── semantic/        light.tokens.json y dark.tokens.json: `color.*` con significado de uso
 ├── brands/          overrides por marca (ver brands/README.md)
 ├── contrast-pairs.json   parejas texto/fondo que deben cumplir WCAG AA
@@ -50,15 +50,16 @@ Además de color, tipografía, espaciado, radios y sombras, hay dos escalas pens
 
 ## Reglas de conversión
 
-| Tipo DTCG    | CSS                                                                                    | React Native                                                                                                                    |
-| ------------ | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `color`      | `#rrggbb`, o `#rrggbbaa` si tiene alpha                                                | igual                                                                                                                           |
-| `dimension`  | px → rem (÷16); `$extensions["com.satellatickets.tokens"].css.unit = "px"` mantiene px | número en puntos (rem × 16)                                                                                                     |
-| `fontFamily` | pila completa, con comillas donde hace falta                                           | primera familia; `undefined` (fuente del sistema) si la pila empieza por una genérica; la extensión `native.fontFamily` la fija |
-| `fontWeight` | número                                                                                 | cadena (`"600"`)                                                                                                                |
-| `duration`   | con su unidad (`200ms`)                                                                | milisegundos                                                                                                                    |
-| `number`     | tal cual                                                                               | tal cual                                                                                                                        |
-| `shadow`     | `box-shadow`, en px                                                                    | array `boxShadow` de la Nueva Arquitectura                                                                                      |
+| Tipo DTCG     | CSS                                                                                    | React Native                                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `color`       | `#rrggbb`, o `#rrggbbaa` si tiene alpha                                                | igual                                                                                                                           |
+| `dimension`   | px → rem (÷16); `$extensions["com.satellatickets.tokens"].css.unit = "px"` mantiene px | número en puntos (rem × 16)                                                                                                     |
+| `fontFamily`  | pila completa, con comillas donde hace falta                                           | primera familia; `undefined` (fuente del sistema) si la pila empieza por una genérica; la extensión `native.fontFamily` la fija |
+| `fontWeight`  | número                                                                                 | cadena (`"600"`)                                                                                                                |
+| `duration`    | con su unidad (`200ms`)                                                                | milisegundos                                                                                                                    |
+| `cubicBezier` | `cubic-bezier(x1, y1, x2, y2)`                                                         | los cuatro números, `[x1, y1, x2, y2]`, para `Easing.bezier`                                                                    |
+| `number`      | tal cual                                                                               | tal cual                                                                                                                        |
+| `shadow`      | `box-shadow`, en px                                                                    | array `boxShadow` de la Nueva Arquitectura                                                                                      |
 
 Solo se soporta el espacio de color `srgb`; cada color lleva `hex` de respaldo y el test comprueba que coincide con los componentes.
 

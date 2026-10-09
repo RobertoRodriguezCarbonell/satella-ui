@@ -12,6 +12,7 @@ import { colorToHex } from './color.ts';
 import type {
   BoxShadow,
   DtcgColorValue,
+  DtcgCubicBezierValue,
   DtcgDimensionValue,
   DtcgDurationValue,
   DtcgFontFamilyValue,
@@ -128,6 +129,10 @@ export function durationToMs(value: DtcgDurationValue): number {
   return value.unit === 's' ? value.value * 1000 : value.value;
 }
 
+export function cubicBezierToCss(value: DtcgCubicBezierValue): string {
+  return `cubic-bezier(${value.map(formatNumber).join(', ')})`;
+}
+
 function shadowLayers(value: DtcgShadowValue): DtcgShadowLayer[] {
   return Array.isArray(value) ? value : [value];
 }
@@ -172,6 +177,8 @@ export function toCssValue(token: ResolvedToken): string {
       return String(fontWeightToNumber(token.value as DtcgFontWeightValue));
     case 'duration':
       return durationToCss(token.value as DtcgDurationValue);
+    case 'cubicBezier':
+      return cubicBezierToCss(token.value as DtcgCubicBezierValue);
     case 'number':
       return formatNumber(token.value as number);
     case 'shadow':
@@ -191,6 +198,8 @@ export function toNativeValue(token: ResolvedToken): NativeValue {
       return String(fontWeightToNumber(token.value as DtcgFontWeightValue));
     case 'duration':
       return durationToMs(token.value as DtcgDurationValue);
+    case 'cubicBezier':
+      return token.value as DtcgCubicBezierValue;
     case 'number':
       return token.value as number;
     case 'shadow':
@@ -211,6 +220,8 @@ export function nativeTypeName(type: ResolvedToken['type']): string {
       return 'string | undefined';
     case 'fontWeight':
       return 'FontWeight';
+    case 'cubicBezier':
+      return 'CubicBezier';
     case 'shadow':
       return 'BoxShadow[]';
   }
