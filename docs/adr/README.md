@@ -48,6 +48,8 @@ Cada decisión de arquitectura relevante se registra en un fichero numerado. Un 
 | [040](040-modal-y-sheet-dialog-nativo.md) | `Modal` y `Sheet` comparten contrato y usan `<dialog>` en web y `Modal` en nativo | Aceptado |
 | [041](041-use-client-y-frontera-de-core.md) | El build web lleva `"use client"` y `core` separa lo que necesita el cliente | Aceptado |
 | [042](042-select-con-lista-propia-en-web.md) | `Select` pinta su propia lista también en web | Aceptado |
+| [043](043-movimiento-curvas-y-salidas-animadas.md) | Movimiento: curvas en los tokens y salidas animadas | Aceptado |
+| [044](044-modal-y-sheet-bloquean-el-desplazamiento.md) | `Modal` y `Sheet` bloquean el desplazamiento de la página en web | Aceptado |
 
 ## Plantilla
 

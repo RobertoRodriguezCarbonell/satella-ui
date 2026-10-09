@@ -1,6 +1,6 @@
 import type { SelectOption } from '@satellatickets/core';
 import { useState } from 'react';
-import { expect, fn, type userEvent } from 'storybook/test';
+import { expect, fn, waitFor, type userEvent } from 'storybook/test';
 
 import type { Meta, StoryObj } from '../_storybook/types';
 import { Box } from '../box';
@@ -170,7 +170,7 @@ export const CerrarSinElegir: Story = {
       <Text color="muted">Fuera del campo</Text>
     </Stack>
   ),
-  play: async ({ args, canvas, userEvent }) => {
+  play: async ({ args, canvas, canvasElement, userEvent }) => {
     const select = canvas.getByRole('combobox', { name: 'Ciudad' });
 
     await userEvent.click(select);
@@ -190,6 +190,9 @@ export const CerrarSinElegir: Story = {
 
     await expect(args.onValueChange).not.toHaveBeenCalled();
     await expect(select).toHaveTextContent('Elige una ciudad');
+    // La lista se va con un fundido y entonces deja de existir.
+    await waitFor(() => expect(canvasElement.querySelector('[data-closing]')).toBeNull());
+    await expect(canvasElement.querySelector('[popover]')).toBeNull();
   },
 };
 

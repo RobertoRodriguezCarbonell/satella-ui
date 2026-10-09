@@ -56,31 +56,67 @@
 }
 
 /*
- * La hoja sube desde el borde mientras el fondo se oscurece entero, y se va igual. La
- * salida la pide la vista con `data-closing` y espera a que termine para cerrar el
- * `<dialog>`: mientras tanto sigue en la capa superior, pero ya no se puede pulsar.
+ * Entrada y salida. `Modal` aparece con un fundido; `Sheet` sube desde el borde. En los
+ * dos, el fondo se oscurece entero a la vez. La salida la pide la vista con
+ * `data-closing` y espera a que termine para cerrar el `<dialog>`: mientras tanto sigue
+ * en la capa superior, pero ya no se puede pulsar.
+ *
+ * El fundido anima `filter` y no `opacity`: las herramientas de accesibilidad y de test
+ * leen `opacity` como contenido oculto o de poco contraste, y un diálogo que está
+ * apareciendo no lo es.
  */
+.dialog[open] {
+  animation: fade-enter var(--duration-fast) var(--easing-enter);
+}
+
+.dialog[open]::backdrop {
+  animation: backdrop-enter var(--duration-fast) var(--easing-enter);
+}
+
+.dialog[data-closing] {
+  animation: fade-exit var(--duration-fast) var(--easing-exit) forwards;
+}
+
+.dialog[data-closing]::backdrop {
+  animation: backdrop-exit var(--duration-fast) var(--easing-exit) forwards;
+}
+
 .sheet[open] {
-  animation: sheet-enter var(--duration-normal) ease-out;
+  animation: sheet-enter var(--duration-normal) var(--easing-enter);
 }
 
 .sheet[open]::backdrop {
-  animation: backdrop-enter var(--duration-normal) ease-out;
+  animation: backdrop-enter var(--duration-normal) var(--easing-enter);
 }
 
 .sheet[data-closing] {
-  animation: sheet-exit var(--duration-normal) ease-in forwards;
-  pointer-events: none;
+  animation: sheet-exit var(--duration-normal) var(--easing-exit) forwards;
 }
 
 .sheet[data-closing]::backdrop {
-  animation: backdrop-exit var(--duration-normal) ease-in forwards;
+  animation: backdrop-exit var(--duration-normal) var(--easing-exit) forwards;
+}
+
+.root[data-closing] {
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sheet[open],
-  .sheet[open]::backdrop {
+  .root[open],
+  .root[open]::backdrop {
     animation: none;
+  }
+}
+
+@keyframes fade-enter {
+  from {
+    filter: opacity(0);
+  }
+}
+
+@keyframes fade-exit {
+  to {
+    filter: opacity(0);
   }
 }
 

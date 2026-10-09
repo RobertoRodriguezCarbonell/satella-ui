@@ -2,6 +2,7 @@ import { useTheme, type ToastStore } from '@satellatickets/core';
 import { useEffect, useRef, useSyncExternalStore } from 'react';
 import { AccessibilityInfo, StyleSheet, View } from 'react-native';
 
+import { useLeaving } from '../_internal/useLeaving';
 import { Toast } from './Toast';
 
 // Estilos que no dependen del tema (ADR-008).
@@ -17,6 +18,8 @@ const styles = StyleSheet.create({
 export function ToastViewport({ store }: { store: ToastStore }) {
   const t = useTheme();
   const toasts = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot);
+  // Un toast cerrado sigue en pantalla lo que dura su salida.
+  const [items, remove] = useLeaving(toasts);
   const announced = useRef(new Set<string>());
 
   // Cada toast se anuncia una vez al llegar, en iOS y en Android.
@@ -34,7 +37,7 @@ export function ToastViewport({ store }: { store: ToastStore }) {
     }
   }, [toasts]);
 
-  if (toasts.length === 0) return null;
+  if (items.length === 0) return null;
 
   return (
     <View
@@ -51,8 +54,14 @@ export function ToastViewport({ store }: { store: ToastStore }) {
         },
       ]}
     >
-      {toasts.map((toast) => (
-        <Toast key={toast.id} toast={toast} onDismiss={() => store.dismiss(toast.id)} />
+      {items.map(({ item, leaving }) => (
+        <Toast
+          key={item.id}
+          toast={item}
+          leaving={leaving}
+          onDismiss={() => store.dismiss(item.id)}
+          onExited={() => remove(item.id)}
+        />
       ))}
     </View>
   );

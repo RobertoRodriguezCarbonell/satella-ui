@@ -60,22 +60,24 @@ describe('Sheet (nativo)', () => {
   it('las acciones del pie piden cerrar con onClose', async () => {
     jest.useFakeTimers();
     const user = userEvent.setup();
-    await renderWithProvider(<Abierto />);
+    await renderWithProvider(<Abierto testID="filtros" />);
 
     await user.press(screen.getByRole('button', { name: 'Aplicar' }));
 
     expect(onClose).toHaveBeenCalledTimes(1);
-    // Sigue en pantalla mientras dura su salida, y entonces desaparece.
-    expect(screen.getByRole('header', { name: TITLE })).toBeOnTheScreen();
-    await finishExit();
+    // Para el lector de pantalla deja de existir en el momento. En pantalla sigue
+    // mientras dura su salida, y entonces desaparece.
     expect(screen.queryByRole('header', { name: TITLE })).toBeNull();
+    expect(screen.getByTestId('filtros', HIDDEN)).toBeOnTheScreen();
+    await finishExit();
+    expect(screen.queryByTestId('filtros', HIDDEN)).toBeNull();
   });
 
   it('tocar fuera pide cerrar, y mientras se va ya no se puede pulsar', async () => {
     jest.useFakeTimers();
     const user = userEvent.setup();
     await renderWithProvider(<Abierto testID="filtros" />);
-    const overlay = () => screen.getByTestId('filtros').parent as unknown as StyledElement;
+    const overlay = () => screen.getByTestId('filtros', HIDDEN).parent as unknown as StyledElement;
     expect(styleOf(overlay()).pointerEvents).toBe('auto');
 
     await user.press(screen.getByTestId('filtros-backdrop', HIDDEN));

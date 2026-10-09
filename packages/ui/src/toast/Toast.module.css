@@ -41,7 +41,17 @@
   color: var(--color-text-primary);
   font-family: var(--font-family-sans);
   pointer-events: auto;
-  animation: enter var(--duration-normal) ease-out;
+  animation: enter var(--duration-normal) var(--easing-enter);
+}
+
+/*
+ * Al cerrarse se va por donde vino, algo más rápido. La zona de avisos lo marca con
+ * `data-closing` y deja de pintarlo cuando la animación termina. Anima `filter` y no
+ * `opacity` por lo mismo que `Modal`: mientras se va no es contenido de bajo contraste.
+ */
+.root[data-closing] {
+  pointer-events: none;
+  animation: exit var(--duration-fast) var(--easing-exit) forwards;
 }
 
 /* El icono se alinea con la primera línea del texto. */
@@ -88,8 +98,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .root {
+  .root,
+  .root[data-closing] {
     animation: none;
+  }
+}
+
+@keyframes exit {
+  to {
+    filter: opacity(0);
+    transform: translateY(var(--space-2));
   }
 }
 

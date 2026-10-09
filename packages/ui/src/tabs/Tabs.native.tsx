@@ -76,16 +76,17 @@ export function Tabs({
     setBar({ left: new Animated.Value(target.x), width: new Animated.Value(target.width) });
   }
 
+  const [x1, y1, x2, y2] = t.easing.move;
   useEffect(() => {
     if (bar === undefined || target === undefined) return;
-    const options = { duration, easing: Easing.out(Easing.cubic), useNativeDriver: true };
+    const options = { duration, easing: Easing.bezier(x1, y1, x2, y2), useNativeDriver: true };
     const animation = Animated.parallel([
       Animated.timing(bar.left, { toValue: target.x, ...options }),
       Animated.timing(bar.width, { toValue: target.width, ...options }),
     ]);
     animation.start();
     return () => animation.stop();
-  }, [bar, target, duration]);
+  }, [bar, target, duration, x1, y1, x2, y2]);
 
   const label: TextStyle = {
     fontSize: t.font.size.sm,

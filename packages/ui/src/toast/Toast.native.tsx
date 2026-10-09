@@ -1,6 +1,14 @@
 import { useTheme } from '@satellatickets/core';
-import { useEffect, useState } from 'react';
-import { Animated, StyleSheet, Text, View, type TextStyle, type ViewStyle } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import {
+  Animated,
+  Easing,
+  StyleSheet,
+  Text,
+  View,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native';
 
 import { feedbackIcon, feedbackUrgent } from '../_internal/feedback';
 import { useReducedMotion } from '../_internal/useReducedMotion';
@@ -22,19 +30,34 @@ const styles = StyleSheet.create({
  * La tarjeta de un toast. Es interna: los toasts se muestran con `useToast` y los
  * pinta `UIProvider` (ADR-039).
  */
-export function Toast({ toast, onDismiss }: ToastCardProps) {
+export function Toast({ toast, onDismiss, leaving = false, onExited }: ToastCardProps) {
   const { tone, title, description, action, closeLabel } = toast;
   const t = useTheme();
   const reducedMotion = useReducedMotion();
   const [entered] = useState(() => new Animated.Value(0));
-  const duration = reducedMotion ? 0 : t.duration.normal;
-
-  // Aparece subiendo un poco, como en web.
+  // Entra en lo que marca `duration.normal` y sale algo más rápido, como en web.
+  const duration = reducedMotion ? 0 : leaving ? t.duration.fast : t.duration.normal;
+  const [x1, y1, x2, y2] = leaving ? t.easing.exit : t.easing.enter;
+  // La última `onExited`, sin que cambiarla reinicie la animación.
+  const exited = useRef(onExited);
   useEffect(() => {
-    const animation = Animated.timing(entered, { toValue: 1, duration, useNativeDriver: true });
-    animation.start();
+    exited.current = onExited;
+  });
+
+  // Aparece subiendo un poco y se va por donde vino. La zona de avisos deja de pintarlo
+  // cuando la salida termina.
+  useEffect(() => {
+    const animation = Animated.timing(entered, {
+      toValue: leaving ? 0 : 1,
+      duration,
+      easing: Easing.bezier(x1, y1, x2, y2),
+      useNativeDriver: true,
+    });
+    animation.start(({ finished }) => {
+      if (finished && leaving) exited.current?.();
+    });
     return () => animation.stop();
-  }, [entered, duration]);
+  }, [entered, leaving, duration, x1, y1, x2, y2]);
 
   const titleLine = t.font.lineHeight.md;
   const container: ViewStyle = {
@@ -71,10 +94,14 @@ export function Toast({ toast, onDismiss }: ToastCardProps) {
 
   return (
     <Animated.View
+      // Mientras se va ya no existe para el lector de pantalla ni se puede pulsar.
+      accessibilityElementsHidden={leaving}
+      importantForAccessibility={leaving ? 'no-hide-descendants' : 'auto'}
       style={[
         styles.root,
         container,
         {
+          pointerEvents: leaving ? 'none' : 'auto',
           opacity: entered,
           transform: [
             {
