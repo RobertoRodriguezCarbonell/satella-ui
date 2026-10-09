@@ -64,3 +64,11 @@ peerDependencyRules:
     '@storybook/react-native>react-native-safe-area-context': '>=5.7.0'
     '@storybook/react-native-ui>react-native-reanimated': '>=4.3.0'
     '@storybook/react-native-ui>react-native-safe-area-context': '>=5.7.0'
+
+# Parches de seguridad en dependencias transitivas de las herramientas de desarrollo.
+# Ninguna viaja en los paquetes publicados.
+overrides:
+  # GHSA-w5hq-g745-h8pq. `xcode` (que usa Expo para generar proyectos nativos) fija
+  # uuid 7 y solo llama a `uuid.v4()`, que existe igual en la 11. Quitar cuando `xcode`
+  # actualice su dependencia.
+  'xcode>uuid': ^11.1.1
