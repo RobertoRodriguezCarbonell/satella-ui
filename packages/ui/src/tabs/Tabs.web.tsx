@@ -4,7 +4,7 @@ import {
   useControllableState,
   type TabDirection,
 } from '@satellatickets/core';
-import { useId, useRef, type KeyboardEvent } from 'react';
+import { useId, useLayoutEffect, useRef, type KeyboardEvent } from 'react';
 
 import { cx } from '../_internal/cx';
 import { Icon } from '../icon/Icon';
@@ -38,7 +38,52 @@ export function Tabs({
     defaultValue: defaultValue ?? firstEnabledTab(items) ?? '',
     onChange: onValueChange,
   });
+  const list = useRef<HTMLDivElement>(null);
+  const indicator = useRef<HTMLSpanElement>(null);
   const tabs = useRef(new Map<string, HTMLButtonElement>());
+
+  // El indicador es una sola barra que se desliza hasta la pestaña elegida. El CSS no
+  // sabe dónde está cada pestaña: se mide aquí y se le pasa en dos variables.
+  useLayoutEffect(() => {
+    const element = list.current;
+    const bar = indicator.current;
+    if (element === null || bar === null) return;
+    let placed = { left: Number.NaN, width: Number.NaN };
+    const place = () => {
+      const tab = tabs.current.get(selected);
+      placed = { left: tab?.offsetLeft ?? 0, width: tab?.offsetWidth ?? 0 };
+      element.style.setProperty('--tabs-indicator-left', `${placed.left}px`);
+      element.style.setProperty('--tabs-indicator-width', `${placed.width}px`);
+    };
+    // Sin deslizarse: se aplica la posición con la transición apagada.
+    const snap = () => {
+      bar.style.transition = 'none';
+      place();
+      bar.getBoundingClientRect();
+      bar.style.transition = '';
+    };
+
+    if (element.dataset.indicator === undefined) {
+      // La primera vez aparece ya en su sitio, no llegando desde el borde.
+      snap();
+      element.dataset.indicator = '';
+    } else {
+      place();
+    }
+
+    // Las pestañas cambian de tamaño sin que React se entere: al cargar la fuente, al
+    // estrecharse la página. Ahí la barra las sigue en el momento; deslizarse es solo
+    // para el cambio de pestaña.
+    const observer = new ResizeObserver(() => {
+      const tab = tabs.current.get(selected);
+      const moved =
+        (tab?.offsetLeft ?? 0) !== placed.left || (tab?.offsetWidth ?? 0) !== placed.width;
+      if (moved) snap();
+    });
+    observer.observe(element);
+    for (const tab of tabs.current.values()) observer.observe(tab);
+    return () => observer.disconnect();
+  }, [selected, items]);
 
   const selectedIndex = items.findIndex((item) => item.value === selected);
   const active = items[selectedIndex];
@@ -55,7 +100,7 @@ export function Tabs({
 
   return (
     <div className={cx(styles.root, className)} style={style} data-testid={testID}>
-      <div role="tablist" aria-label={accessibilityLabel} className={styles.list}>
+      <div ref={list} role="tablist" aria-label={accessibilityLabel} className={styles.list}>
         {items.map((item, index) => {
           const isSelected = item.value === selected;
           return (
@@ -82,6 +127,7 @@ export function Tabs({
             </button>
           );
         })}
+        <span ref={indicator} className={styles.indicator} aria-hidden="true" />
       </div>
       {active?.content === undefined || active.content === null ? null : (
         <div

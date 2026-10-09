@@ -55,6 +55,59 @@
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/*
+ * La hoja sube desde el borde mientras el fondo se oscurece entero, y se va igual. La
+ * salida la pide la vista con `data-closing` y espera a que termine para cerrar el
+ * `<dialog>`: mientras tanto sigue en la capa superior, pero ya no se puede pulsar.
+ */
+.sheet[open] {
+  animation: sheet-enter var(--duration-normal) ease-out;
+}
+
+.sheet[open]::backdrop {
+  animation: backdrop-enter var(--duration-normal) ease-out;
+}
+
+.sheet[data-closing] {
+  animation: sheet-exit var(--duration-normal) ease-in forwards;
+  pointer-events: none;
+}
+
+.sheet[data-closing]::backdrop {
+  animation: backdrop-exit var(--duration-normal) ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet[open],
+  .sheet[open]::backdrop {
+    animation: none;
+  }
+}
+
+@keyframes sheet-enter {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-exit {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes backdrop-enter {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes backdrop-exit {
+  to {
+    opacity: 0;
+  }
+}
+
 .header {
   display: flex;
   align-items: flex-start;

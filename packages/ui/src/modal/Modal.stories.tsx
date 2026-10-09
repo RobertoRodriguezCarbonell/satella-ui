@@ -127,20 +127,25 @@ export const NoDescartable: Story = {
   render: function NoDescartable(args) {
     const [open, setOpen] = useState(args.open);
     return (
-      <Modal
-        {...args}
-        open={open}
-        footer={
-          <Button
-            onPress={() => {
-              setOpen(false);
-              args.onClose();
-            }}
-          >
-            Seguir comprando
-          </Button>
-        }
-      />
+      <Stack align="start">
+        <Button variant="secondary" onPress={() => setOpen(true)}>
+          Reservar entradas
+        </Button>
+        <Modal
+          {...args}
+          open={open}
+          footer={
+            <Button
+              onPress={() => {
+                setOpen(false);
+                args.onClose();
+              }}
+            >
+              Seguir comprando
+            </Button>
+          }
+        />
+      </Stack>
     );
   },
   play: async ({ args, canvas, userEvent }) => {
@@ -204,31 +209,36 @@ export const ConFormulario: Story = {
       args.onClose();
     };
     return (
-      <Modal
-        {...args}
-        open={open}
-        onClose={close}
-        footer={
-          <>
-            <Button variant="ghost" onPress={close}>
-              Cancelar
-            </Button>
-            <Button onPress={close}>Guardar</Button>
-          </>
-        }
-      >
-        <Stack gap={4}>
-          <FormField label="Nombre y apellidos" required>
-            <Input defaultValue="Ana García" />
-          </FormField>
-          <FormField label="Documento" help="DNI, NIE o pasaporte.">
-            <Input />
-          </FormField>
-          <Text variant="caption" color="muted">
-            Puedes cambiarlo hasta 24 horas antes del evento.
-          </Text>
-        </Stack>
-      </Modal>
+      <Stack align="start">
+        <Button variant="secondary" onPress={() => setOpen(true)}>
+          Cambiar el titular
+        </Button>
+        <Modal
+          {...args}
+          open={open}
+          onClose={close}
+          footer={
+            <>
+              <Button variant="ghost" onPress={close}>
+                Cancelar
+              </Button>
+              <Button onPress={close}>Guardar</Button>
+            </>
+          }
+        >
+          <Stack gap={4}>
+            <FormField label="Nombre y apellidos" required>
+              <Input defaultValue="Ana García" />
+            </FormField>
+            <FormField label="Documento" help="DNI, NIE o pasaporte.">
+              <Input />
+            </FormField>
+            <Text variant="caption" color="muted">
+              Puedes cambiarlo hasta 24 horas antes del evento.
+            </Text>
+          </Stack>
+        </Modal>
+      </Stack>
     );
   },
   play: async ({ canvas }) => {

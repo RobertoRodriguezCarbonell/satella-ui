@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { composeStories } from '@storybook/react';
-import { screen, userEvent } from '@testing-library/react-native';
+import { screen, userEvent, waitFor } from '@testing-library/react-native';
 import type { ComponentType } from 'react';
 
 import { renderWithProvider } from './render';
@@ -61,18 +61,26 @@ describe('historias en nativo', () => {
           const user = userEvent.setup();
           await renderWithProvider(<Story testID="dialogo" />);
           const isOpen = () => screen.queryByTestId('dialogo', HIDDEN) !== null;
+          // Una hoja no desaparece en el momento: tarda lo que dura su salida.
+          const leaves = () =>
+            waitFor(() => expect(isOpen()).toBe(false)).then(
+              () => true,
+              () => false,
+            );
           expect(isOpen()).toBe(true);
 
           // Tocar fuera cierra un diálogo descartable. El que exige respuesta trae un botón
           // con el que darla.
           await user.press(screen.getByTestId('dialogo-backdrop', HIDDEN));
-          for (let next = 0; isOpen(); next += 1) {
+          let left = await leaves();
+          for (let next = 0; !left; next += 1) {
             const button = screen.queryAllByRole('button')[next];
             if (button === undefined) break;
             await user.press(button);
+            left = await leaves();
           }
 
-          expect(isOpen()).toBe(false);
+          expect(left).toBe(true);
         });
       }
     },
