@@ -1,6 +1,6 @@
 # ADR-038: `Select` usa el `<select>` del navegador en web y una lista modal en nativo
 
-**Estado:** Aceptado
+**Estado:** Superseded por ADR-042
 **Fecha:** 2026-10-08
 
 ## Contexto

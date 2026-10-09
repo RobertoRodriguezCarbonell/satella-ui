@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 });
 
 /**
- * Un disparador con aspecto de `Input` que abre una lista modal (ADR-038). React
+ * Un disparador con aspecto de `Input` que abre una lista modal (ADR-042). React
  * Native no trae ningún selector, y así `Select` no añade dependencias.
  */
 export function Select({

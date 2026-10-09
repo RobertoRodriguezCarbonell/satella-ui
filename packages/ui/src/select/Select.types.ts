@@ -6,14 +6,15 @@ export type { SelectOption, SelectProps } from '@satellatickets/core';
 
 /** Extensión solo web del contrato (ADR-009): atributos de formulario y escape hatches. */
 export interface SelectWebProps extends SelectProps {
-  /** `id` del `<select>`. Dentro de un `FormField` no hace falta: lo pone él. */
+  /** `id` del botón que abre la lista. Dentro de un `FormField` no hace falta: lo pone él. */
   id?: string | undefined;
   /** Nombre con el que viaja en un `<form>`. */
   name?: string | undefined;
-  /** Se aplican a la caja del campo, no al `<select>`. */
+  /** Se aplican a la caja del campo, no al botón. */
   className?: string | undefined;
   style?: CSSProperties | undefined;
-  ref?: Ref<HTMLSelectElement> | undefined;
+  /** El botón que abre la lista (ADR-042). */
+  ref?: Ref<HTMLButtonElement> | undefined;
 }
 
 /** Extensión solo nativa del contrato. */

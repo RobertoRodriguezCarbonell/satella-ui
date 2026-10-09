@@ -9,7 +9,7 @@ export interface SelectOption {
   disabled?: boolean | undefined;
 }
 
-/** Contrato de `Select`: elegir una opción de una lista (ADR-038). */
+/** Contrato de `Select`: elegir una opción de una lista (ADR-042). */
 export interface SelectProps {
   options: readonly SelectOption[];
   /** Opción elegida, controlada por la app. Sin ella, guarda su propio estado (ADR-037). */

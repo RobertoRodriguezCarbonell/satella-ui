@@ -239,6 +239,21 @@
       "foreground": "color.text.primary",
       "background": "color.feedback.info.bg",
       "level": "ui"
+    },
+    {
+      "foreground": "color.text.link",
+      "background": "color.bg.elevated",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.text.link",
+      "background": "color.bg.muted",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.border.focus",
+      "background": "color.bg.elevated",
+      "level": "ui"
     }
   ]
 }

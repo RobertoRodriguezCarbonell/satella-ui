@@ -41,23 +41,52 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * Sin opción elegida muestra el placeholder. Al elegir avisa con el `value` de la
- * opción, no con su texto.
+ * Sin opción elegida muestra el placeholder. Al pulsarlo abre la lista; al elegir avisa
+ * con el `value` de la opción, no con su texto, y la cierra.
  */
 export const Default: Story = {
   play: async ({ args, canvas, userEvent }) => {
     const select = canvas.getByRole('combobox', { name: 'Ciudad' });
-    await expect(select).toHaveValue('');
-    await userEvent.selectOptions(select, 'Barcelona');
-    await expect(select).toHaveValue('bcn');
+    await expect(select).toHaveTextContent('Elige una ciudad');
+    await expect(canvas.queryByRole('listbox')).toBeNull();
+
+    await userEvent.click(select);
+    await expect(select).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.click(canvas.getByRole('option', { name: 'Barcelona' }));
+
+    await expect(select).toHaveTextContent('Barcelona');
     await expect(args.onValueChange).toHaveBeenLastCalledWith('bcn');
+    await expect(canvas.queryByRole('listbox')).toBeNull();
   },
 };
 
 export const ConValor: Story = {
   args: { defaultValue: 'vlc' },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('combobox', { name: 'Ciudad' })).toHaveValue('vlc');
+    await expect(canvas.getByRole('combobox', { name: 'Ciudad' })).toHaveTextContent('Valencia');
+  },
+};
+
+/**
+ * La lista abierta: la opción elegida lleva una marca y es la que aparece resaltada. En
+ * web sale bajo el campo, con su ancho; en nativo ocupa el centro de la pantalla.
+ */
+export const Abierto: Story = {
+  args: { defaultValue: 'vlc' },
+  // La lista se pinta fuera de la caja de la historia: se captura el lienzo entero.
+  parameters: { visual: 'canvas' },
+  globals: { viewport: { value: 'dialogo' } },
+  play: async ({ canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('combobox', { name: 'Ciudad' }));
+    await expect(canvas.getByRole('listbox', { name: 'Ciudad' })).toBeVisible();
+    await expect(canvas.getByRole('option', { name: 'Valencia' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    await expect(canvas.getByRole('option', { name: 'Madrid' })).toHaveAttribute(
+      'aria-selected',
+      'false',
+    );
   },
 };
 
@@ -90,15 +119,27 @@ export const Invalido: Story = {
 export const Deshabilitado: Story = {
   args: { disabled: true, defaultValue: 'mad' },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole('combobox', { name: 'Ciudad' })).toBeDisabled();
+    const select = canvas.getByRole('combobox', { name: 'Ciudad' });
+    await expect(select).toBeDisabled();
+    await expect(select).toHaveAttribute('aria-expanded', 'false');
   },
 };
 
-/** Una opción deshabilitada se ve en la lista pero no se puede elegir. */
+/** Una opción deshabilitada se ve en la lista pero no se puede elegir: pulsarla no hace nada. */
 export const OpcionDeshabilitada: Story = {
-  play: async ({ canvas }) => {
-    await expect(canvas.getByRole('option', { name: 'Sevilla' })).toBeDisabled();
-    await expect(canvas.getByRole('option', { name: 'Bilbao' })).toBeEnabled();
+  parameters: { visual: 'canvas' },
+  globals: { viewport: { value: 'dialogo' } },
+  play: async ({ args, canvas, userEvent }) => {
+    await userEvent.click(canvas.getByRole('combobox', { name: 'Ciudad' }));
+    const sevilla = canvas.getByRole('option', { name: 'Sevilla' });
+    await expect(sevilla).toHaveAttribute('aria-disabled', 'true');
+    await expect(canvas.getByRole('option', { name: 'Bilbao' })).not.toHaveAttribute(
+      'aria-disabled',
+    );
+
+    await userEvent.click(sevilla);
+    await expect(args.onValueChange).not.toHaveBeenCalled();
+    await expect(canvas.getByRole('listbox', { name: 'Ciudad' })).toBeVisible();
   },
 };
 
@@ -123,9 +164,12 @@ export const Controlado: Story = {
     );
   },
   play: async ({ canvas, userEvent }) => {
+    const select = canvas.getByRole('combobox', { name: 'Ciudad' });
     await expect(canvas.getByText('Valor: mad')).toBeInTheDocument();
-    await userEvent.selectOptions(canvas.getByRole('combobox', { name: 'Ciudad' }), 'Bilbao');
+    await userEvent.click(select);
+    await userEvent.click(canvas.getByRole('option', { name: 'Bilbao' }));
     await expect(canvas.getByText('Valor: bio')).toBeInTheDocument();
+    await expect(select).toHaveTextContent('Bilbao');
   },
 };
 

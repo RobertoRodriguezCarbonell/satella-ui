@@ -1,7 +1,7 @@
 /*
- * `Select` es la caja compartida de los campos (_internal/field.module.css) con un
- * `<select>` real dentro (ADR-038). Se estila la caja cerrada; la lista abierta es la
- * del navegador. El `<select>` ocupa toda la caja, también bajo la flecha.
+ * `Select` es la caja compartida de los campos (_internal/field.module.css) con un botón
+ * dentro, y una lista propia que se pinta en la capa superior del navegador (ADR-042).
+ * Todo son tokens semánticos (ADR-005) y los estados viven aquí, no en JS (ADR-007).
  */
 .root {
   position: relative;
@@ -27,15 +27,20 @@
   --select-icon: var(--space-5);
 }
 
-.select {
+/* El botón ocupa toda la caja, también bajo la flecha. */
+.trigger {
   align-self: stretch;
   min-height: calc(var(--select-height) - var(--border-width-thin) * 2);
   /* A la derecha deja sitio a la flecha. */
   padding: var(--space-0) calc(var(--select-padding-x) + var(--select-icon) + var(--space-2))
     var(--space-0) var(--select-padding-x);
+  overflow: hidden;
   border-radius: inherit;
+  text-align: start;
   text-overflow: ellipsis;
+  white-space: nowrap;
   cursor: inherit;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Sin opción elegida, el texto visible es el placeholder. */
@@ -43,17 +48,11 @@
   color: var(--color-text-muted);
 }
 
-/* La lista abierta la pinta el navegador: se le dan los colores del tema por si los respeta. */
-.select option {
-  background-color: var(--color-bg-surface);
-  color: var(--color-text-primary);
+.placeholder:disabled {
+  color: inherit;
 }
 
-.select option:disabled {
-  color: var(--color-text-disabled);
-}
-
-/* La flecha es decorativa y deja pasar el clic al `<select>` que tiene debajo. */
+/* La flecha es decorativa y deja pasar el clic al botón que tiene debajo. */
 .chevron {
   position: absolute;
   top: var(--space-0);
@@ -62,4 +61,106 @@
   display: flex;
   align-items: center;
   pointer-events: none;
+  transition: transform var(--duration-fast);
+}
+
+/* Abierta, la flecha apunta hacia arriba. */
+.trigger[aria-expanded='true'] + .chevron {
+  transform: rotate(180deg);
+}
+
+/*
+ * La lista. La API Popover la saca a la capa superior; su posición la calcula la vista a
+ * partir de la caja del disparador y la deja en estas variables:
+ *
+ *   --select-list-left    borde izquierdo del disparador
+ *   --select-list-width   ancho del disparador
+ *   --select-list-offset  distancia del borde de la ventana al disparador, por el lado
+ *                         hacia el que se abre
+ *   --select-list-space   espacio libre en ese lado
+ */
+.list {
+  position: fixed;
+  inset: auto;
+  top: var(--select-list-offset);
+  left: var(--select-list-left);
+  /* Solo cuenta en un navegador sin la API Popover: en la capa superior no hay `z-index`. */
+  z-index: var(--z-index-dropdown);
+  box-sizing: border-box;
+  /* Como mínimo el ancho del disparador; una opción más larga la ensancha hasta el borde. */
+  width: max-content;
+  min-width: var(--select-list-width);
+  max-width: calc(100vw - var(--select-list-left, 0px) - var(--space-2));
+  /* No hay token de altura: unas siete opciones, y nunca más que el espacio libre. */
+  max-height: min(
+    calc(var(--size-control-md) * 7),
+    calc(var(--select-list-space, 100vh) - var(--space-1) * 2)
+  );
+  /* El margen la separa del disparador y del borde de la ventana. */
+  margin: var(--space-1) var(--space-0);
+  padding: var(--space-1);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: var(--space-1);
+  scrollbar-color: var(--color-border-strong) transparent;
+  scrollbar-width: thin;
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text-primary);
+  cursor: default;
+}
+
+/* Hacia arriba se ancla por abajo, para crecer desde el disparador. */
+.list[data-side='top'] {
+  top: auto;
+  bottom: var(--select-list-offset);
+}
+
+/* Cada opción tiene la altura del campo; su texto empieza donde el del disparador. */
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  min-height: var(--select-height);
+  padding: var(--space-2) calc(var(--select-padding-x) - var(--space-1));
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Un texto largo ocupa varias líneas: en la lista se lee entero. */
+.label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* La resaltada es la que elegiría Intro. Con el puntero, la que tiene debajo. */
+.active,
+.option:active:not(.disabled) {
+  background-color: var(--color-bg-muted);
+}
+
+/*
+ * Con el teclado se dibuja con el contorno de foco: el foco real sigue en el disparador, y
+ * un cambio de fondo tan suave no basta para saber dónde está. Sin fondo, porque el
+ * contorno necesita un contraste de 3:1 con lo que tiene a los dos lados.
+ */
+.focused {
+  outline: var(--border-width-thick) solid var(--color-border-focus);
+  outline-offset: calc(var(--border-width-thick) * -1);
+}
+
+.disabled {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
 }
