@@ -254,6 +254,35 @@
       "foreground": "color.border.focus",
       "background": "color.bg.elevated",
       "level": "ui"
+    },
+    {
+      "foreground": "color.text.primary",
+      "background": "color.accent.bg"
+    },
+    {
+      "foreground": "color.border.focus",
+      "background": "color.bg.subtle",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.accent.text",
+      "background": "color.bg.canvas",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.accent.text",
+      "background": "color.bg.surface",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.accent.text",
+      "background": "color.bg.elevated",
+      "level": "ui"
+    },
+    {
+      "foreground": "color.border.strong",
+      "background": "color.bg.elevated",
+      "level": "ui"
     }
   ]
 }

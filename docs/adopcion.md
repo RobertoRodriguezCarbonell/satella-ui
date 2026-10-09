@@ -216,7 +216,95 @@ Para un mensaje que no debe desaparecer solo, usa `Alert`.
 
 La librería no trae textos propios. El botón de cierre de `Alert`, `Modal`, `Sheet` y de un toast solo aparece si la app le da nombre con `closeLabel`.
 
-## 8. Tema y marca
+## 8. Tablas y paginación
+
+`Table` pinta las filas que recibe y en el orden en que las recibe. No ordena, no filtra y no pagina: quien tiene los datos es la app o el servidor (ADR-045). Lo que sí hace es avisar de lo que el usuario pide.
+
+```tsx
+const columns: TableColumn<Order>[] = [
+  { key: 'id', header: 'Pedido', rowHeader: true, sortable: true, cell: (order) => `#${order.id}` },
+  { key: 'buyer', header: 'Comprador', minWidth: 160, cell: (order) => order.buyer },
+  { key: 'total', header: 'Total', align: 'end', sortable: true, cell: (order) => euros(order.total) },
+  { key: 'status', header: 'Estado', cell: (order) => <Badge variant="success">Pagado</Badge> },
+];
+
+const [sort, setSort] = useState<TableSort | null>({ column: 'id', direction: 'descending' });
+const [page, setPage] = useState(1);
+const { data, isLoading } = useOrders({ sort, page });
+
+<Table
+  accessibilityLabel="Pedidos"
+  columns={columns}
+  rows={data?.orders ?? []}
+  getRowKey={(order) => order.id}
+  sort={sort}
+  onSortChange={setSort}
+  loading={isLoading}
+  empty="Todavía no hay pedidos."
+/>
+<Pagination
+  page={page}
+  pageCount={data?.pageCount ?? 1}
+  onPageChange={setPage}
+  accessibilityLabel="Páginas de pedidos"
+  previousLabel="Página anterior"
+  nextLabel="Página siguiente"
+  getPageLabel={(number) => `Página ${number}`}
+/>;
+```
+
+- **Columnas.** `cell` devuelve el contenido de la celda: texto, un número o cualquier componente. `align: 'end'` para los números. La columna con `rowHeader` es la que identifica a la fila. Una columna de acciones no necesita título a la vista: `headerHidden`.
+- **Anchos.** En web el navegador los reparte según el contenido. En React Native no hay nada que mida el contenido de una columna: cada una parte de `minWidth` (128 puntos si no se indica) y crece con las demás, o mide `width` si lo tiene. Da un `minWidth` a las columnas de texto largo. Si la tabla no cabe, se desplaza en horizontal: lo que debe verse siempre va en las primeras columnas.
+- **Ordenación.** Una columna `sortable` avisa con `onSortChange`; la app pide los datos en ese orden y se los pasa de nuevo. Si ordena en el cliente, lo hace antes de pasar `rows`.
+- **Selección.** Con `selectable`, `selectedKeys` guarda las claves de `getRowKey`, también las de filas de otras páginas. Los nombres de las casillas (`selectAllLabel`, `getRowSelectionLabel`) son obligatorios.
+- **Carga.** `loading` sustituye las filas por huecos. Para conservar las filas mientras llega la página siguiente, no lo actives en las recargas: deshabilita la paginación con `disabled`.
+- **Navegar al detalle.** Las filas no se pulsan. El enlace va en una celda, con `Link`.
+- **Paginación en un móvil.** Si los botones no caben en una línea, siguen en la siguiente. Con `size="sm"` o con `siblingCount={0}` caben en la pantalla de un teléfono.
+
+## 9. Fechas
+
+Una fecha es un texto ISO, `'2026-10-09'`, sin hora ni zona horaria; sin fecha, la cadena vacía (ADR-046). Es lo que guarda un `DatePicker`, lo que viaja en un formulario y lo que espera una columna `date` de la base de datos.
+
+```tsx
+const [date, setDate] = useState('');
+
+<FormField label="Fecha del evento" required>
+  <DatePicker
+    locale="es"
+    value={date}
+    onValueChange={setDate}
+    min={todayISO()}
+    placeholder="Elige una fecha"
+    previousMonthLabel="Mes anterior"
+    nextMonthLabel="Mes siguiente"
+  />
+</FormField>;
+```
+
+`Calendar` es el mismo calendario sin el campo, para ponerlo en una página o dentro de un `Sheet`. Con `mode="range"` elige un periodo:
+
+```tsx
+const [range, setRange] = useState<DateRange>({ start: '', end: '' });
+
+<Calendar
+  mode="range"
+  locale="es"
+  value={range}
+  onValueChange={setRange}
+  isDateMarked={(day) => daysWithSales.has(day)}
+  previousMonthLabel="Mes anterior"
+  nextMonthLabel="Mes siguiente"
+/>;
+```
+
+- **No conviertas a `Date` para guardar.** `new Date('2026-10-09')` es un instante, y en otra zona horaria es el día 8. Si la app ya tiene un `Date`, conviértelo en el borde: `toISODate(d.getFullYear(), d.getMonth() + 1, d.getDate())`. `todayISO()`, `addDays()` y `addMonths()` de `@satellatickets/core` operan sobre el texto.
+- **`locale` es obligatorio** y decide el idioma de los meses, los días y la fecha escrita en el campo. La semana empieza en lunes; `weekStartsOn={0}` la empieza en domingo.
+- **En Next.js, pasa `today`** desde el servidor (`today={todayISO()}` en un Server Component) si no hay fecha elegida: el día de hoy del servidor y el del navegador pueden no coincidir, y la página fallaría al hidratarse.
+- **Un periodo llega en dos pasos.** Tras la primera pulsación, `onValueChange` recibe `{ start, end: '' }`; tras la segunda, el periodo completo y ordenado. Lanza la consulta cuando `end` no esté vacío.
+- **`onMonthChange`** avisa del mes que se ve (`'2026-11'`), para pedir los días que hay que señalar.
+- **Dentro de tu propio `Sheet` o `Modal`**, `onDatePress` avisa de cada pulsación sobre un día, también sobre el que ya estaba elegido: úsalo para cerrar.
+
+## 10. Tema y marca
 
 ```tsx
 <UIProvider theme="system" brand="organizer">
@@ -229,7 +317,7 @@ La librería no trae textos propios. El botón de cierre de `Alert`, `Modal`, `S
 
 Un `UIProvider` anidado cambia el tema o la marca de una zona. Los toasts siguen saliendo por el de fuera.
 
-## 9. Madurez y versiones
+## 11. Madurez y versiones
 
 Todos los componentes son todavía `experimental`: su API puede cambiar en cualquier `minor` mientras la librería esté en `0.x` (ADR-026).
 

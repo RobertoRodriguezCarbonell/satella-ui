@@ -64,6 +64,8 @@ const preview: Preview = {
           'Formularios',
           'Feedback',
           'Superficies',
+          'Datos',
+          'Fechas',
         ],
       },
     },

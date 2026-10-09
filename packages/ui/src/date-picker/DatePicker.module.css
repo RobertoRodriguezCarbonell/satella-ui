@@ -1,0 +1,145 @@
+/*
+ * `DatePicker` es la caja compartida de los campos (_internal/field.module.css) con un
+ * botón dentro, como `Select`, y un calendario que se pinta en la capa superior del
+ * navegador (ADR-046). Todo son tokens semánticos (ADR-005) y los estados viven aquí, no
+ * en JS (ADR-007).
+ */
+.root {
+  position: relative;
+  min-height: var(--date-picker-height);
+  cursor: pointer;
+}
+
+.sm {
+  --date-picker-height: var(--size-control-sm);
+  --date-picker-padding-x: var(--space-3);
+  --date-picker-icon: var(--space-4);
+}
+
+.md {
+  --date-picker-height: var(--size-control-md);
+  --date-picker-padding-x: var(--space-3);
+  --date-picker-icon: var(--space-5);
+}
+
+.lg {
+  --date-picker-height: var(--size-control-lg);
+  --date-picker-padding-x: var(--space-4);
+  --date-picker-icon: var(--space-5);
+}
+
+/*
+ * Abierto, el foco está en el calendario y la caja se dibuja como enfocada. Hay que
+ * decirlo aquí: el calendario está en la capa superior, y Chromium y Safari no aplican
+ * `:focus-within` a lo que queda debajo de ella. Con `.root` delante para imponerse a la
+ * caja compartida, que tiene la misma especificidad.
+ */
+.root.open {
+  border-color: var(--color-border-focus);
+  outline: var(--border-width-thin) solid var(--color-border-focus);
+}
+
+.root.openInvalid {
+  border-color: var(--color-feedback-danger-icon);
+  outline: var(--border-width-thin) solid var(--color-feedback-danger-icon);
+}
+
+/* El botón ocupa toda la caja, también bajo el icono. */
+.trigger {
+  align-self: stretch;
+  min-height: calc(var(--date-picker-height) - var(--border-width-thin) * 2);
+  /* A la derecha deja sitio al icono. */
+  padding: var(--space-0)
+    calc(var(--date-picker-padding-x) + var(--date-picker-icon) + var(--space-2)) var(--space-0)
+    var(--date-picker-padding-x);
+  overflow: hidden;
+  border-radius: inherit;
+  text-align: start;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sin fecha elegida, el texto visible es el placeholder. */
+.placeholder {
+  color: var(--color-text-muted);
+}
+
+.placeholder:disabled {
+  color: inherit;
+}
+
+/* El icono es decorativo y deja pasar el clic al botón que tiene debajo. */
+.icon {
+  position: absolute;
+  top: var(--space-0);
+  right: var(--date-picker-padding-x);
+  bottom: var(--space-0);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/*
+ * El calendario. La API Popover lo saca a la capa superior; su posición la calcula la
+ * vista (_internal/anchorPopover) y la deja en `--popover-left` y `--popover-offset`.
+ */
+.popup {
+  position: fixed;
+  inset: auto;
+  top: var(--popover-offset);
+  left: var(--popover-left);
+  /* Solo cuenta en un navegador sin la API Popover: en la capa superior no hay `z-index`. */
+  z-index: var(--z-index-dropdown);
+  box-sizing: border-box;
+  width: max-content;
+  /* El margen lo separa del campo y del borde de la ventana. */
+  margin: var(--space-1) var(--space-0);
+  padding: var(--space-3);
+  /* El anillo de foco de un día del borde sobresale un poco: no se recorta. */
+  overflow: visible;
+  /* Recibe el foco al pulsar en un hueco, pero no es un control: no lo dibuja. */
+  outline: 0;
+  border: var(--border-width-thin) solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text-primary);
+  cursor: default;
+  /*
+   * Aparece y desaparece con un fundido corto, como la lista de `Select`. Anima `filter`
+   * y no `opacity`: un calendario que está apareciendo no es contenido oculto.
+   */
+  animation: popup-enter var(--duration-fast) var(--easing-enter);
+}
+
+/* Hacia arriba se ancla por abajo, para crecer desde el campo. */
+.popup[data-side='top'] {
+  top: auto;
+  bottom: var(--popover-offset);
+}
+
+.popup[data-closing] {
+  pointer-events: none;
+  animation: popup-exit var(--duration-fast) var(--easing-exit) forwards;
+}
+
+@keyframes popup-enter {
+  from {
+    filter: opacity(0);
+  }
+}
+
+@keyframes popup-exit {
+  to {
+    filter: opacity(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup,
+  .popup[data-closing] {
+    animation: none;
+  }
+}
