@@ -13,6 +13,7 @@ import { Button } from '@satellatickets/ui';
 El mismo import funciona en una app Next.js y en una app Expo. En web se renderiza HTML semántico con CSS estático; en móvil, componentes nativos.
 
 - **Catálogo y documentación**: [Storybook](https://robertorodriguezcarbonell.github.io/satella-ui/)
+- **Guía de adopción**: [`docs/adopcion.md`](docs/adopcion.md)
 - **Decisiones de arquitectura**: [`docs/adr`](docs/adr/README.md)
 - **Plan de trabajo**: [`ROADMAP.md`](ROADMAP.md)
 
@@ -30,7 +31,7 @@ El mismo import funciona en una app Next.js y en una app Expo. En web se renderi
 npm install @satellatickets/ui
 ```
 
-En web, importa una vez `@satellatickets/ui/styles.css`. En React Native, instala `react-native-svg`. En ambas, envuelve la app en `<UIProvider>`. Los detalles están en el [README de `ui`](packages/ui/README.md).
+En web, importa una vez `@satellatickets/ui/styles.css`. En React Native, instala `react-native-svg`. En ambas, envuelve la app en `<UIProvider>`. La [guía de adopción](docs/adopcion.md) lo explica paso a paso para Next.js, Vite y Expo.
 
 ## Desarrollo
 

@@ -23,6 +23,10 @@ function platformConfig(platform: Platform): UserConfig {
     },
     ...(platform === 'web'
       ? {
+          // Todos los componentes usan hooks, contexto o eventos: el build web entero es un
+          // Client Component (ADR-041). Sin la directiva, importarlo desde un Server
+          // Component de Next.js falla al evaluar el módulo.
+          banner: { js: "'use client';" },
           css: {
             fileName: 'styles.css',
             splitting: false,

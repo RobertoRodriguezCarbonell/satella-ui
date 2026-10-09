@@ -2,7 +2,7 @@
   "name": "playground-web",
   "version": "0.0.0",
   "private": true,
-  "description": "App web mínima que consume @satellatickets/ui como lo haría una app real (ROADMAP Fase 4)",
+  "description": "App web mínima que consume @satellatickets/ui con un flujo de compra, como lo haría una app real (ROADMAP Fases 4 y 6)",
   "type": "module",
   "scripts": {
     "start": "vite --port 5173",
