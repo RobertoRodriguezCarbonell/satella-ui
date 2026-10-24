@@ -7,6 +7,6 @@
   "type": "module",
   "exports": "./index.js",
   "peerDependencies": {
-    "prettier": ">=3.0.0"
+    "prettier": ">=3.9.10"
   }
 }

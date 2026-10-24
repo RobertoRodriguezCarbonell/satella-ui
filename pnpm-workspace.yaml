@@ -15,14 +15,14 @@ catalog:
   '@types/react': 19.2.18
   '@types/react-dom': 19.2.7
   # Herramientas
-  '@types/node': ^22.0.0
-  eslint: ^10.12.0
-  tsdown: ^0.23.0
+  '@types/node': ^22.20.5
+  eslint: ^10.13.0
+  tsdown: ^0.23.2
   typescript: ^5.9.3
   vitest: ^5.0.3
-  vite: ^8.3.3
+  vite: ^8.3.5
   '@vitejs/plugin-react': ^6.1.2
-  jsdom: ^30.1.2
+  jsdom: ^30.1.3
   '@testing-library/react': ^16.3.3
   '@vitest/coverage-v8': ^5.0.3
   # Historias como tests en navegador (ADR-016): Vitest modo navegador con Playwright/Chromium
@@ -33,22 +33,22 @@ catalog:
   '@types/jest': ^29.5.14
   jest-expo: ~57.0.5
   '@react-native/jest-preset': 0.86.3
-  '@testing-library/react-native': ^14.0.1
+  '@testing-library/react-native': ^14.1.0
   # Ligado a React como react-native: 1.2.x usa react-reconciler 0.33 (React 19.2)
   test-renderer: 1.2.0
-  '@tsdown/css': 0.23.0
+  '@tsdown/css': 0.23.2
   # Storybook (ADR-011): misma versión mayor en web y nativo
-  storybook: ^10.6.1
-  '@storybook/react': ^10.6.1
-  '@storybook/react-vite': ^10.6.1
-  '@storybook/addon-docs': ^10.6.1
-  '@storybook/addon-a11y': ^10.6.1
-  '@storybook/addon-vitest': ^10.6.1
+  storybook: ^10.6.3
+  '@storybook/react': ^10.6.3
+  '@storybook/react-vite': ^10.6.3
+  '@storybook/addon-docs': ^10.6.3
+  '@storybook/addon-a11y': ^10.6.3
+  '@storybook/addon-vitest': ^10.6.3
   # Fuerza :hover, :active y :focus-visible en historias y referencias visuales (ADR-030)
-  storybook-addon-pseudo-states: ^10.6.1
-  '@storybook/react-native': ^10.6.0
-  '@storybook/addon-ondevice-controls': ^10.6.0
-  '@storybook/addon-ondevice-actions': ^10.6.0
+  storybook-addon-pseudo-states: ^10.6.3
+  '@storybook/react-native': ^10.7.0
+  '@storybook/addon-ondevice-controls': ^10.7.0
+  '@storybook/addon-ondevice-actions': ^10.7.0
   # SVG en nativo (ADR-028); versión que empaqueta Expo SDK 57
   react-native-svg: 15.15.4
 
