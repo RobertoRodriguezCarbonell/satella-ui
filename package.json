@@ -9,10 +9,10 @@
     "url": "git+https://github.com/RobertoRodriguezCarbonell/satella-ui.git"
   },
   "type": "module",
-  "packageManager": "pnpm@10.28.1",
+  "packageManager": "pnpm@10.34.9",
   "engines": {
     "node": ">=22.18.0",
-    "pnpm": ">=10.0.0"
+    "pnpm": ">=10.34.9"
   },
   "scripts": {
     "dev": "turbo run dev",
@@ -31,15 +31,15 @@
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",
-    "@changesets/cli": "^3.0.3",
+    "@changesets/cli": "^3.1.0",
     "@satellatickets/eslint-config": "workspace:*",
     "@satellatickets/prettier-config": "workspace:*",
     "eslint": "catalog:",
     "husky": "^9.1.7",
-    "lint-staged": "^17.6.0",
-    "prettier": "^3.9.9",
+    "lint-staged": "^17.6.2",
+    "prettier": "^3.10.1",
     "publint": "^0.3.25",
-    "turbo": "^2.11.7"
+    "turbo": "^2.11.13"
   },
   "prettier": "@satellatickets/prettier-config"
 }
